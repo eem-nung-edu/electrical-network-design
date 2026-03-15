@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Лабораторна робота - Розрахунок режиму мережі</title>
     
-    <!-- Налаштування MathJax для правильного розпізнавання формул -->
     <script>
         window.MathJax = {
             tex: {
@@ -13,11 +12,10 @@
                 displayMath: [['\\[', '\\]']]
             },
             startup: {
-                typeset: false // Вимикаємо авто-рендер при старті, щоб робити це контрольовано
+                typeset: false
             }
         };
     </script>
-    <!-- Підключення MathJax -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
@@ -61,21 +59,18 @@
             border-top: 1px solid #c2e0f4;
             margin: 25px 0;
         }
-        /* Стиль для невидимої кнопки */
         #filname-btn {
             position: fixed;
             bottom: 0;
             right: 0;
             width: 50px;
             height: 50px;
-            opacity: 0; /* 0 = повністю невидима */
+            opacity: 0;
             cursor: default;
             z-index: 9999;
         }
-
-        /* Адаптація під мобільні пристрої (телефони) */
         .header-section, .solution-section {
-            overflow-x: auto; /* Горизонтальна прокрутка для довгих формул на телефоні */
+            overflow-x: auto;
         }
         @media screen and (max-width: 768px) {
             body { padding: 10px; margin: 0 auto; }
@@ -85,7 +80,7 @@
             select { 
                 max-width: 100%; 
                 font-size: 16px; 
-                padding: 12px; /* Збільшена кнопка для зручного натискання пальцем */
+                padding: 12px;
             } 
         }
     </style>
@@ -101,12 +96,338 @@
     <div id="problemStatement" class="header-section"></div>
     <div id="solutionContent" class="solution-section hidden"></div>
 
-
-
-
     <script>
-    
-    const _0x124c52=_0x3e67;(function(_0x4b08f8,_0x4bcd19){const _0x4843ec=_0x3e67,_0x373829=_0x4b08f8();while(!![]){try{const _0x1f2b00=parseInt(_0x4843ec(0x251))/0x1+parseInt(_0x4843ec(0x295))/0x2*(-parseInt(_0x4843ec(0x1fa))/0x3)+-parseInt(_0x4843ec(0x214))/0x4*(-parseInt(_0x4843ec(0x22b))/0x5)+-parseInt(_0x4843ec(0x27c))/0x6*(parseInt(_0x4843ec(0x2cd))/0x7)+parseInt(_0x4843ec(0x293))/0x8*(parseInt(_0x4843ec(0x26a))/0x9)+parseInt(_0x4843ec(0x25f))/0xa+-parseInt(_0x4843ec(0x266))/0xb*(parseInt(_0x4843ec(0x227))/0xc);if(_0x1f2b00===_0x4bcd19)break;else _0x373829['push'](_0x373829['shift']());}catch(_0x4c065b){_0x373829['push'](_0x373829['shift']());}}}(_0x2a6e,0xa3bb1));const _0x42f909=(function(){const _0x13e45e=_0x3e67,_0x5805bd={'ozuUr':_0x13e45e(0x2f0)};let _0x53d71a=!![];return function(_0x74b944,_0x3c0860){const _0x1c6632=_0x13e45e,_0x422749={'meBvW':_0x5805bd[_0x1c6632(0x28e)]},_0x2a6f8f=_0x53d71a?function(){const _0x46a429=_0x1c6632,_0x4b8c70={'QfYHM':_0x422749[_0x46a429(0x2ad)]};if(_0x46a429(0x1f5)!==_0x46a429(0x268)){if(_0x3c0860){const _0x5ab0b2=_0x3c0860[_0x46a429(0x2a3)](_0x74b944,arguments);return _0x3c0860=null,_0x5ab0b2;}}else{const _0x1542a4=_0x4b8c70[_0x46a429(0x2a6)];return!_0x3e58d6?![]:_0x4cc308(_0x482f4d)===_0x1542a4;}}:function(){};return _0x53d71a=![],_0x2a6f8f;};}()),_0x5e853a=_0x42f909(this,function(){const _0x25c71b=_0x3e67,_0x2535aa={'YHnae':'(((.+)+)+)+$'};return _0x5e853a[_0x25c71b(0x210)]()[_0x25c71b(0x298)]('(((.+)+)+)+$')[_0x25c71b(0x210)]()[_0x25c71b(0x2a4)](_0x5e853a)[_0x25c71b(0x298)](_0x2535aa[_0x25c71b(0x1e8)]);});function _0x2a6e(){const _0xeea37c=['log10','8SdFQGe','hyvql','678pqbdav','ApTnD','bind','search','classList','xlGSv','\x20\x5ctext{\x20МВт}}\x20\x5c]\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20Q_{new(I)}\x20=\x20Q_2\x20\x5ccdot\x20\x5cleft(\x5cfrac{U_{new}}{U_2}\x5cright)\x20=\x20','nmMoL','hBYaW','АС-95/16','\x20\x5c)\x20МВт,\x20\x5c(\x20Q_2\x20=\x20','UoAHr','ylhdW','pRorP','apply','constructor','bqYWQ','QfYHM','GscwY','PANom','\x20\x5ctext{\x20МВт}\x20\x5c]</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>Втрати\x20реактивної\x20потужності:\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20\x5cDelta\x20Q\x20=\x20\x5cfrac{P_2^2\x20+\x20Q_2^2}{U_2^2}\x20\x5ccdot\x20X\x20=\x20\x5cfrac{','OrPFY','ffxZR','DFMPh','meBvW','UsWKN','Помилка\x20рендеру\x20формул:\x20','АС-150/24','\x20\x5ccdot\x200,9\x20=\x20','\x20\x5ctext{\x20Мвар}\x20\x5c]</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>Потужність\x20на\x20початку\x20лінії:\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20P_1\x20=\x20P_2\x20+\x20\x5cDelta\x20P\x20=\x20','.</li>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<li><b>Напруга\x20в\x20кінці\x20лінії\x20(на\x20шинах\x20навантаження):</b>\x20\x5c(\x20U_2\x20=\x20','mObOB','\x20\x5c)\x20м.</li>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</ul>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p><b>Що\x20потрібно\x20зробити:</b></p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p><b>Частина\x201:</b>\x20Визначити\x20параметри\x20\x5c(\x20r_0,\x20x_0,\x20R,\x20X\x20\x5c).\x20Розрахувати\x20втрату\x20та\x20спад\x20напруги,\x20модуль\x20напруги\x20на\x20початку\x20лінії\x20\x5c(\x20U_1\x20\x5c).\x20Знайти\x20втрати\x20потужності\x20\x5c(\x20\x5cDelta\x20P,\x20\x5cDelta\x20Q\x20\x5c)\x20та\x20повну\x20потужність\x20\x5c(\x20S_1\x20\x5c).</p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p><b>Частина\x202:</b>\x20При\x20зниженні\x20напруги\x20\x5c(\x20U_2\x20\x5c)\x20на\x2010%\x20розрахувати\x20нові\x20потужності\x20\x5c(\x20P_{new},\x20Q_{new}\x20\x5c)\x20трьома\x20методами:\x20<br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x201)\x20за\x20допомогою\x20типового\x20полінома\x202-го\x20степеня;\x20<br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x202)\x20задавши\x20навантаження\x20сталим\x20опором\x20\x5c(\x20Z_H\x20=\x20const\x20\x5c);\x20<br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x203)\x20задавши\x20навантаження\x20сталим\x20струмом\x20\x5c(\x20I_H\x20=\x20const\x20\x5c).</p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','\x20\x5c)\x20км.</li>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<li><b>Марка\x20проводу:</b>\x20',')^2\x20+\x20','^2}\x20\x5ccdot\x20','onload','IoyMq','\x20\x5ccdot\x200,9^2\x20=\x20','\x20\x5c]\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20Q_*\x20=\x20b_0\x20+\x20b_1\x20U_*\x20+\x20b_2\x20U_*^2\x20=\x20','kBeqC','solutionHtml','sqrt','rMUAS','string','\x20\x5ctext{\x20мм}\x20=\x20','init','table','nTSKT','RkVul','FJymm','counter','pjxIY','innerHTML','test','\x20\x5ctext{\x20Мвар}}\x20\x5c]</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p><b>Метод\x202.\x20Подання\x20навантаження\x20сталим\x20опором\x20\x5c(\x20Z_H\x20=\x20const\x20\x5c)\x20(Лаб.\x20№3)</b><br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Розрахуємо\x20фіктивні\x20сталі\x20опори\x20навантаження:\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20r_H\x20=\x20\x5cfrac{U_2^2}{P_2}\x20=\x20\x5cfrac{','7CMwabU','^2}\x20=\x20','charCodeAt','{}.constructor(\x22return\x20this\x22)(\x20)','onclick','\x20\x5c)\x20мм.\x20Радіус\x20проводу\x20\x5c(\x20R_{пр}\x20=\x20\x5cfrac{d}{2}\x20=\x20\x5cfrac{','xHNkH','eUBka','appendChild','ChTmy','}\x5cright)\x20+\x200,0157\x20=\x20','\x20\x5ctext{\x20кВ}\x20\x5c]</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>Поперечна\x20складова\x20спаду\x20напруги:\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20\x5cdelta\x20U\x20=\x20\x5cfrac{P_2\x20\x5ccdot\x20X\x20-\x20Q_2\x20\x5ccdot\x20R}{U_2}\x20=\x20\x5cfrac{','kWECD','toFixed','}{2}\x20=\x20','\x20\x5c)\x20кВ:\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20P_{new(Z)}\x20=\x20\x5cfrac{U_{new}^2}{r_H}\x20=\x20\x5cfrac{','\x20\x5ctext{\x20МВт}\x20\x5c]\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20Q_1\x20=\x20Q_2\x20+\x20\x5cDelta\x20Q\x20=\x20','udygE','EuBfE','QGKFb','АС-185/29','YIJXK','Варіант\x20','UFkTm','\x20\x5ccdot\x20','NLzKf','VRdvR','nZufG','hidden','console','ZhUNe','\x20\x5ctext{\x20м}\x20\x5c).</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>Знайдемо\x20питомий\x20індуктивний\x20опір\x20\x5c(\x20x_0\x20\x5c):\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20x_0\x20=\x200,144\x20\x5ccdot\x20\x5clg\x5cleft(\x5cfrac{D_{cp}}{R_{пр}}\x5cright)\x20+\x200,0157\x20\x5c]\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20x_0\x20=\x200,144\x20\x5ccdot\x20\x5clg\x5cleft(\x5cfrac{','MWlTJ','yiEfX','QVEtR','6284fefd','MzHPZ','trace','pRXac','YHnae','\x20\x5c)\x20Ом/км.<br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20*\x20Діаметр\x20проводу:\x20\x5c(\x20d\x20=\x20','}\x20=\x20\x5cmathbf{','oSftA','aHliG','Tcdek','while\x20(true)\x20{}','__proto__','JRWKX','pow','createElement','YaGkM','pHjTz','geEgu','uVxSo','CjdNA','\x20-\x20','АС-120/19','1212sMfefV','wtBuk','lQIwC','rOlNv','Znjhv','Dcp','fromCharCode','XvgFg','floor','zjpKW','typesetPromise','uARfR','pvIEd','dKFzz','WiFAT','}\x20=\x20','\x20\x5c]</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>Фактичні\x20потужності\x20в\x20іменованих\x20одиницях:\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20P_{new(poly)}\x20=\x20P_2\x20\x5ccdot\x20P_*\x20=\x20','YFEMU','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<h3>Вихідні\x20дані\x20(Варіант\x20','dHqle','\x20\x5ccdot\x200,9\x20=\x20\x5cmathbf{','WOTkB','toString','\x20\x5c)\x20км):<br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20*\x20Активний\x20опір:\x20\x5c(\x20R\x20=\x20r_0\x20\x5ccdot\x20L\x20=\x20','uaMli','hHRGW','48BvtVCg','DMpUJ','abs','message','resolve','tIRYI',')</h3>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<h4>Частина\x201:\x20Аналіз\x20режиму\x20роботи\x20лінії\x20(за\x20Лаб.\x20№1)</h4>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p><b>Крок\x201.1.\x20Визначення\x20питомих\x20та\x20повних\x20параметрів\x20лінії</b><br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Згідно\x20з\x20Додатком\x20А,\x20для\x20проводу\x20<b>','input','FuIAK','hlHyR','\x20\x5ctext{\x20Мвар}}\x20\x5c]</p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','DmeHe','getElementById','KnDyg','wAyTJ','\x20\x5ctext{\x20кВ}\x20\x5c]</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p><b>Крок\x201.3.\x20Розрахунок\x20втрат\x20потужності</b><br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Втрати\x20активної\x20потужності:\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20\x5cDelta\x20P\x20=\x20\x5cfrac{P_2^2\x20+\x20Q_2^2}{U_2^2}\x20\x5ccdot\x20R\x20=\x20\x5cfrac{','variantSelect','^2\x20+\x20','push','900SJnXAr','\x20\x5ctext{\x20МВт}}\x20\x5c]\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20Q_{new(poly)}\x20=\x20Q_2\x20\x5ccdot\x20Q_*\x20=\x20','\x20\x5ccdot\x200,9\x20+\x20','\x20\x5ctext{\x20Мвар}\x20\x5c]\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20S_1\x20=\x20','321685WhZpHe','QBIob','then','KBWRy','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<h3>РОЗВ\x27ЯЗАННЯ\x20ЗАДАЧІ\x20(Варіант\x20','Rsdxo','rxhvW','exception','jXtxk','HqzjK','BdEIq','body','waIzz','Gjwdg','iztJq','name','TMAsb','add','length','\x20+\x20','^2}{','\x20\x5ctext{\x20МВт}}\x20\x5c]\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20Q_{new(Z)}\x20=\x20\x5cfrac{U_{new}^2}{x_H}\x20=\x20\x5cfrac{','PNFVg','RDMeP','\x20\x5ctext{\x20МВА}\x20\x5c]</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<hr>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<h4>Частина\x202:\x20Розрахунок\x20потужності\x20навантаження\x20при\x20зниженні\x20напруги\x20на\x2010%</h4>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>Відносне\x20значення\x20напруги:\x20\x5c(\x20U_*\x20=\x201\x20-\x200,1\x20=\x200,9\x20\x5c).<br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Фактична\x20напруга:\x20\x5c(\x20U_{new}\x20=\x20','QxonC','NOeRu','gMnhb','tqxIv','debu','gger','zxgoS','div','ZwEsc','(((.+)+)+)+$','ymCKD','\x20\x5c)\x20кВ.</li>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<li><b>Потужність\x20навантаження\x20у\x20вихідному\x20режимі:</b>\x20\x5c(\x20P_2\x20=\x20','action','688387dHuaNP','XuhXP','log','replace','MOeTg','</b>:<br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20*\x20Питомий\x20активний\x20опір:\x20\x5c(\x20r_0\x20=\x20','dcp','tzPHx','kSgvB','problemStatement','xHrLc','nbgCI','nlYLA','wire','12928750UYDgWU','\x20\x5ctext{\x20Ом}\x20\x5c]</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>Фактичні\x20потужності\x20при\x20новій\x20напрузі\x20\x5c(\x20','\x20\x5ctext{\x20Ом}\x20\x5c]\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20x_H\x20=\x20\x5cfrac{U_2^2}{Q_2}\x20=\x20\x5cfrac{','АС-240/39','\x20\x5c)\x20Ом.<br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20*\x20Індуктивний\x20опір:\x20\x5c(\x20X\x20=\x20x_0\x20\x5ccdot\x20L\x20=\x20','OfKlq','function\x20*\x5c(\x20*\x5c)','280335HtRWsp','lehqH','RHvMm','\x20=\x20\x5cmathbf{','2476863otHGqj','return\x20(function()\x20','UVHuu','\x20\x5ctext{\x20кВ}\x20\x5c]</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>Модуль\x20напруги\x20на\x20початку\x20лінії:\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20U_1\x20=\x20\x5csqrt{(U_2\x20+\x20\x5cDelta\x20U)^2\x20+\x20\x5cdelta\x20U^2}\x20=\x20\x5csqrt{(','\x20=\x20','PsvDh','catch','XcJkv','xToNA','nbTAS','АС-70/11','\x20кВ:\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20P_*\x20=\x20a_0\x20+\x20a_1\x20U_*\x20+\x20a_2\x20U_*^2\x20=\x200,83\x20-\x200,3\x20\x5ccdot\x200,9\x20+\x200,47\x20\x5ccdot\x200,9^2\x20=\x20','xJHrq','ieUFq','info','TeRuW','MBMbJ','VCnRp','1857246PqRhVH','\x20\x5ctext{\x20Ом/км}\x20\x5c]</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>Повні\x20опори\x20лінії\x20(\x5c(\x20L\x20=\x20','AIvzG','MathJax','LhvrS','\x20\x5c)\x20кВ.</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p><b>Метод\x201.\x20За\x20допомогою\x20полінома\x202-го\x20степеня\x20(Лаб.\x20№2)</b><br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Використовуємо\x20задані\x20коефіцієнти\x20апроксимації\x20для\x20вузла\x20','chain','\x20\x5c)\x20Мвар.</li>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<li><b>Середньогеометрична\x20відстань\x20між\x20проводами:</b>\x20\x5c(\x20D_{cp}\x20=\x20','ViMJO','EsuOW','option','zjBOx','random','LVnfR',')</h3>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>Районна\x20підстанція\x20живиться\x20від\x20трифазної\x20повітряної\x20лінії\x20електропередавання.</p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<ul>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<li><b>Довжина\x20лінії:</b>\x20\x5c(\x20L\x20=\x20','Fosej','error','nUHAS','ozuUr','Ntbbj','warn','value'];_0x2a6e=function(){return _0xeea37c;};return _0x2a6e();}_0x5e853a();const _0x34a04e=(function(){let _0x2bb6a3=!![];return function(_0x42f579,_0x44c5d6){const _0x3a8239=_0x3e67;if(_0x3a8239(0x1f3)!==_0x3a8239(0x24c)){const _0x1d98a5=_0x2bb6a3?function(){const _0x51c2f1=_0x3a8239;if(_0x44c5d6){if(_0x51c2f1(0x2ee)!=='yiEfX')return _0x45afd6[_0x51c2f1(0x204)]();else{const _0x17b3d6=_0x44c5d6[_0x51c2f1(0x2a3)](_0x42f579,arguments);return _0x44c5d6=null,_0x17b3d6;}}}:function(){};return _0x2bb6a3=![],_0x1d98a5;}else _0x5200dc('0');};}());(function(){const _0x257380=_0x3e67,_0x2b7005={'NOeRu':function(_0x45e501,_0x288b64){return _0x45e501/_0x288b64;},'nUHAS':function(_0x5ed13f,_0x4389a4){return _0x5ed13f+_0x4389a4;},'MOeTg':function(_0x1934b3,_0x3f5e1f){return _0x1934b3/_0x3f5e1f;},'GHFVK':function(_0x5afccf,_0x1f374e){return _0x5afccf*_0x1f374e;},'Gqdtw':function(_0x2ec794,_0x2f1674){return _0x2ec794*_0x2f1674;},'hBYaW':function(_0x46c145,_0x2a4ddb){return _0x46c145-_0x2a4ddb;},'IoyMq':function(_0x22cf82,_0x40c6a6){return _0x22cf82*_0x40c6a6;},'MBMbJ':function(_0xe0c11b,_0x10007d){return _0xe0c11b+_0x10007d;},'HqzjK':function(_0x40af06,_0x3aab61){return _0x40af06*_0x3aab61;},'zjBOx':function(_0x3d307e,_0x311760){return _0x3d307e*_0x311760;},'FuIAK':function(_0x3f36c2,_0x4c3c0f){return _0x3f36c2*_0x4c3c0f;},'Znjhv':function(_0x409bdf,_0x5c5362){return _0x409bdf/_0x5c5362;},'GscwY':function(_0x1e207f,_0xe028e4,_0x561285){return _0x1e207f(_0xe028e4,_0x561285);},'Fosej':function(_0x32e682,_0x5c4d9a){return _0x32e682(_0x5c4d9a);},'ApTnD':function(_0x422afb,_0xb51094){return _0x422afb(_0xb51094);},'pHjTz':function(_0xdc52d1,_0x2fe5a1,_0x5d6bde){return _0xdc52d1(_0x2fe5a1,_0x5d6bde);},'tzPHx':function(_0x558496,_0x1fe92d,_0x64fb0c){return _0x558496(_0x1fe92d,_0x64fb0c);},'QVEtR':function(_0xafcafb,_0xa55c8f,_0x34d317){return _0xafcafb(_0xa55c8f,_0x34d317);},'ymCKD':function(_0x3260f0,_0x2fc723,_0x3c8c74){return _0x3260f0(_0x2fc723,_0x3c8c74);},'ieUFq':function(_0x3328fa,_0x38a3be,_0x15eebf){return _0x3328fa(_0x38a3be,_0x15eebf);},'IzPpd':function(_0x4ff6d4,_0x3930cd,_0x28c250){return _0x4ff6d4(_0x3930cd,_0x28c250);},'xHrLc':function(_0xc1c79d,_0x28fd40){return _0xc1c79d+_0x28fd40;},'Ehktt':_0x257380(0x237),'MrLdg':_0x257380(0x265),'zxgoS':_0x257380(0x2c3),'dHqle':_0x257380(0x282),'kBeqC':function(_0x72c81d,_0x30a760){return _0x72c81d!==_0x30a760;}};_0x34a04e(this,function(){const _0x3ec2bb=_0x257380,_0x50bf85={'LhvrS':function(_0x174fbe,_0x56350d){return _0x174fbe<=_0x56350d;},'bqYWQ':function(_0x5cd5ff,_0x3f06d3){return _0x5cd5ff*_0x3f06d3;},'IRUYK':function(_0x2b10b8,_0x133387){const _0x2943a6=_0x3e67;return _0x2b7005[_0x2943a6(0x25b)](_0x2b10b8,_0x133387);}};if(_0x2b7005['Ehktt']!==_0x3ec2bb(0x1e7)){const _0x268e72=new RegExp(_0x2b7005['MrLdg']),_0x123166=new RegExp('\x5c+\x5c+\x20*(?:[a-zA-Z_$][0-9a-zA-Z_$]*)','i'),_0x3a4496=_0x5839b3(_0x2b7005[_0x3ec2bb(0x24a)]);if(!_0x268e72[_0x3ec2bb(0x2cb)](_0x3a4496+_0x2b7005[_0x3ec2bb(0x20d)])||!_0x123166[_0x3ec2bb(0x2cb)](_0x3a4496+_0x3ec2bb(0x21b)))_0x3a4496('0');else{if(_0x2b7005[_0x3ec2bb(0x2bd)](_0x3ec2bb(0x241),'PNFVg')){_0x27273e[_0x3ec2bb(0x226)]({'id':0x0,'L':0x32,'wire':_0x12ed71[0x3],'U2':0x6e,'P2':0x1e,'Q2':0x12,'Dcp':0x4});const _0x7e7978=[{'u':0x6,'dcp':0x1},{'u':0xa,'dcp':0x1},{'u':0x23,'dcp':0x3},{'u':0x6e,'dcp':0x4},{'u':0x14a,'dcp':0x7}];for(let _0x28d159=0x1;_0x50bf85[_0x3ec2bb(0x280)](_0x28d159,0x14);_0x28d159++){const _0x34dcc5=_0x7e7978[_0x50f349[_0x3ec2bb(0x202)](_0x38b5c7[_0x3ec2bb(0x288)]()*_0x7e7978[_0x3ec2bb(0x23d)])];_0x115cfc['push']({'id':_0x28d159,'L':0x1e+_0x20f1e5[_0x3ec2bb(0x202)](_0x50bf85[_0x3ec2bb(0x2a5)](_0x55b58d[_0x3ec2bb(0x288)](),0x46)),'wire':_0x20769b[_0x36612b['floor'](_0x1c75f5[_0x3ec2bb(0x288)]()*_0x36af79[_0x3ec2bb(0x23d)])],'U2':_0x34dcc5['u'],'P2':_0x50bf85['IRUYK'](0xa,_0x444b8c[_0x3ec2bb(0x202)](_0x31ce2b[_0x3ec2bb(0x288)]()*0x32)),'Q2':0x5+_0x9b38b5['floor'](_0x2730b8[_0x3ec2bb(0x288)]()*0x1e),'Dcp':_0x34dcc5[_0x3ec2bb(0x257)]});}}else _0x5839b3();}}else{const _0x4f7b50=_0x2dc9cb[_0x3ec2bb(0x25e)]['d']/0x2,_0xb4a68c=_0x2b7005[_0x3ec2bb(0x245)](_0x4f7b50,0x3e8),_0x55e6e2=_0x2b7005[_0x3ec2bb(0x28d)](0.144*_0x2ebe0e[_0x3ec2bb(0x292)](_0x2b7005[_0x3ec2bb(0x255)](_0x52c922[_0x3ec2bb(0x1ff)],_0xb4a68c)),0.0157),_0xc16e07=_0x2b7005['GHFVK'](_0x5cd919[_0x3ec2bb(0x25e)]['r0'],_0x4e2476['L']),_0x1b9220=_0x55e6e2*_0x30dff6['L'],_0x3f80d6=(_0x2b7005['Gqdtw'](_0xe17f72['P2'],_0xc16e07)+_0x2390df['Q2']*_0x1b9220)/_0x140999['U2'],_0x14a8cd=_0x2b7005[_0x3ec2bb(0x255)](_0x2b7005[_0x3ec2bb(0x29d)](_0x30fb9d['P2']*_0x1b9220,_0x32d5f1['Q2']*_0xc16e07),_0x1a044a['U2']),_0x4c1a95=_0x5f1e0d[_0x3ec2bb(0x2bf)](_0x57d50e['pow'](_0x19c98e['U2']+_0x3f80d6,0x2)+_0x1ead24[_0x3ec2bb(0x1f1)](_0x14a8cd,0x2)),_0x4d23c=_0x7852d6[_0x3ec2bb(0x1f1)](_0xc9fb7d['P2'],0x2)+_0x30d548[_0x3ec2bb(0x1f1)](_0x299b00['Q2'],0x2),_0x3526df=_0x57b0a0[_0x3ec2bb(0x1f1)](_0x3e8549['U2'],0x2),_0x1df687=_0x2b7005[_0x3ec2bb(0x245)](_0x4d23c,_0x3526df)*_0xc16e07,_0x289aa6=_0x2b7005[_0x3ec2bb(0x2ba)](_0x2b7005[_0x3ec2bb(0x245)](_0x4d23c,_0x3526df),_0x1b9220),_0x5bda10=_0x4060da['P2']+_0x1df687,_0x181d4b=_0x2b7005[_0x3ec2bb(0x27a)](_0xa1cbba['Q2'],_0x289aa6),_0xe40f7f=0.9,_0x12353d=_0x2b7005[_0x3ec2bb(0x234)](_0x270ee1['U2'],_0xe40f7f);let _0x1648c3,_0x4318ff,_0x10ae8e;_0x384bf6['U2']<=0xa?(_0x1648c3=4.9,_0x4318ff=-10.1,_0x10ae8e=6.2):(_0x1648c3=3.7,_0x4318ff=-0x7,_0x10ae8e=4.3);const _0x31a003=0.83-0.3*_0xe40f7f+_0x2b7005[_0x3ec2bb(0x287)](0.47,_0x377b17[_0x3ec2bb(0x1f1)](_0xe40f7f,0x2)),_0x220155=_0x1648c3+_0x2b7005[_0x3ec2bb(0x21c)](_0x4318ff,_0xe40f7f)+_0x10ae8e*_0x20ce5b['pow'](_0xe40f7f,0x2),_0x43aa6d=_0x5b5c51['P2']*_0x31a003,_0x52491a=_0x111508['Q2']*_0x220155,_0x19db38=_0x44b219[_0x3ec2bb(0x1f1)](_0x48d4f7['U2'],0x2)/_0x1f21e0['P2'],_0xa9e2dc=_0x3732b5[_0x3ec2bb(0x1f1)](_0x42fe87['U2'],0x2)/_0xda85db['Q2'],_0x4efc7a=_0x59c035[_0x3ec2bb(0x1f1)](_0x12353d,0x2)/_0x19db38,_0x4b837a=_0x2b7005[_0x3ec2bb(0x1fe)](_0x1e9f4a[_0x3ec2bb(0x1f1)](_0x12353d,0x2),_0xa9e2dc),_0x4acf00=_0x2b7005[_0x3ec2bb(0x2ba)](_0x257b55['P2'],_0xe40f7f),_0x297ded=_0x2b7005[_0x3ec2bb(0x287)](_0x118806['Q2'],_0xe40f7f),_0x4bbd36=_0x3ec2bb(0x20c)+_0x3bc787['id']+')</h3>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>Районна\x20підстанція\x20живиться\x20від\x20трифазної\x20повітряної\x20лінії\x20електропередавання.</p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<ul>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<li><b>Довжина\x20лінії:</b>\x20\x5c(\x20L\x20=\x20'+_0x523eb9['L']+_0x3ec2bb(0x2b6)+_0x7ca9e9[_0x3ec2bb(0x25e)][_0x3ec2bb(0x23a)]+_0x3ec2bb(0x2b3)+_0x1d16e6['U2']+_0x3ec2bb(0x24f)+_0x5f3a6e['P2']+'\x20\x5c)\x20МВт,\x20\x5c(\x20Q_2\x20=\x20'+_0x2a62fc['Q2']+_0x3ec2bb(0x283)+_0xda9db5[_0x3ec2bb(0x1ff)]+_0x3ec2bb(0x2b5),_0x31a0a9='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<h3>РОЗВ\x27ЯЗАННЯ\x20ЗАДАЧІ\x20(Варіант\x20'+_0x265e34['id']+_0x3ec2bb(0x21a)+_0x85629f[_0x3ec2bb(0x25e)][_0x3ec2bb(0x23a)]+_0x3ec2bb(0x256)+_0x2ba96e(_0x1efad5[_0x3ec2bb(0x25e)]['r0'])+_0x3ec2bb(0x1e9)+_0x2bc8f6(_0x420c5d[_0x3ec2bb(0x25e)]['d'],0x1)+_0x3ec2bb(0x2d2)+_0x2b7005[_0x3ec2bb(0x2a7)](_0x1ab9a1,_0x31c21b[_0x3ec2bb(0x25e)]['d'],0x1)+_0x3ec2bb(0x2db)+_0x36625e(_0x4f7b50,0x2)+_0x3ec2bb(0x2c2)+_0x16a0f0(_0xb4a68c,0x5)+_0x3ec2bb(0x2ec)+_0x4613c8[_0x3ec2bb(0x1ff)]+'}{'+_0x3888df(_0xb4a68c,0x5)+_0x3ec2bb(0x2d7)+_0x5f16c6(_0x55e6e2)+'\x20\x5ctext{\x20Ом/км}\x20\x5c]</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>Повні\x20опори\x20лінії\x20(\x5c(\x20L\x20=\x20'+_0x52c278['L']+_0x3ec2bb(0x211)+_0x2b7005[_0x3ec2bb(0x28b)](_0x1aeba3,_0x2cf6c7['wire']['r0'])+_0x3ec2bb(0x2e5)+_0x50b045['L']+_0x3ec2bb(0x26e)+_0x2b7005['GscwY'](_0x287e72,_0xc16e07,0x2)+_0x3ec2bb(0x263)+_0x4c1110(_0x55e6e2)+_0x3ec2bb(0x2e5)+_0x81bd03['L']+_0x3ec2bb(0x26e)+_0x2b7005[_0x3ec2bb(0x2a7)](_0x361dd6,_0x1b9220,0x2)+'\x20\x5c)\x20Ом.</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p><b>Крок\x201.2.\x20Розрахунок\x20спаду\x20та\x20втрати\x20напруги</b><br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Поздовжня\x20складова\x20спаду\x20напруги\x20(втрата\x20напруги):\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20\x5cDelta\x20U\x20=\x20\x5cfrac{P_2\x20\x5ccdot\x20R\x20+\x20Q_2\x20\x5ccdot\x20X}{U_2}\x20=\x20\x5cfrac{'+_0x2d84af['P2']+_0x3ec2bb(0x2e5)+_0x434517(_0xc16e07,0x2)+_0x3ec2bb(0x23e)+_0x2ee422['Q2']+'\x20\x5ccdot\x20'+_0x2b7005[_0x3ec2bb(0x2a7)](_0x2e0ba6,_0x1b9220,0x2)+'}{'+_0x2d5a65['U2']+_0x3ec2bb(0x209)+_0x6387d2(_0x3f80d6)+_0x3ec2bb(0x2d8)+_0x4c58e4['P2']+'\x20\x5ccdot\x20'+_0x2b7005[_0x3ec2bb(0x2a7)](_0x275920,_0x1b9220,0x2)+_0x3ec2bb(0x1f8)+_0x1b55e8['Q2']+_0x3ec2bb(0x2e5)+_0x2b7005['GscwY'](_0x141bf6,_0xc16e07,0x2)+'}{'+_0x4f7590['U2']+_0x3ec2bb(0x209)+_0x14e112(_0x14a8cd)+_0x3ec2bb(0x26d)+_0x12016f['U2']+_0x3ec2bb(0x23e)+_0x3a75cc(_0x3f80d6)+_0x3ec2bb(0x2b7)+_0x2b7005[_0x3ec2bb(0x296)](_0x4ca365,_0x14a8cd)+_0x3ec2bb(0x2ce)+_0x2b7005['Fosej'](_0x54b53a,_0x4c1a95)+_0x3ec2bb(0x223)+_0xe1d313['P2']+_0x3ec2bb(0x225)+_0x41e7c4['Q2']+_0x3ec2bb(0x23f)+_0x3f478e['U2']+'^2}\x20\x5ccdot\x20'+_0x4caae7(_0xc16e07,0x2)+_0x3ec2bb(0x26e)+_0x26bb1a(_0x1df687)+_0x3ec2bb(0x2a9)+_0x2b0539['P2']+_0x3ec2bb(0x225)+_0x1ed94d['Q2']+_0x3ec2bb(0x23f)+_0x35473b['U2']+_0x3ec2bb(0x2b8)+_0x137922(_0x1b9220,0x2)+'\x20=\x20'+_0x5474c0(_0x289aa6)+_0x3ec2bb(0x2b2)+_0x4dc733['P2']+_0x3ec2bb(0x23e)+_0x2b7005[_0x3ec2bb(0x28b)](_0x562f4d,_0x1df687)+'\x20=\x20'+_0x5dac2a(_0x5bda10)+_0x3ec2bb(0x2dd)+_0x29ccb3['Q2']+'\x20+\x20'+_0x2b7005['ApTnD'](_0x2d7c40,_0x289aa6)+_0x3ec2bb(0x26e)+_0x301191(_0x181d4b)+_0x3ec2bb(0x22a)+_0x18fc7d(_0x5bda10)+'\x20+\x20j'+_0x2bb484(_0x181d4b)+_0x3ec2bb(0x243)+_0x3815c4['U2']+_0x3ec2bb(0x2b1)+_0x192bfe(_0x12353d,0x0)+_0x3ec2bb(0x281)+_0x4797b3['U2']+_0x3ec2bb(0x275)+_0x2b7005['GscwY'](_0x3ab530,_0x31a003,0x4)+_0x3ec2bb(0x2bc)+_0x49d8a1(_0x1648c3,0x1)+'\x20'+(_0x4318ff<0x0?'-':'+')+'\x20'+_0x2b7005[_0x3ec2bb(0x1f4)](_0x249011,_0x5be09d['abs'](_0x4318ff),0x1)+_0x3ec2bb(0x229)+_0x2b7005[_0x3ec2bb(0x1f4)](_0x151d67,_0x10ae8e,0x1)+_0x3ec2bb(0x2bb)+_0x2b7005[_0x3ec2bb(0x258)](_0x3d12c0,_0x220155,0x4)+_0x3ec2bb(0x20a)+_0x1764db['P2']+'\x20\x5ccdot\x20'+_0x62d23d(_0x31a003,0x4)+_0x3ec2bb(0x269)+_0x46f528(_0x43aa6d,0x2)+_0x3ec2bb(0x228)+_0x4fe959['Q2']+'\x20\x5ccdot\x20'+_0x717e3f(_0x220155,0x4)+_0x3ec2bb(0x269)+_0x2b7005[_0x3ec2bb(0x2a7)](_0x4d10f2,_0x52491a,0x2)+_0x3ec2bb(0x2cc)+_0x1b9477['U2']+'^2}{'+_0x5958a4['P2']+_0x3ec2bb(0x209)+_0x2b7005[_0x3ec2bb(0x2ef)](_0x14f2eb,_0x19db38,0x2)+'\x20\x5ctext{\x20Ом}\x20\x5c]\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20x_H\x20=\x20\x5cfrac{U_2^2}{Q_2}\x20=\x20\x5cfrac{'+_0x37ba11['U2']+_0x3ec2bb(0x23f)+_0x41a2b8['Q2']+_0x3ec2bb(0x209)+_0x43fc5c(_0xa9e2dc,0x2)+_0x3ec2bb(0x260)+_0x2b7005[_0x3ec2bb(0x24e)](_0xbcedd4,_0x12353d,0x0)+'\x20\x5c)\x20кВ:\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20P_{new(Z)}\x20=\x20\x5cfrac{U_{new}^2}{r_H}\x20=\x20\x5cfrac{'+_0x2b7005[_0x3ec2bb(0x277)](_0x5204ac,_0x12353d,0x0)+'^2}{'+_0x30be94(_0x19db38,0x2)+_0x3ec2bb(0x1ea)+_0x36f155(_0x4efc7a,0x2)+_0x3ec2bb(0x240)+_0x2b7005[_0x3ec2bb(0x2a7)](_0x250b42,_0x12353d,0x0)+_0x3ec2bb(0x23f)+_0x2b7005['IzPpd'](_0x252c5e,_0xa9e2dc,0x2)+_0x3ec2bb(0x1ea)+_0x545669(_0x4b837a,0x2)+'\x20\x5ctext{\x20Мвар}}\x20\x5c]</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p><b>Метод\x203.\x20Подання\x20навантаження\x20сталим\x20струмом\x20\x5c(\x20I_H\x20=\x20const\x20\x5c)\x20(Лаб.\x20№3)</b>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20P_{new(I)}\x20=\x20P_2\x20\x5ccdot\x20\x5cleft(\x5cfrac{U_{new}}{U_2}\x5cright)\x20=\x20'+_0x186af5['P2']+_0x3ec2bb(0x20e)+_0x5d21e6(_0x4acf00,0x2)+_0x3ec2bb(0x29b)+_0x4f0d84['Q2']+'\x20\x5ccdot\x200,9\x20=\x20\x5cmathbf{'+_0x52359b(_0x297ded,0x2)+'\x20\x5ctext{\x20Мвар}}\x20\x5c]</p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20';return{'problemHtml':_0x4bbd36,'solutionHtml':_0x31a0a9};}})();}());const _0x5d1712=(function(){const _0x5de459=_0x3e67,_0x4336f2={'hHRGW':_0x5de459(0x1ee),'hlHyR':_0x5de459(0x273)};let _0x2b747e=!![];return function(_0xae631c,_0x2979f2){const _0x25c9d6=_0x5de459,_0x270fb2={'LVnfR':_0x4336f2[_0x25c9d6(0x213)],'nTSKT':'counter'};if(_0x25c9d6(0x2d3)!==_0x4336f2[_0x25c9d6(0x21d)]){const _0x4da588=_0x2b747e?function(){const _0x20ecd1=_0x25c9d6,_0x38e475={'DFMPh':_0x20ecd1(0x24d)};if(_0x20ecd1(0x2de)!==_0x20ecd1(0x2de))return _0x3bdab3['toString']()[_0x20ecd1(0x298)](_0x20ecd1(0x24d))[_0x20ecd1(0x210)]()[_0x20ecd1(0x2a4)](_0x4c894a)[_0x20ecd1(0x298)](_0x38e475[_0x20ecd1(0x2ac)]);else{if(_0x2979f2){if(_0x20ecd1(0x239)===_0x20ecd1(0x2b4))return function(_0x5368e0){}['constructor'](_0x270fb2[_0x20ecd1(0x289)])[_0x20ecd1(0x2a3)](_0x270fb2[_0x20ecd1(0x2c5)]);else{const _0x9ca2d=_0x2979f2[_0x20ecd1(0x2a3)](_0xae631c,arguments);return _0x2979f2=null,_0x9ca2d;}}}}:function(){};return _0x2b747e=![],_0x4da588;}else return![];};}()),_0x18948a=_0x5d1712(this,function(){const _0x28e6f7=_0x3e67,_0x3216b8={'dKFzz':_0x28e6f7(0x2d0),'jXtxk':function(_0x2f99db){return _0x2f99db();},'kSgvB':_0x28e6f7(0x253),'hoMmP':_0x28e6f7(0x278),'vraqE':_0x28e6f7(0x28c),'fPTGq':_0x28e6f7(0x1e6)};let _0x4b04d5;try{const _0x1e2e92=Function(_0x28e6f7(0x26b)+_0x3216b8[_0x28e6f7(0x207)]+');');_0x4b04d5=_0x3216b8[_0x28e6f7(0x233)](_0x1e2e92);}catch(_0x712078){_0x4b04d5=window;}const _0xc91662=_0x4b04d5[_0x28e6f7(0x2ea)]=_0x4b04d5[_0x28e6f7(0x2ea)]||{},_0x32a34d=[_0x3216b8[_0x28e6f7(0x259)],_0x28e6f7(0x290),_0x3216b8['hoMmP'],_0x3216b8['vraqE'],_0x28e6f7(0x232),_0x28e6f7(0x2c4),_0x3216b8['fPTGq']];for(let _0x4b16c7=0x0;_0x4b16c7<_0x32a34d['length'];_0x4b16c7++){if(_0x28e6f7(0x26f)!==_0x28e6f7(0x26f))_0x412812=_0x43ac14['then'](()=>{const _0x19f912=_0x28e6f7;return _0x54ada3[_0x19f912(0x204)]();})['catch'](_0x8ccd6f=>_0x350179[_0x28e6f7(0x253)](_0x28e6f7(0x2af),_0x8ccd6f[_0x28e6f7(0x217)]));else{const _0x1f3b1f=_0x5d1712[_0x28e6f7(0x2a4)]['prototype'][_0x28e6f7(0x297)](_0x5d1712),_0xe5e70b=_0x32a34d[_0x4b16c7],_0x372990=_0xc91662[_0xe5e70b]||_0x1f3b1f;_0x1f3b1f['__proto__']=_0x5d1712[_0x28e6f7(0x297)](_0x5d1712),_0x1f3b1f['toString']=_0x372990[_0x28e6f7(0x210)]['bind'](_0x372990),_0xc91662[_0xe5e70b]=_0x1f3b1f;}}});_0x18948a();const wires=[{'name':_0x124c52(0x274),'r0':0.429,'d':11.4},{'name':_0x124c52(0x29e),'r0':0.306,'d':13.5},{'name':_0x124c52(0x1f9),'r0':0.249,'d':15.2},{'name':_0x124c52(0x2b0),'r0':0.198,'d':17.1},{'name':_0x124c52(0x2e1),'r0':0.162,'d':18.8},{'name':_0x124c52(0x262),'r0':0.124,'d':21.6}];let variants=[],isUnlocked=![],mathJaxPromise=Promise[_0x124c52(0x218)]();function generateVariants(){const _0x4b44d7=_0x124c52,_0xe1fffd={'FJymm':function(_0x56549c){return _0x56549c();},'VMkgG':_0x4b44d7(0x294),'nZufG':function(_0x50c89e,_0x1b8a1f){return _0x50c89e*_0x1b8a1f;},'TeRuW':function(_0x39b621,_0x162b4d){return _0x39b621+_0x162b4d;},'RDMeP':function(_0x23d3da,_0x492bfa){return _0x23d3da*_0x492bfa;}};variants['push']({'id':0x0,'L':0x32,'wire':wires[0x3],'U2':0x6e,'P2':0x1e,'Q2':0x12,'Dcp':0x4});const _0x38044d=[{'u':0x6,'dcp':0x1},{'u':0xa,'dcp':0x1},{'u':0x23,'dcp':0x3},{'u':0x6e,'dcp':0x4},{'u':0x14a,'dcp':0x7}];for(let _0x3fc333=0x1;_0x3fc333<=0x14;_0x3fc333++){if('hyvql'===_0xe1fffd['VMkgG']){const _0xa0e349=_0x38044d[Math[_0x4b44d7(0x202)](Math['random']()*_0x38044d[_0x4b44d7(0x23d)])];variants[_0x4b44d7(0x226)]({'id':_0x3fc333,'L':0x1e+Math[_0x4b44d7(0x202)](_0xe1fffd[_0x4b44d7(0x2e8)](Math[_0x4b44d7(0x288)](),0x46)),'wire':wires[Math[_0x4b44d7(0x202)](Math[_0x4b44d7(0x288)]()*wires[_0x4b44d7(0x23d)])],'U2':_0xa0e349['u'],'P2':_0xe1fffd[_0x4b44d7(0x279)](0xa,Math['floor'](_0xe1fffd[_0x4b44d7(0x242)](Math['random'](),0x32))),'Q2':0x5+Math[_0x4b44d7(0x202)](_0xe1fffd['RDMeP'](Math[_0x4b44d7(0x288)](),0x1e)),'Dcp':_0xa0e349['dcp']});}else{_0x230f3b();const _0x5f4a53=_0x335ca2['getElementById'](_0x4b44d7(0x224));for(let _0xf8f9e0=0x0;_0xf8f9e0<=0x14;_0xf8f9e0++){let _0x23faec=_0x9faf55[_0x4b44d7(0x1f2)](_0x4b44d7(0x286));_0x23faec['value']=_0xf8f9e0,_0x23faec['innerHTML']=_0x4b44d7(0x2e3)+_0xf8f9e0,_0x5f4a53[_0x4b44d7(0x2d5)](_0x23faec);}const _0x199750=_0x5a9246['createElement'](_0x4b44d7(0x24b));_0x199750['id']='filname-btn',_0x199750[_0x4b44d7(0x2d1)]=_0x102db2,_0x2aa8d4[_0x4b44d7(0x236)][_0x4b44d7(0x2d5)](_0x199750),_0xe1fffd[_0x4b44d7(0x2c7)](_0x5031d0),_0x33ddb0[_0x4b44d7(0x27f)]&&_0x166242[_0x4b44d7(0x27f)][_0x4b44d7(0x204)]&&_0x144ceb[_0x4b44d7(0x204)]();}}}function simpleHash(_0x81afbd){const _0x5973a8=_0x124c52,_0x166fd9={'IPyBx':function(_0x34e5b6,_0x2a22c3){return _0x34e5b6===_0x2a22c3;},'QBIob':function(_0x5b35c6,_0x2d142f){return _0x5b35c6<_0x2d142f;},'EacRl':function(_0x36ee60,_0x374176){return _0x36ee60-_0x374176;},'EuBfE':function(_0x392191,_0xc3268c){return _0x392191<<_0xc3268c;},'UFkTm':function(_0x18009e,_0x4b49ef){return _0x18009e>>>_0x4b49ef;}};let _0x2e4646=0x0;if(_0x166fd9['IPyBx'](_0x81afbd[_0x5973a8(0x23d)],0x0))return _0x2e4646['toString'](0x10);for(let _0x3b8623=0x0;_0x166fd9[_0x5973a8(0x22c)](_0x3b8623,_0x81afbd['length']);_0x3b8623++){_0x2e4646=_0x166fd9['EacRl'](_0x166fd9[_0x5973a8(0x2df)](_0x2e4646,0x5),_0x2e4646)+_0x81afbd[_0x5973a8(0x2cf)](_0x3b8623),_0x2e4646|=0x0;}return _0x166fd9[_0x5973a8(0x2e4)](_0x2e4646,0x0)[_0x5973a8(0x210)](0x10);}function checkCode(_0x2be819){const _0xb878f7=_0x124c52,_0x335a22=_0xb878f7(0x2f0);return!_0x2be819?![]:simpleHash(_0x2be819)===_0x335a22;}function _0x3e67(_0x21a746,_0x14b3c3){_0x21a746=_0x21a746-0x1e5;const _0x4911de=_0x2a6e();let _0x18948a=_0x4911de[_0x21a746];return _0x18948a;}const fmt=(_0x73e90b,_0x267077=0x3)=>Number(_0x73e90b)[_0x124c52(0x2da)](_0x267077)[_0x124c52(0x254)]('.',',');function getVariantHTML(_0x1d1e22){const _0x45a6a3=_0x124c52,_0x7b4f5d={'AIvzG':function(_0x5c6a2d,_0x234574){return _0x5c6a2d===_0x234574;},'nmMoL':function(_0x4cba2d,_0x4f23fa){return _0x4cba2d<_0x4f23fa;},'EsuOW':function(_0x15066f,_0x2c81dd){return _0x15066f<<_0x2c81dd;},'VCnRp':function(_0x3abd44,_0x4720ce){return _0x3abd44/_0x4720ce;},'WiFAT':function(_0x1d82bc,_0x34a85b){return _0x1d82bc/_0x34a85b;},'KnDyg':function(_0x3859ce,_0x2439c5){return _0x3859ce-_0x2439c5;},'zjpKW':function(_0x3e6c30,_0x97de16){return _0x3e6c30*_0x97de16;},'wAyTJ':function(_0x24b240,_0x4d4d0a){return _0x24b240+_0x4d4d0a;},'PANom':function(_0x9a0473,_0x36e8db){return _0x9a0473+_0x36e8db;},'DmeHe':function(_0x12260b,_0x2cb357){return _0x12260b*_0x2cb357;},'sPMjk':function(_0x5cc4c7,_0x4117a7){return _0x5cc4c7<=_0x4117a7;},'xJHrq':function(_0x2050c4,_0x48a1ce){return _0x2050c4===_0x48a1ce;},'uARfR':_0x45a6a3(0x20f),'rOlNv':function(_0x4eb756,_0x24f334){return _0x4eb756-_0x24f334;},'tqxIv':function(_0x48f89a,_0x80359d){return _0x48f89a+_0x80359d;},'xToNA':function(_0x21a23f,_0x5d4b89){return _0x21a23f/_0x5d4b89;},'YFEMU':function(_0x2c50b3,_0x18ba66){return _0x2c50b3/_0x18ba66;},'nlYLA':function(_0x29624c,_0x545b70){return _0x29624c*_0x545b70;},'lQIwC':function(_0x6c15a2,_0x234348,_0x2e76d0){return _0x6c15a2(_0x234348,_0x2e76d0);},'QGKFb':function(_0x52ee80,_0xf57496){return _0x52ee80(_0xf57496);},'OfKlq':function(_0x16f893,_0x2fe467){return _0x16f893(_0x2fe467);},'XvgFg':function(_0xc7b71d,_0xa9cff9,_0x35fe6f){return _0xc7b71d(_0xa9cff9,_0x35fe6f);},'VRdvR':function(_0x6840a7,_0x25ce75,_0x4258e7){return _0x6840a7(_0x25ce75,_0x4258e7);},'eUBka':function(_0x528c33,_0x4f0288){return _0x528c33(_0x4f0288);},'lGtWK':function(_0x136982,_0x4e92a1){return _0x136982(_0x4e92a1);},'zvdIY':function(_0xf69c83,_0x4e0593){return _0xf69c83(_0x4e0593);},'kWECD':function(_0xea8860,_0x1c6cae,_0x343d5b){return _0xea8860(_0x1c6cae,_0x343d5b);},'KpPvg':function(_0x341215,_0x8bfcf0){return _0x341215(_0x8bfcf0);},'UsWKN':function(_0x5ba911,_0x5b3db1,_0x582d64){return _0x5ba911(_0x5b3db1,_0x582d64);},'uVxSo':function(_0x367e9c,_0x3f363e,_0x3549c8){return _0x367e9c(_0x3f363e,_0x3549c8);},'CjdNA':function(_0x5561d9,_0x2ac494,_0x1431bb){return _0x5561d9(_0x2ac494,_0x1431bb);}},_0x35f6f0=_0x7b4f5d[_0x45a6a3(0x27b)](_0x1d1e22[_0x45a6a3(0x25e)]['d'],0x2),_0x2afc04=_0x35f6f0/0x3e8,_0x41ae33=0.144*Math[_0x45a6a3(0x292)](_0x7b4f5d[_0x45a6a3(0x208)](_0x1d1e22[_0x45a6a3(0x1ff)],_0x2afc04))+0.0157,_0x5b36af=_0x1d1e22[_0x45a6a3(0x25e)]['r0']*_0x1d1e22['L'],_0x44ef70=_0x41ae33*_0x1d1e22['L'],_0x1ee615=(_0x1d1e22['P2']*_0x5b36af+_0x1d1e22['Q2']*_0x44ef70)/_0x1d1e22['U2'],_0x56eed7=_0x7b4f5d[_0x45a6a3(0x221)](_0x1d1e22['P2']*_0x44ef70,_0x7b4f5d[_0x45a6a3(0x203)](_0x1d1e22['Q2'],_0x5b36af))/_0x1d1e22['U2'],_0x139a17=Math[_0x45a6a3(0x2bf)](_0x7b4f5d[_0x45a6a3(0x222)](Math['pow'](_0x1d1e22['U2']+_0x1ee615,0x2),Math[_0x45a6a3(0x1f1)](_0x56eed7,0x2))),_0x537be4=_0x7b4f5d[_0x45a6a3(0x222)](Math[_0x45a6a3(0x1f1)](_0x1d1e22['P2'],0x2),Math[_0x45a6a3(0x1f1)](_0x1d1e22['Q2'],0x2)),_0x287e02=Math[_0x45a6a3(0x1f1)](_0x1d1e22['U2'],0x2),_0x1f32af=_0x7b4f5d['WiFAT'](_0x537be4,_0x287e02)*_0x5b36af,_0x578ccb=_0x537be4/_0x287e02*_0x44ef70,_0x31b683=_0x1d1e22['P2']+_0x1f32af,_0xb7e7e4=_0x7b4f5d[_0x45a6a3(0x2a8)](_0x1d1e22['Q2'],_0x578ccb),_0x14ae01=0.9,_0x33d70f=_0x7b4f5d[_0x45a6a3(0x21f)](_0x1d1e22['U2'],_0x14ae01);let _0x2e227f,_0x391014,_0x4df96a;if(_0x7b4f5d['sPMjk'](_0x1d1e22['U2'],0xa)){if(_0x7b4f5d[_0x45a6a3(0x276)](_0x7b4f5d[_0x45a6a3(0x205)],_0x45a6a3(0x20f)))_0x2e227f=4.9,_0x391014=-10.1,_0x4df96a=6.2;else{let _0x3d8e4f=0x0;if(ChBbMR[_0x45a6a3(0x27e)](_0x2055de[_0x45a6a3(0x23d)],0x0))return _0x3d8e4f[_0x45a6a3(0x210)](0x10);for(let _0x591a4c=0x0;ChBbMR[_0x45a6a3(0x29c)](_0x591a4c,_0x82f7f[_0x45a6a3(0x23d)]);_0x591a4c++){_0x3d8e4f=ChBbMR[_0x45a6a3(0x285)](_0x3d8e4f,0x5)-_0x3d8e4f+_0x3f68a3['charCodeAt'](_0x591a4c),_0x3d8e4f|=0x0;}return(_0x3d8e4f>>>0x0)[_0x45a6a3(0x210)](0x10);}}else _0x2e227f=3.7,_0x391014=-0x7,_0x4df96a=4.3;const _0xafcce3=_0x7b4f5d[_0x45a6a3(0x1fd)](0.83,0.3*_0x14ae01)+0.47*Math[_0x45a6a3(0x1f1)](_0x14ae01,0x2),_0x329eb7=_0x7b4f5d[_0x45a6a3(0x247)](_0x2e227f,_0x7b4f5d['zjpKW'](_0x391014,_0x14ae01))+_0x4df96a*Math[_0x45a6a3(0x1f1)](_0x14ae01,0x2),_0x242dcb=_0x1d1e22['P2']*_0xafcce3,_0x4d97f5=_0x1d1e22['Q2']*_0x329eb7,_0x448afb=Math['pow'](_0x1d1e22['U2'],0x2)/_0x1d1e22['P2'],_0x579be3=_0x7b4f5d[_0x45a6a3(0x272)](Math[_0x45a6a3(0x1f1)](_0x1d1e22['U2'],0x2),_0x1d1e22['Q2']),_0x276a1d=Math[_0x45a6a3(0x1f1)](_0x33d70f,0x2)/_0x448afb,_0x2e4966=_0x7b4f5d[_0x45a6a3(0x20b)](Math[_0x45a6a3(0x1f1)](_0x33d70f,0x2),_0x579be3),_0x244200=_0x7b4f5d[_0x45a6a3(0x21f)](_0x1d1e22['P2'],_0x14ae01),_0x11b342=_0x7b4f5d[_0x45a6a3(0x25d)](_0x1d1e22['Q2'],_0x14ae01),_0x5443be=_0x45a6a3(0x20c)+_0x1d1e22['id']+_0x45a6a3(0x28a)+_0x1d1e22['L']+_0x45a6a3(0x2b6)+_0x1d1e22[_0x45a6a3(0x25e)][_0x45a6a3(0x23a)]+'.</li>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<li><b>Напруга\x20в\x20кінці\x20лінії\x20(на\x20шинах\x20навантаження):</b>\x20\x5c(\x20U_2\x20=\x20'+_0x1d1e22['U2']+_0x45a6a3(0x24f)+_0x1d1e22['P2']+_0x45a6a3(0x29f)+_0x1d1e22['Q2']+'\x20\x5c)\x20Мвар.</li>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<li><b>Середньогеометрична\x20відстань\x20між\x20проводами:</b>\x20\x5c(\x20D_{cp}\x20=\x20'+_0x1d1e22['Dcp']+_0x45a6a3(0x2b5),_0x5809ff=_0x45a6a3(0x22f)+_0x1d1e22['id']+_0x45a6a3(0x21a)+_0x1d1e22[_0x45a6a3(0x25e)][_0x45a6a3(0x23a)]+_0x45a6a3(0x256)+fmt(_0x1d1e22[_0x45a6a3(0x25e)]['r0'])+_0x45a6a3(0x1e9)+fmt(_0x1d1e22[_0x45a6a3(0x25e)]['d'],0x1)+_0x45a6a3(0x2d2)+fmt(_0x1d1e22[_0x45a6a3(0x25e)]['d'],0x1)+_0x45a6a3(0x2db)+fmt(_0x35f6f0,0x2)+_0x45a6a3(0x2c2)+_0x7b4f5d[_0x45a6a3(0x1fc)](fmt,_0x2afc04,0x5)+_0x45a6a3(0x2ec)+_0x1d1e22[_0x45a6a3(0x1ff)]+'}{'+fmt(_0x2afc04,0x5)+_0x45a6a3(0x2d7)+fmt(_0x41ae33)+_0x45a6a3(0x27d)+_0x1d1e22['L']+'\x20\x5c)\x20км):<br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20*\x20Активний\x20опір:\x20\x5c(\x20R\x20=\x20r_0\x20\x5ccdot\x20L\x20=\x20'+_0x7b4f5d[_0x45a6a3(0x2e0)](fmt,_0x1d1e22[_0x45a6a3(0x25e)]['r0'])+_0x45a6a3(0x2e5)+_0x1d1e22['L']+_0x45a6a3(0x26e)+fmt(_0x5b36af,0x2)+_0x45a6a3(0x263)+_0x7b4f5d[_0x45a6a3(0x264)](fmt,_0x41ae33)+_0x45a6a3(0x2e5)+_0x1d1e22['L']+_0x45a6a3(0x26e)+_0x7b4f5d[_0x45a6a3(0x1fc)](fmt,_0x44ef70,0x2)+'\x20\x5c)\x20Ом.</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p><b>Крок\x201.2.\x20Розрахунок\x20спаду\x20та\x20втрати\x20напруги</b><br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Поздовжня\x20складова\x20спаду\x20напруги\x20(втрата\x20напруги):\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20\x5cDelta\x20U\x20=\x20\x5cfrac{P_2\x20\x5ccdot\x20R\x20+\x20Q_2\x20\x5ccdot\x20X}{U_2}\x20=\x20\x5cfrac{'+_0x1d1e22['P2']+_0x45a6a3(0x2e5)+fmt(_0x5b36af,0x2)+'\x20+\x20'+_0x1d1e22['Q2']+_0x45a6a3(0x2e5)+_0x7b4f5d[_0x45a6a3(0x201)](fmt,_0x44ef70,0x2)+'}{'+_0x1d1e22['U2']+_0x45a6a3(0x209)+_0x7b4f5d[_0x45a6a3(0x264)](fmt,_0x1ee615)+_0x45a6a3(0x2d8)+_0x1d1e22['P2']+'\x20\x5ccdot\x20'+fmt(_0x44ef70,0x2)+_0x45a6a3(0x1f8)+_0x1d1e22['Q2']+'\x20\x5ccdot\x20'+_0x7b4f5d[_0x45a6a3(0x2e7)](fmt,_0x5b36af,0x2)+'}{'+_0x1d1e22['U2']+_0x45a6a3(0x209)+fmt(_0x56eed7)+_0x45a6a3(0x26d)+_0x1d1e22['U2']+_0x45a6a3(0x23e)+_0x7b4f5d[_0x45a6a3(0x2d4)](fmt,_0x1ee615)+_0x45a6a3(0x2b7)+_0x7b4f5d['lGtWK'](fmt,_0x56eed7)+_0x45a6a3(0x2ce)+_0x7b4f5d['zvdIY'](fmt,_0x139a17)+_0x45a6a3(0x223)+_0x1d1e22['P2']+_0x45a6a3(0x225)+_0x1d1e22['Q2']+_0x45a6a3(0x23f)+_0x1d1e22['U2']+_0x45a6a3(0x2b8)+_0x7b4f5d[_0x45a6a3(0x2d9)](fmt,_0x5b36af,0x2)+_0x45a6a3(0x26e)+fmt(_0x1f32af)+_0x45a6a3(0x2a9)+_0x1d1e22['P2']+_0x45a6a3(0x225)+_0x1d1e22['Q2']+_0x45a6a3(0x23f)+_0x1d1e22['U2']+_0x45a6a3(0x2b8)+fmt(_0x44ef70,0x2)+_0x45a6a3(0x26e)+fmt(_0x578ccb)+_0x45a6a3(0x2b2)+_0x1d1e22['P2']+_0x45a6a3(0x23e)+fmt(_0x1f32af)+_0x45a6a3(0x26e)+fmt(_0x31b683)+_0x45a6a3(0x2dd)+_0x1d1e22['Q2']+'\x20+\x20'+_0x7b4f5d['KpPvg'](fmt,_0x578ccb)+_0x45a6a3(0x26e)+fmt(_0xb7e7e4)+_0x45a6a3(0x22a)+fmt(_0x31b683)+'\x20+\x20j'+fmt(_0xb7e7e4)+_0x45a6a3(0x243)+_0x1d1e22['U2']+_0x45a6a3(0x2b1)+fmt(_0x33d70f,0x0)+_0x45a6a3(0x281)+_0x1d1e22['U2']+'\x20кВ:\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20P_*\x20=\x20a_0\x20+\x20a_1\x20U_*\x20+\x20a_2\x20U_*^2\x20=\x200,83\x20-\x200,3\x20\x5ccdot\x200,9\x20+\x200,47\x20\x5ccdot\x200,9^2\x20=\x20'+_0x7b4f5d[_0x45a6a3(0x2e7)](fmt,_0xafcce3,0x4)+'\x20\x5c]\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20Q_*\x20=\x20b_0\x20+\x20b_1\x20U_*\x20+\x20b_2\x20U_*^2\x20=\x20'+_0x7b4f5d[_0x45a6a3(0x2ae)](fmt,_0x2e227f,0x1)+'\x20'+(_0x391014<0x0?'-':'+')+'\x20'+fmt(Math[_0x45a6a3(0x216)](_0x391014),0x1)+_0x45a6a3(0x229)+_0x7b4f5d['XvgFg'](fmt,_0x4df96a,0x1)+_0x45a6a3(0x2bb)+_0x7b4f5d[_0x45a6a3(0x1f6)](fmt,_0x329eb7,0x4)+_0x45a6a3(0x20a)+_0x1d1e22['P2']+_0x45a6a3(0x2e5)+fmt(_0xafcce3,0x4)+'\x20=\x20\x5cmathbf{'+fmt(_0x242dcb,0x2)+_0x45a6a3(0x228)+_0x1d1e22['Q2']+_0x45a6a3(0x2e5)+fmt(_0x329eb7,0x4)+'\x20=\x20\x5cmathbf{'+_0x7b4f5d[_0x45a6a3(0x1f7)](fmt,_0x4d97f5,0x2)+'\x20\x5ctext{\x20Мвар}}\x20\x5c]</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p><b>Метод\x202.\x20Подання\x20навантаження\x20сталим\x20опором\x20\x5c(\x20Z_H\x20=\x20const\x20\x5c)\x20(Лаб.\x20№3)</b><br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Розрахуємо\x20фіктивні\x20сталі\x20опори\x20навантаження:\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20r_H\x20=\x20\x5cfrac{U_2^2}{P_2}\x20=\x20\x5cfrac{'+_0x1d1e22['U2']+_0x45a6a3(0x23f)+_0x1d1e22['P2']+'}\x20=\x20'+fmt(_0x448afb,0x2)+_0x45a6a3(0x261)+_0x1d1e22['U2']+_0x45a6a3(0x23f)+_0x1d1e22['Q2']+_0x45a6a3(0x209)+fmt(_0x579be3,0x2)+_0x45a6a3(0x260)+fmt(_0x33d70f,0x0)+_0x45a6a3(0x2dc)+fmt(_0x33d70f,0x0)+'^2}{'+fmt(_0x448afb,0x2)+_0x45a6a3(0x1ea)+fmt(_0x276a1d,0x2)+_0x45a6a3(0x240)+fmt(_0x33d70f,0x0)+_0x45a6a3(0x23f)+fmt(_0x579be3,0x2)+_0x45a6a3(0x1ea)+fmt(_0x2e4966,0x2)+'\x20\x5ctext{\x20Мвар}}\x20\x5c]</p>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p><b>Метод\x203.\x20Подання\x20навантаження\x20сталим\x20струмом\x20\x5c(\x20I_H\x20=\x20const\x20\x5c)\x20(Лаб.\x20№3)</b>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5c[\x20P_{new(I)}\x20=\x20P_2\x20\x5ccdot\x20\x5cleft(\x5cfrac{U_{new}}{U_2}\x5cright)\x20=\x20'+_0x1d1e22['P2']+_0x45a6a3(0x20e)+_0x7b4f5d['uVxSo'](fmt,_0x244200,0x2)+_0x45a6a3(0x29b)+_0x1d1e22['Q2']+'\x20\x5ccdot\x200,9\x20=\x20\x5cmathbf{'+fmt(_0x11b342,0x2)+_0x45a6a3(0x21e);return{'problemHtml':_0x5443be,'solutionHtml':_0x5809ff};}function renderContent(){const _0x490d83=_0x124c52,_0x1fa09f={'vECRu':function(_0x4c588c,_0x2d0e6){return _0x4c588c!==_0x2d0e6;},'wtBuk':'pjxIY','Tcdek':function(_0x236606,_0x3d859e){return _0x236606===_0x3d859e;},'KBWRy':_0x490d83(0x1eb),'NLzKf':_0x490d83(0x2e9)},_0x1d27a9=document[_0x490d83(0x220)](_0x490d83(0x224)),_0x2c7f9b=parseInt(_0x1d27a9['value']),_0x4d7e77=variants[_0x2c7f9b],_0x43c90d=getVariantHTML(_0x4d7e77);document[_0x490d83(0x220)](_0x490d83(0x25a))[_0x490d83(0x2ca)]=_0x43c90d['problemHtml'];const _0x16dc7d=document[_0x490d83(0x220)]('solutionContent');_0x16dc7d[_0x490d83(0x2ca)]=_0x43c90d[_0x490d83(0x2be)],_0x1fa09f[_0x490d83(0x1ed)](_0x2c7f9b,0x0)||isUnlocked?_0x16dc7d[_0x490d83(0x299)]['remove'](_0x490d83(0x2e9)):_0x1fa09f[_0x490d83(0x22e)]===_0x490d83(0x1eb)?_0x16dc7d[_0x490d83(0x299)][_0x490d83(0x23c)](_0x1fa09f[_0x490d83(0x2e6)]):_0x5a40b0[_0x490d83(0x299)][_0x490d83(0x23c)](_0x490d83(0x2e9)),window['MathJax']&&window[_0x490d83(0x27f)][_0x490d83(0x204)]&&(mathJaxPromise=mathJaxPromise[_0x490d83(0x22d)](()=>{const _0x517858=_0x490d83;if(_0x1fa09f['vECRu'](_0x1fa09f[_0x517858(0x1fb)],_0x517858(0x2c9)))_0x4b522b[_0x517858(0x204)]();else return MathJax['typesetPromise']();})[_0x490d83(0x270)](_0x564f96=>console['log'](_0x490d83(0x2af),_0x564f96[_0x490d83(0x217)])));}function checkPIK(){const _0x40e14b=_0x124c52,_0xad642d={'PGfWZ':function(_0xd3120e,_0x5b429b){return _0xd3120e===_0x5b429b;},'aHliG':function(_0x5e2429,_0x3b9eca){return _0x5e2429===_0x3b9eca;},'BdEIq':function(_0x490f87){return _0x490f87();}};if(isUnlocked)return;const _0x564441=[0x412,0x432,0x435,0x434,0x456,0x442,0x44c,0x20,0x43f,0x440,0x456,0x437,0x432,0x438,0x449,0x435],_0x4d9a2d=String[_0x40e14b(0x200)]['apply'](null,_0x564441),_0x3fa9c3=prompt(_0x4d9a2d);if(_0xad642d['PGfWZ'](typeof _0x3fa9c3,_0x40e14b(0x2c1))&&!(checkCode(_0x3fa9c3)^0x1)){if(_0xad642d[_0x40e14b(0x1ec)](_0x40e14b(0x246),'gMnhb')){isUnlocked=!0x0;const _0x41b8b7=[0x414,0x43e,0x441,0x442,0x443,0x43f,0x20,0x434,0x43e,0x437,0x432,0x43e,0x43b,0x435,0x43d,0x43e,0x21,0x20,0x422,0x435,0x43f,0x435,0x440,0x20,0x440,0x43e,0x437,0x432,0x27,0x44f,0x437,0x43a,0x438,0x20,0x432,0x438,0x434,0x438,0x43c,0x456,0x20,0x434,0x43b,0x44f,0x20,0x432,0x441,0x456,0x445,0x20,0x432,0x430,0x440,0x456,0x430,0x43d,0x442,0x456,0x432,0x2e],_0x57e2b8=String['fromCharCode']['apply'](null,_0x41b8b7);alert(_0x57e2b8),_0xad642d[_0x40e14b(0x235)](renderContent);}else(function(){return!![];}[_0x40e14b(0x2a4)]('debu'+_0x40e14b(0x249))['call'](_0x40e14b(0x250)));}}window[_0x124c52(0x2b9)]=()=>{const _0x4a529e=_0x124c52,_0x19a9d1={'sAivU':function(_0x46e994){return _0x46e994();},'ffxZR':_0x4a529e(0x286),'uWvbp':'filname-btn','ylhdW':function(_0x1af33b){return _0x1af33b();},'Rsdxo':_0x4a529e(0x29a)};_0x19a9d1['sAivU'](generateVariants);const _0x3a12ad=document[_0x4a529e(0x220)](_0x4a529e(0x224));for(let _0x4f9fa4=0x0;_0x4f9fa4<=0x14;_0x4f9fa4++){let _0x1ca272=document[_0x4a529e(0x1f2)](_0x19a9d1[_0x4a529e(0x2ab)]);_0x1ca272['value']=_0x4f9fa4,_0x1ca272[_0x4a529e(0x2ca)]=_0x4a529e(0x2e3)+_0x4f9fa4,_0x3a12ad[_0x4a529e(0x2d5)](_0x1ca272);}const _0x4e9afe=document['createElement'](_0x4a529e(0x24b));_0x4e9afe['id']=_0x19a9d1['uWvbp'],_0x4e9afe[_0x4a529e(0x2d1)]=checkPIK,document[_0x4a529e(0x236)][_0x4a529e(0x2d5)](_0x4e9afe),_0x19a9d1[_0x4a529e(0x2a1)](renderContent);if(window['MathJax']&&window[_0x4a529e(0x27f)][_0x4a529e(0x204)]){if(_0x19a9d1[_0x4a529e(0x230)]==='QfJfW'){let _0x4e53e8=_0x70ccce[_0x4a529e(0x1f2)]('option');_0x4e53e8[_0x4a529e(0x291)]=_0x1791fd,_0x4e53e8[_0x4a529e(0x2ca)]=_0x4a529e(0x2e3)+_0x46b5d5,_0xbbe9d1[_0x4a529e(0x2d5)](_0x4e53e8);}else MathJax[_0x4a529e(0x204)]();}};function _0x5839b3(_0x4cca57){const _0x165176=_0x124c52,_0x106485={'TUFVj':function(_0xf906d6,_0x22324e){return _0xf906d6+_0x22324e;},'MWlTJ':_0x165176(0x253),'gCIoV':_0x165176(0x28c),'TpHdj':_0x165176(0x232),'pRorP':_0x165176(0x1e6),'UoAHr':function(_0x3f5a6a,_0x169e80){return _0x3f5a6a<_0x169e80;},'ZhUNe':function(_0x55949a,_0x532fb0){return _0x55949a===_0x532fb0;},'nbgCI':function(_0x5c7934,_0x43bb09){return _0x5c7934===_0x43bb09;},'JRWKX':_0x165176(0x1ee),'rxhvW':_0x165176(0x2c8),'MzHPZ':function(_0x355b20,_0x27d269){return _0x355b20===_0x27d269;},'YnXsM':function(_0x53ce18,_0x55faf6){return _0x53ce18%_0x55faf6;},'pvIEd':_0x165176(0x250),'Ntbbj':function(_0x1a816a,_0x23b482){return _0x1a816a===_0x23b482;},'TMAsb':function(_0x128ae9,_0x34d74c){return _0x128ae9+_0x34d74c;},'LvcqM':function(_0x1dc447){return _0x1dc447();},'uaMli':function(_0x27bf59,_0x2f72b7){return _0x27bf59(_0x2f72b7);},'UVHuu':function(_0x3312b3,_0x35d14a){return _0x3312b3+_0x35d14a;},'BiWMU':_0x165176(0x267)};function _0x1aa6cc(_0x195565){const _0x10347c=_0x165176,_0x578e3c={'rMUAS':function(_0x3914de,_0x16693b){return _0x106485['TUFVj'](_0x3914de,_0x16693b);},'XcJkv':_0x10347c(0x26b),'FZmIm':'{}.constructor(\x22return\x20this\x22)(\x20)','gkylR':_0x106485[_0x10347c(0x2ed)],'Gjwdg':_0x106485['gCIoV'],'OrPFY':_0x106485['TpHdj'],'YIJXK':_0x106485[_0x10347c(0x2a2)],'DMpUJ':function(_0xd59ec6,_0x34ad6a){const _0x21a8de=_0x10347c;return _0x106485[_0x21a8de(0x2a0)](_0xd59ec6,_0x34ad6a);},'RkVul':_0x10347c(0x244),'tIRYI':function(_0x348267,_0x11e0c1){const _0x297f74=_0x10347c;return _0x106485[_0x297f74(0x2eb)](_0x348267,_0x11e0c1);},'PkhUG':function(_0x33e03c,_0x4d2a70){return _0x33e03c(_0x4d2a70);}};if(_0x106485[_0x10347c(0x25c)](typeof _0x195565,_0x10347c(0x2c1)))return function(_0x1eaa28){}[_0x10347c(0x2a4)](_0x106485[_0x10347c(0x1f0)])[_0x10347c(0x2a3)](_0x106485[_0x10347c(0x231)]);else{if((''+_0x195565/_0x195565)['length']!==0x1||_0x106485['MzHPZ'](_0x106485['YnXsM'](_0x195565,0x14),0x0))(function(){return!![];}[_0x10347c(0x2a4)](_0x10347c(0x248)+'gger')['call'](_0x106485[_0x10347c(0x206)]));else{if(_0x106485[_0x10347c(0x28f)](_0x10347c(0x284),'ViMJO'))(function(){const _0xe17fb6=_0x10347c;if(_0x578e3c[_0xe17fb6(0x2c6)]!==_0xe17fb6(0x244)){let _0x16b89c;try{const _0x336910=_0x48c51e(_0x578e3c[_0xe17fb6(0x2c0)](_0x578e3c[_0xe17fb6(0x2c0)](_0x578e3c[_0xe17fb6(0x271)],_0x578e3c['FZmIm']),');'));_0x16b89c=_0x336910();}catch(_0xe86ef){_0x16b89c=_0x405b7c;}const _0x5624dd=_0x16b89c['console']=_0x16b89c['console']||{},_0x23bbf3=[_0x578e3c['gkylR'],_0xe17fb6(0x290),_0xe17fb6(0x278),_0x578e3c[_0xe17fb6(0x238)],_0x578e3c[_0xe17fb6(0x2aa)],'table',_0x578e3c[_0xe17fb6(0x2e2)]];for(let _0xf2ee21=0x0;_0x578e3c[_0xe17fb6(0x215)](_0xf2ee21,_0x23bbf3[_0xe17fb6(0x23d)]);_0xf2ee21++){const _0x48a561=_0x3e60eb[_0xe17fb6(0x2a4)]['prototype'][_0xe17fb6(0x297)](_0x4b4bdb),_0x24f0bc=_0x23bbf3[_0xf2ee21],_0xc99585=_0x5624dd[_0x24f0bc]||_0x48a561;_0x48a561[_0xe17fb6(0x1ef)]=_0x5be9d2[_0xe17fb6(0x297)](_0x229a7b),_0x48a561['toString']=_0xc99585[_0xe17fb6(0x210)][_0xe17fb6(0x297)](_0xc99585),_0x5624dd[_0x24f0bc]=_0x48a561;}}else return![];}[_0x10347c(0x2a4)](_0x106485[_0x10347c(0x23b)]('debu',_0x10347c(0x249)))[_0x10347c(0x2a3)]('stateObject'));else{if(_0x3a156e)return;const _0x8616c4=[0x412,0x432,0x435,0x434,0x456,0x442,0x44c,0x20,0x43f,0x440,0x456,0x437,0x432,0x438,0x449,0x435],_0x1b1bed=_0x22c7e9[_0x10347c(0x200)][_0x10347c(0x2a3)](null,_0x8616c4),_0x43f2bd=_0x361614(_0x1b1bed);if(_0x578e3c[_0x10347c(0x219)](typeof _0x43f2bd,'string')&&!(_0x578e3c['PkhUG'](_0x3ad627,_0x43f2bd)^0x1)){_0x1aabe4=!0x0;const _0x283c56=[0x414,0x43e,0x441,0x442,0x443,0x43f,0x20,0x434,0x43e,0x437,0x432,0x43e,0x43b,0x435,0x43d,0x43e,0x21,0x20,0x422,0x435,0x43f,0x435,0x440,0x20,0x440,0x43e,0x437,0x432,0x27,0x44f,0x437,0x43a,0x438,0x20,0x432,0x438,0x434,0x438,0x43c,0x456,0x20,0x434,0x43b,0x44f,0x20,0x432,0x441,0x456,0x445,0x20,0x432,0x430,0x440,0x456,0x430,0x43d,0x442,0x456,0x432,0x2e],_0x3823c6=_0x27fac1['fromCharCode'][_0x10347c(0x2a3)](null,_0x283c56);_0x23ccd1(_0x3823c6),_0x55c2bb();}}}}_0x1aa6cc(++_0x195565);}try{if('uEOUn'===_0x165176(0x252))_0x106485['LvcqM'](_0x3f9cf4);else{if(_0x4cca57)return _0x106485[_0x165176(0x1e5)](_0x106485['BiWMU'],_0x165176(0x267))?_0x1aa6cc:_0x44c0ec;else{if(_0x106485[_0x165176(0x2eb)](_0x165176(0x2d6),_0x165176(0x2d6)))_0x1aa6cc(0x0);else{const _0x4f958d=_0x106485[_0x165176(0x212)](_0x2cf1de,_0x106485[_0x165176(0x26c)](_0x165176(0x26b)+'{}.constructor(\x22return\x20this\x22)(\x20)',');'));_0x214796=_0x4f958d();}}}}catch(_0x13747a){}}
+        // -----------------------------------------------------------------------
+        // Довідкові дані проводів (з Додатку А)
+        // -----------------------------------------------------------------------
+        const wires = [
+            { name: "АС-35/6",   r0: 0.822, d: 7.5  },
+            { name: "АС-50/8",   r0: 0.592, d: 9.0  },
+            { name: "АС-70/11",  r0: 0.429, d: 11.4 },
+            { name: "АС-95/16",  r0: 0.306, d: 13.5 },
+            { name: "АС-120/19", r0: 0.249, d: 15.2 },
+            { name: "АС-150/24", r0: 0.198, d: 17.1 },
+            { name: "АС-185/29", r0: 0.162, d: 18.8 },
+            { name: "АС-240/39", r0: 0.124, d: 21.6 }
+        ];
+
+        // -----------------------------------------------------------------------
+        // Відповідність напруги до допустимих проводів та Dср згідно ПУЕ України
+        // Виправлення: кожен рівень напруги має свій діапазон допустимих проводів
+        // -----------------------------------------------------------------------
+        const voltData = [
+            {
+                u: 6,
+                dcp: 0.6,
+                // 6 кВ → малі перерізи: АС-35...АС-120
+                wireIndices: [0, 1, 2, 3, 4]
+            },
+            {
+                u: 10,
+                dcp: 1.0,
+                // 10 кВ → малі перерізи: АС-35...АС-120
+                wireIndices: [0, 1, 2, 3, 4]
+            },
+            {
+                u: 35,
+                dcp: 3.0,
+                // 35 кВ → середні перерізи: АС-70...АС-185
+                wireIndices: [2, 3, 4, 5, 6]
+            },
+            {
+                u: 110,
+                dcp: 5.0,
+                // 110 кВ → великі перерізи: АС-95...АС-240
+                wireIndices: [3, 4, 5, 6, 7]
+            }
+            // Виправлення: 330 кВ вилучено — потребує розщеплених фаз (2×АС-240 і більше),
+            // що виходить за межі даної моделі однопровідної лінії
+        ];
+
+        let variants = [];
+        let isUnlocked = false;
+        let mathJaxPromise = Promise.resolve();
+
+        // -----------------------------------------------------------------------
+        // Генерація 21 варіанту
+        // -----------------------------------------------------------------------
+        function generateVariants() {
+            // Варіант 0 — жорстко заданий еталонний приклад
+            // 110 кВ, АС-150/24 — відповідає ПУЕ
+            variants.push({
+                id: 0, L: 50, wire: wires[5], U2: 110, P2: 30, Q2: 18, Dcp: 5.0
+            });
+
+            for (let i = 1; i <= 20; i++) {
+                // Обираємо рівень напруги
+                const vd = voltData[Math.floor(Math.random() * voltData.length)];
+                // Обираємо провід лише з допустимого діапазону для цієї напруги (ПУЕ)
+                const allowedIdx = vd.wireIndices[Math.floor(Math.random() * vd.wireIndices.length)];
+                variants.push({
+                    id: i,
+                    L: 30 + Math.floor(Math.random() * 71), // 30…100 км
+                    wire: wires[allowedIdx],
+                    U2: vd.u,
+                    P2: 10 + Math.floor(Math.random() * 51),
+                    Q2: 5  + Math.floor(Math.random() * 31),
+                    Dcp: vd.dcp
+                });
+            }
+        }
+
+        // -----------------------------------------------------------------------
+        // Службові функції
+        // -----------------------------------------------------------------------
+        function simpleHash(str) {
+            let hash = 0;
+            if (str.length === 0) return hash.toString(16);
+            for (let i = 0; i < str.length; i++) {
+                hash = ((hash << 5) - hash) + str.charCodeAt(i);
+                hash |= 0;
+            }
+            return (hash >>> 0).toString(16);
+        }
+
+        function checkCode(userInput) {
+            const correctHash = "6284fefd";
+            return (!userInput) ? false : simpleHash(userInput) === correctHash;
+        }
+
+        // Форматування чисел: десятковий роздільник — кома (ДСТУ 3651)
+        const fmt = (num, dec = 3) => Number(num).toFixed(dec).replace('.', ',');
+
+        // -----------------------------------------------------------------------
+        // Розрахунок і формування HTML для конкретного варіанту
+        // -----------------------------------------------------------------------
+        function getVariantHTML(v) {
+            // --- РОЗРАХУНКИ ---
+            const r_pr_mm = v.wire.d / 2;
+            const r_pr_m  = r_pr_mm / 1000;
+
+            // Виправлення: у формулі x0 числові константи — 0,144 і 0,0157 (кома за ДСТУ)
+            const x0 = 0.144 * Math.log10(v.Dcp / r_pr_m) + 0.0157;
+
+            const R = v.wire.r0 * v.L;
+            const X = x0 * v.L;
+
+            const dU_long  = (v.P2 * R + v.Q2 * X) / v.U2;
+            const dU_cross = (v.P2 * X - v.Q2 * R) / v.U2;
+            const U1 = Math.sqrt(Math.pow(v.U2 + dU_long, 2) + Math.pow(dU_cross, 2));
+
+            const P2_Q2_sum = Math.pow(v.P2, 2) + Math.pow(v.Q2, 2);
+            const U2_sq     = Math.pow(v.U2, 2);
+            const dP = (P2_Q2_sum / U2_sq) * R;
+            const dQ = (P2_Q2_sum / U2_sq) * X;
+
+            const P1 = v.P2 + dP;
+            const Q1 = v.Q2 + dQ;
+
+            // --- Частина 2 ---
+            const U_star = 0.9;
+            const Unew   = v.U2 * U_star; // зберігаємо як число, округлюємо лише при виведенні
+
+            // Коефіцієнти полінома реактивної потужності залежно від класу напруги
+            let b0, b1, b2;
+            if (v.U2 <= 10) {
+                b0 = 4.9; b1 = -10.1; b2 = 6.2;
+            } else {
+                b0 = 3.7; b1 = -7.0;  b2 = 4.3;
+            }
+
+            // Виправлення: числові константи полінома P — 0,83; -0,3; 0,47 (кома за ДСТУ)
+            const P_star = 0.83 - 0.3 * U_star + 0.47 * Math.pow(U_star, 2);
+            const Q_star = b0 + b1 * U_star + b2 * Math.pow(U_star, 2);
+
+            const Pnew_poly = v.P2 * P_star;
+            const Qnew_poly = v.Q2 * Q_star;
+
+            const rH = Math.pow(v.U2, 2) / v.P2;
+            const xH = Math.pow(v.U2, 2) / v.Q2;
+            const Pnew_Z = Math.pow(Unew, 2) / rH;
+            const Qnew_Z = Math.pow(Unew, 2) / xH;
+
+            const Pnew_I = v.P2 * U_star;
+            const Qnew_I = v.Q2 * U_star;
+
+            // Виправлення: Unew може бути нецілим — відображаємо з 1 знаком після коми
+            const UnewFmt = fmt(Unew, 1);
+
+            // Знак та абсолютне значення b1 для коректного відображення у формулі
+            const b1sign = b1 < 0 ? '-' : '+';
+            const b1abs  = fmt(Math.abs(b1), 1);
+
+            // -----------------------------------------------------------------------
+            // HTML умови задачі
+            // -----------------------------------------------------------------------
+            const problemHtml = `
+                <h3>Вихідні дані (Варіант ${v.id})</h3>
+                <p>Районна підстанція живиться від трифазної повітряної лінії електропередавання.</p>
+                <ul>
+                    <li><b>Довжина лінії:</b> \\( L = ${v.L} \\) км.</li>
+                    <li><b>Марка проводу:</b> ${v.wire.name}.</li>
+                    <li><b>Напруга в кінці лінії (на шинах навантаження):</b> \\( U_2 = ${v.U2} \\) кВ.</li>
+                    <li><b>Потужність навантаження у вихідному режимі:</b> \\( P_2 = ${v.P2} \\) МВт, \\( Q_2 = ${v.Q2} \\) Мвар.</li>
+                    <li><b>Середньогеометрична відстань між проводами:</b> \\( D_{\\text{сг}} = ${fmt(v.Dcp, 1)} \\) м.</li>
+                </ul>
+                <p><b>Що потрібно зробити:</b></p>
+                <p><b>Частина 1:</b> Визначити параметри \\( r_0, x_0, R, X \\). Розрахувати втрату та спад напруги, модуль напруги на початку лінії \\( U_1 \\). Знайти втрати потужності \\( \\Delta P, \\Delta Q \\) та повну потужність \\( S_1 \\).</p>
+                <p><b>Частина 2:</b> При зниженні напруги \\( U_2 \\) на 10% розрахувати нові потужності \\( P_{\\text{new}}, Q_{\\text{new}} \\) трьома методами: <br>
+                1) за допомогою типового полінома 2-го степеня; <br>
+                2) задавши навантаження сталим опором \\( Z_\\text{н} = \\text{const} \\); <br>
+                3) задавши навантаження сталим струмом \\( I_\\text{н} = \\text{const} \\).</p>
+            `;
+
+            // -----------------------------------------------------------------------
+            // HTML розв'язання
+            // Виправлення: усі числові константи у LaTeX-формулах — через кому (ДСТУ 3651):
+            //   0,144  0,0157  0,83  0,3  0,47  0,9
+            // -----------------------------------------------------------------------
+            const solutionHtml = `
+                <h3>РОЗВ'ЯЗАННЯ ЗАДАЧІ (Варіант ${v.id})</h3>
+                <h4>Частина 1: Аналіз режиму роботи лінії (за Лаб. №1)</h4>
+                
+                <p><b>Крок 1.1. Визначення питомих та повних параметрів лінії</b><br>
+                Згідно з Додатком А, для проводу <b>${v.wire.name}</b>:<br>
+                * Питомий активний опір: \\( r_0 = ${fmt(v.wire.r0)} \\) Ом/км.<br>
+                * Діаметр проводу: \\( d = ${fmt(v.wire.d, 1)} \\) мм.
+                  Радіус проводу
+                  \\( R_{\\text{пр}} = \\dfrac{d}{2} = \\dfrac{${fmt(v.wire.d, 1)}}{2} = ${fmt(r_pr_mm, 2)} \\text{ мм} = ${fmt(r_pr_m, 5)} \\text{ м} \\).</p>
+
+                <p>Знайдемо питомий індуктивний опір \\( x_0 \\):
+                \\[ x_0 = 0{,}144 \\cdot \\lg\\!\\left(\\frac{D_{\\text{сг}}}{R_{\\text{пр}}}\\right) + 0{,}0157 \\]
+                \\[ x_0 = 0{,}144 \\cdot \\lg\\!\\left(\\frac{${fmt(v.Dcp, 1)}}{${fmt(r_pr_m, 5)}}\\right) + 0{,}0157 = ${fmt(x0)} \\text{ Ом/км} \\]</p>
+
+                <p>Повні опори лінії (\\( L = ${v.L} \\) км):<br>
+                * Активний опір: \\( R = r_0 \\cdot L = ${fmt(v.wire.r0)} \\cdot ${v.L} = ${fmt(R, 2)} \\) Ом.<br>
+                * Індуктивний опір: \\( X = x_0 \\cdot L = ${fmt(x0)} \\cdot ${v.L} = ${fmt(X, 2)} \\) Ом.</p>
+
+                <p><b>Крок 1.2. Розрахунок спаду та втрати напруги</b><br>
+                Поздовжня складова спаду напруги (втрата напруги):
+                \\[ \\Delta U = \\frac{P_2 \\cdot R + Q_2 \\cdot X}{U_2} = \\frac{${v.P2} \\cdot ${fmt(R, 2)} + ${v.Q2} \\cdot ${fmt(X, 2)}}{${v.U2}} = ${fmt(dU_long)} \\text{ кВ} \\]</p>
+
+                <p>Поперечна складова спаду напруги:
+                \\[ \\delta U = \\frac{P_2 \\cdot X - Q_2 \\cdot R}{U_2} = \\frac{${v.P2} \\cdot ${fmt(X, 2)} - ${v.Q2} \\cdot ${fmt(R, 2)}}{${v.U2}} = ${fmt(dU_cross)} \\text{ кВ} \\]</p>
+
+                <p>Модуль напруги на початку лінії:
+                \\[ U_1 = \\sqrt{(U_2 + \\Delta U)^2 + \\delta U^2} = \\sqrt{(${v.U2} + ${fmt(dU_long)})^2 + (${fmt(dU_cross)})^2} = ${fmt(U1)} \\text{ кВ} \\]</p>
+
+                <p><b>Крок 1.3. Розрахунок втрат потужності</b><br>
+                Втрати активної потужності:
+                \\[ \\Delta P = \\frac{P_2^2 + Q_2^2}{U_2^2} \\cdot R = \\frac{${v.P2}^2 + ${v.Q2}^2}{${v.U2}^2} \\cdot ${fmt(R, 2)} = ${fmt(dP)} \\text{ МВт} \\]</p>
+
+                <p>Втрати реактивної потужності:
+                \\[ \\Delta Q = \\frac{P_2^2 + Q_2^2}{U_2^2} \\cdot X = \\frac{${v.P2}^2 + ${v.Q2}^2}{${v.U2}^2} \\cdot ${fmt(X, 2)} = ${fmt(dQ)} \\text{ Мвар} \\]</p>
+
+                <p>Потужність на початку лінії:
+                \\[ P_1 = P_2 + \\Delta P = ${v.P2} + ${fmt(dP)} = ${fmt(P1)} \\text{ МВт} \\]
+                \\[ Q_1 = Q_2 + \\Delta Q = ${v.Q2} + ${fmt(dQ)} = ${fmt(Q1)} \\text{ Мвар} \\]
+                \\[ S_1 = ${fmt(P1)} + j\\,${fmt(Q1)} \\text{ МВА} \\]</p>
+
+                <hr>
+
+                <h4>Частина 2: Розрахунок потужності навантаження при зниженні напруги на 10%</h4>
+                <p>Відносне значення напруги: \\( U_* = 1 - 0{,}1 = 0{,}9 \\).<br>
+                Фактична напруга: \\( U_{\\text{new}} = ${v.U2} \\cdot 0{,}9 = ${UnewFmt} \\) кВ.</p>
+
+                <p><b>Метод 1. За допомогою полінома 2-го степеня (Лаб. №2)</b><br>
+                Використовуємо задані коефіцієнти апроксимації для вузла ${v.U2} кВ:
+                \\[ P_* = a_0 + a_1 U_* + a_2 U_*^2 = 0{,}83 - 0{,}3 \\cdot 0{,}9 + 0{,}47 \\cdot 0{,}9^2 = ${fmt(P_star, 4)} \\]
+                \\[ Q_* = b_0 + b_1 U_* + b_2 U_*^2 = ${fmt(b0, 1)} ${b1sign} ${b1abs} \\cdot 0{,}9 + ${fmt(b2, 1)} \\cdot 0{,}9^2 = ${fmt(Q_star, 4)} \\]</p>
+
+                <p>Фактичні потужності в іменованих одиницях:
+                \\[ P_{\\text{new(poly)}} = P_2 \\cdot P_* = ${v.P2} \\cdot ${fmt(P_star, 4)} = \\mathbf{${fmt(Pnew_poly, 2)} \\text{ МВт}} \\]
+                \\[ Q_{\\text{new(poly)}} = Q_2 \\cdot Q_* = ${v.Q2} \\cdot ${fmt(Q_star, 4)} = \\mathbf{${fmt(Qnew_poly, 2)} \\text{ Мвар}} \\]</p>
+
+                <p><b>Метод 2. Подання навантаження сталим опором \\( Z_\\text{н} = \\text{const} \\) (Лаб. №3)</b><br>
+                Розрахуємо фіктивні сталі опори навантаження:
+                \\[ r_\\text{н} = \\frac{U_2^2}{P_2} = \\frac{${v.U2}^2}{${v.P2}} = ${fmt(rH, 2)} \\text{ Ом} \\]
+                \\[ x_\\text{н} = \\frac{U_2^2}{Q_2} = \\frac{${v.U2}^2}{${v.Q2}} = ${fmt(xH, 2)} \\text{ Ом} \\]</p>
+
+                <p>Фактичні потужності при новій напрузі \\( ${UnewFmt} \\) кВ:
+                \\[ P_{\\text{new}(Z)} = \\frac{U_{\\text{new}}^2}{r_\\text{н}} = \\frac{${UnewFmt}^2}{${fmt(rH, 2)}} = \\mathbf{${fmt(Pnew_Z, 2)} \\text{ МВт}} \\]
+                \\[ Q_{\\text{new}(Z)} = \\frac{U_{\\text{new}}^2}{x_\\text{н}} = \\frac{${UnewFmt}^2}{${fmt(xH, 2)}} = \\mathbf{${fmt(Qnew_Z, 2)} \\text{ Мвар}} \\]</p>
+
+                <p><b>Метод 3. Подання навантаження сталим струмом \\( I_\\text{н} = \\text{const} \\) (Лаб. №3)</b>
+                \\[ P_{\\text{new}(I)} = P_2 \\cdot \\frac{U_{\\text{new}}}{U_2} = ${v.P2} \\cdot 0{,}9 = \\mathbf{${fmt(Pnew_I, 2)} \\text{ МВт}} \\]
+                \\[ Q_{\\text{new}(I)} = Q_2 \\cdot \\frac{U_{\\text{new}}}{U_2} = ${v.Q2} \\cdot 0{,}9 = \\mathbf{${fmt(Qnew_I, 2)} \\text{ Мвар}} \\]</p>
+            `;
+
+            return { problemHtml, solutionHtml };
+        }
+
+        // -----------------------------------------------------------------------
+        // Рендеринг контенту
+        // -----------------------------------------------------------------------
+        function renderContent() {
+            const select    = document.getElementById("variantSelect");
+            const variantId = parseInt(select.value);
+            const variantData = variants[variantId];
+
+            const content = getVariantHTML(variantData);
+
+            document.getElementById("problemStatement").innerHTML = content.problemHtml;
+            const solDiv = document.getElementById("solutionContent");
+            solDiv.innerHTML = content.solutionHtml;
+
+            if (variantId === 0 || isUnlocked) {
+                solDiv.classList.remove("hidden");
+            } else {
+                solDiv.classList.add("hidden");
+            }
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                mathJaxPromise = mathJaxPromise.then(() => {
+                    return MathJax.typesetPromise();
+                }).catch((err) => console.log('Помилка рендеру формул: ', err.message));
+            }
+        }
+
+        // -----------------------------------------------------------------------
+        // Замаскована функція перевірки
+        // -----------------------------------------------------------------------
+        function checkPIK() {
+            if (isUnlocked) return;
+
+            const _prmptCode = [1042, 1074, 1077, 1076, 1110, 1090, 1100, 32, 1087, 1088, 1110, 1079, 1074, 1080, 1097, 1077];
+            const pText = String.fromCharCode.apply(null, _prmptCode);
+
+            const bbb = prompt(pText);
+
+            if (typeof bbb === 'string' && !(checkCode(bbb) ^ 1)) {
+                isUnlocked = !0;
+
+                const _msgCode = [1044, 1086, 1089, 1090, 1091, 1087, 32, 1076, 1086, 1079, 1074, 1086, 1083, 1077, 1085, 1086, 33, 32, 1058, 1077, 1087, 1077, 1088, 32, 1088, 1086, 1079, 1074, 39, 1103, 1079, 1082, 1080, 32, 1074, 1080, 1076, 1080, 1084, 1110, 32, 1076, 1083, 1103, 32, 1074, 1089, 1110, 1093, 32, 1074, 1072, 1088, 1110, 1072, 1085, 1090, 1110, 1074, 46];
+                const mText = String.fromCharCode.apply(null, _msgCode);
+
+                alert(mText);
+                renderContent();
+            }
+        }
+
+        // -----------------------------------------------------------------------
+        // Ініціалізація
+        // -----------------------------------------------------------------------
+        window.onload = () => {
+            generateVariants();
+
+            const select = document.getElementById("variantSelect");
+            for (let i = 0; i <= 20; i++) {
+                let opt = document.createElement("option");
+                opt.value   = i;
+                opt.innerHTML = `Варіант ${i}`;
+                select.appendChild(opt);
+            }
+
+            const secretL   = document.createElement("div");
+            secretL.id      = "filname-btn";
+            secretL.onclick = checkPIK;
+            document.body.appendChild(secretL);
+
+            renderContent();
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                MathJax.typesetPromise();
+            }
+        };
     </script>
 </body>
 </html>
