@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ЗМ 2 — Техніко-економічне порівняння варіантів електричних мереж</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;800&family=Source+Sans+Pro:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+:root{--bg:#FAFAF7;--surface:#FFFFFF;--surface-alt:#F3F1EC;--border:#E0DDD5;--text:#2C2A25;--text-secondary:#6B6760;--accent:#8B7355;--accent-hover:#705C42;--accent-light:#F0EBE3;--success:#4A7C59;--success-bg:#EDF5EF;--warning:#B8860B;--warning-bg:#FFF8E7;--danger:#9B3A3A;--danger-bg:#FDF0F0;--info:#3A6B9B;--info-bg:#EEF4FA;--shadow-md:0 4px 12px rgba(44,42,37,0.08);--radius:8px;--radius-lg:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Source Sans Pro',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;min-height:100vh}
+.header{background:linear-gradient(135deg,#2C2A25 0%,#4A4640 100%);color:#fff;padding:2.5rem 2rem 2rem;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-50%;right:-20%;width:500px;height:500px;background:radial-gradient(circle,rgba(139,115,85,0.15) 0%,transparent 70%);pointer-events:none}
+.header-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.header h1{font-family:'Playfair Display',serif;font-weight:800;font-size:1.75rem;margin-bottom:0.4rem;letter-spacing:-0.01em}
+.header .subtitle{font-weight:300;font-size:0.95rem;opacity:0.8;margin-bottom:1rem}
+.header .meta{display:flex;flex-wrap:wrap;gap:1.2rem;font-size:0.82rem;opacity:0.7}
+.header .meta span{display:flex;align-items:center;gap:0.3rem}
+.tabs-container{max-width:1100px;margin:0 auto;padding:0 1rem}
+.tabs{display:flex;gap:2px;background:var(--border);border-radius:var(--radius-lg) var(--radius-lg) 0 0;margin-top:-1px;overflow-x:auto}
+.tab{padding:0.85rem 1.4rem;background:var(--surface-alt);border:none;cursor:pointer;font-family:'Source Sans Pro',sans-serif;font-size:0.85rem;font-weight:600;color:var(--text-secondary);transition:all 0.2s;white-space:nowrap;position:relative}
+.tab:first-child{border-radius:var(--radius-lg) 0 0 0}.tab:last-child{border-radius:0 var(--radius-lg) 0 0}
+.tab.active{background:var(--surface);color:var(--accent)}
+.tab.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--accent)}
+.tab:hover:not(.active){background:#EAE8E2}
+.tab-content{display:none;background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius-lg) var(--radius-lg);padding:2rem;box-shadow:var(--shadow-md)}
+.tab-content.active{display:block}
+h2{font-family:'Playfair Display',serif;font-weight:700;font-size:1.4rem;margin-bottom:1rem;color:var(--text);border-bottom:2px solid var(--accent-light);padding-bottom:0.5rem}
+h3{font-family:'Playfair Display',serif;font-weight:500;font-size:1.15rem;margin:1.5rem 0 0.6rem;color:var(--accent-hover)}
+h4{font-weight:700;font-size:0.95rem;margin:1.2rem 0 0.4rem;color:var(--text);text-transform:uppercase;letter-spacing:0.04em}
+p,li{font-size:0.92rem;margin-bottom:0.5rem}ol,ul{padding-left:1.4rem}
+.alert{border-radius:var(--radius);padding:1rem 1.2rem;margin:1rem 0;font-size:0.88rem;border-left:4px solid}
+.alert-info{background:var(--info-bg);border-color:var(--info)}.alert-warning{background:var(--warning-bg);border-color:var(--warning)}
+.alert-success{background:var(--success-bg);border-color:var(--success)}.alert-danger{background:var(--danger-bg);border-color:var(--danger)}
+.alert strong{display:block;margin-bottom:0.25rem}
+.formula-block{background:#FDFCFA;border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem 1.5rem;margin:1rem 0;font-family:'JetBrains Mono',monospace;font-size:0.88rem;line-height:1.8;overflow-x:auto}
+.formula-block .label{font-family:'Source Sans Pro',sans-serif;font-weight:600;font-size:0.82rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem;display:block}
+.formula-block .where{font-family:'Source Sans Pro',sans-serif;font-size:0.85rem;color:var(--text-secondary);margin-top:0.5rem;font-style:italic}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.88rem}
+th{background:var(--accent-light);font-weight:700;text-align:left;padding:0.65rem 0.8rem;border:1px solid var(--border);font-size:0.82rem;text-transform:uppercase;letter-spacing:0.03em}
+td{padding:0.55rem 0.8rem;border:1px solid var(--border);vertical-align:top}
+tr:nth-child(even){background:var(--surface-alt)}
+.calc-section{background:var(--surface-alt);border-radius:var(--radius-lg);padding:1.5rem;margin:1.5rem 0;border:1px solid var(--border)}
+.calc-section h4{margin-top:0;color:var(--accent)}
+.input-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.8rem;margin:0.8rem 0}
+.input-group{display:flex;flex-direction:column}
+.input-group label{font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.25rem}
+.input-group input,.input-group select{padding:0.5rem 0.7rem;border:1px solid var(--border);border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.88rem;background:var(--surface);transition:border-color 0.2s}
+.input-group input:focus,.input-group select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(139,115,85,0.12)}
+.btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.6rem 1.4rem;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:'Source Sans Pro',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;transition:background 0.2s;margin-top:0.8rem}
+.btn:hover{background:var(--accent-hover)}
+.btn-sm{padding:0.4rem 0.9rem;font-size:0.8rem;margin-top:0.4rem}
+.btn-outline{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}.btn-outline:hover{background:var(--accent-light)}
+.result-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;margin-top:1rem;min-height:2rem}
+.result-box .result-item{display:flex;justify-content:space-between;align-items:baseline;padding:0.3rem 0;border-bottom:1px dotted var(--border);font-size:0.88rem}
+.result-box .result-item:last-child{border-bottom:none}
+.result-box .result-label{color:var(--text-secondary)}.result-box .result-value{font-family:'JetBrains Mono',monospace;font-weight:500;color:var(--accent-hover)}
+.step{display:flex;gap:1rem;margin:1rem 0}
+.step-number{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;margin-top:0.1rem}
+.step-content{flex:1}.sep-line{border-top:1px dashed var(--border);margin:1rem 0}
+.topo-group{display:none}.topo-group.active{display:block}
+.chart-container{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin:1rem 0}
+@media print{.tabs{display:none}.tab-content{display:block!important;border:none;page-break-after:always}.btn{display:none}}
+.sub-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:1.2rem}
+.sub-tab{padding:0.55rem 1.2rem;background:none;border:none;cursor:pointer;font-family:'Source Sans Pro',sans-serif;font-size:0.85rem;font-weight:600;color:var(--text-secondary);position:relative;transition:color 0.2s}
+.sub-tab.active{color:var(--accent)}
+.sub-tab.active::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--accent)}
+.sub-tab:hover:not(.active){color:var(--text)}
+.sub-tab-content{display:none}.sub-tab-content.active{display:block}
+@media print{.sub-tabs{display:none}.sub-tab-content{display:block!important}}
+@media(max-width:768px){.header h1{font-size:1.3rem}.tab-content{padding:1rem}.input-grid{grid-template-columns:1fr}.tabs{gap:1px}.tab{padding:0.7rem 0.8rem;font-size:0.78rem}}
+</style>
+</head>
+<body>
+<div class="header"><div class="header-inner">
+<h1>Практичні роботи П4 – П5 – П6</h1>
+<div class="subtitle">Змістовий модуль 2: Техніко-економічне порівняння варіантів електричних мереж</div>
+<div class="meta">
+<span>📘 Проєктування електричних мереж</span>
+<span>📘 Проєктування мереж транспортування електроенергії</span>
+<span>📜 ПУЕ:2017 (Наказ №476 від 21.07.2017)</span>
+<span>⏱ 6 акад. год (2+2+2)</span>
+</div></div></div>
+
+<div class="tabs-container">
+<div class="tabs">
+<button class="tab active" onclick="showTab('overview')">Загальні відомості</button>
+<button class="tab" onclick="showTab('p4')">П4 — Втрати електроенергії</button>
+<button class="tab" onclick="showTab('p5')">П5 — ТЕП та порівняння</button>
+<button class="tab" onclick="showTab('p6')">П6 — Недовідпуск</button>
+<button class="tab" onclick="showTab('ref')">Нормативна база</button>
+<button class="tab" onclick="showTab('tasks')">Індивідуальні завдання</button>
+</div>
+
+<!-- OVERVIEW -->
+<div class="tab-content active" id="overview">
+<h2>Мета та завдання змістового модуля 2</h2>
+<p>Змістовий модуль присвячений комплексному техніко-економічному аналізу варіантів побудови електричних мереж 35–150 кВ. Студенти мають опанувати методики розрахунку втрат електроенергії, визначення капітальних та експлуатаційних витрат, оцінювання надійності електропостачання через показник недовідпуску електроенергії, а також вміти обґрунтовано порівнювати конкуруючі варіанти мережі за зведеними витратами.</p>
+<h3>Структура практичних робіт</h3>
+<table><thead><tr><th>№</th><th>Назва</th><th>Год</th><th>Ключові компетентності</th></tr></thead><tbody>
+<tr><td><strong>П4</strong></td><td>Оцінювання втрат електроенергії в електричних мережах</td><td>2</td><td>Навантажувальні, умовно-постійні та кліматичні втрати; τ та k²<sub>ф</sub>; x₀; втрати ΔQ; перевірка за густиною струму</td></tr>
+<tr><td><strong>П5</strong></td><td>Оцінювання ТЕП. Порівняння електромереж</td><td>2</td><td>К, В, З<sub>нд</sub>; З = р<sub>н</sub>К + В + З<sub>нд</sub>; критерій мінімуму З</td></tr>
+<tr><td><strong>П6</strong></td><td>Оцінювання недовідпуску електроенергії споживачам</td><td>2</td><td>ω, Т<sub>в</sub>, μ<sub>пл</sub>; топології мереж (радіальна, дволанцюгова, петльова, двостороннє живлення); SAIDI/SAIFI/ENS</td></tr>
+</tbody></table>
+<div class="alert alert-warning"><strong>⚠ Увага щодо нормативної бази!</strong>
+Усі розрахунки відповідно до <em>ПУЕ:2017</em> (Наказ Міненерговугілля №476 від 21.07.2017). Застарілі «ПУЭ» 1986 р. та російське «ПУЭ-7» (2000–2003) <strong>не є чинними</strong> в Україні.</div>
+<h3>Нормативні документи</h3>
+<ol>
+<li>ГНД 34.09.104-2003 — Методика балансу електроенергії в мережах 0,38–150 кВ</li>
+<li>Методичні рекомендації визначення технологічних витрат (Наказ №399 від 21.06.2013)</li>
+<li>Постанова НКРЕКП №375 від 12.06.2018 — Порядок забезпечення стандартів якості</li>
+<li>ДСТУ EN 50160:2023 — Характеристики напруги електропостачання</li>
+<li>ДБН В.2.5-23:2025 — Проектування електрообладнання (замінив ДБН В.2.5-23:2010)</li>
+<li>Кодекс систем розподілу (Постанова НКРЕКП №310 від 14.03.2018)</li>
+</ol>
+</div>
+
+<!-- П4 -->
+<div class="tab-content" id="p4">
+<h2>П4. Оцінювання втрат електроенергії в електричних мережах</h2>
+<p><strong>Тривалість:</strong> 2 акад. години &nbsp;|&nbsp; <strong>Форма контролю:</strong> захист розрахунково-графічної роботи</p>
+
+<div class="sub-tabs">
+<button class="sub-tab active" onclick="showSubTab('p4','p4_theory')">Теорія та формули</button>
+<button class="sub-tab" onclick="showSubTab('p4','p4_calc')">Розрахунок</button>
+<button class="sub-tab" onclick="showSubTab('p4','p4_charts')">Графіки</button>
+<button class="sub-tab" onclick="showSubTab('p4','p4_questions')">Контрольні питання</button>
+</div>
+
+<div class="sub-tab-content active" id="p4_theory">
+<h3>1. Теоретичні відомості</h3>
+<p>Втрати електроенергії поділяються на: <strong>навантажувальні</strong> (змінні), <strong>умовно-постійні</strong> (холостий хід трансформаторів) та <strong>кліматичні</strong> (корона на ПЛ 110 кВ і вище). Згідно з Наказом №399/2013, втрати визначаються окремо для кожного елемента мережі.</p>
+
+<h3>2. Час максимальних втрат та коефіцієнт форми графіка</h3>
+<div class="formula-block"><span class="label">Емпірична формула</span>
+$$\tau = \left(0{,}124 + \frac{T_{\max}}{10000}\right)^{\!2} \cdot 8760 \quad [\text{год/рік}]$$
+<div class="where">\(\tau\) — час максимальних втрат, год/рік;<br>\(T_{\max}\) — число годин використання максимуму навантаження, год/рік.</div></div>
+<div class="formula-block"><span class="label">Через коефіцієнт форми графіка навантаження</span>
+$$\tau = k_\text{ф}^2 \cdot T_{\max} \quad [\text{год/рік}]$$
+<div class="where">\(k_\text{ф}^2\) — квадрат коефіцієнта форми графіка, безрозмірний. За Наказом №399/2013 за відсутності даних \(k_\text{ф}^2 = 1{,}15\).</div></div>
+
+<h3>3. Графік \(\tau(T_{\max})\)</h3>
+<div class="chart-container" id="tauChartContainer"></div>
+
+<h3>4. Формули втрат у лініях електропередачі</h3>
+<div class="formula-block"><span class="label">Активний опір лінії</span>
+$$R_\text{л} = \frac{r_0 \cdot L}{n_\text{л}} \quad [\text{Ом}]$$
+<div class="where">\(r_0\) — питомий активний опір проводу при 20 °С (Додаток А, табл. А.1), Ом/км;<br>\(L\) — довжина лінії, км;<br>\(n_\text{л}\) — кількість паралельних ланцюгів (1 або 2).</div></div>
+
+<div class="formula-block"><span class="label">Навантажувальні втрати (P, Q у кВт та квар)</span>
+$$\Delta W_\text{л} = \frac{P_{\max}^2 + Q_{\max}^2}{U_{\text{ном}}^2} \cdot R_\text{л} \cdot \tau \cdot 10^{-3} \quad [\text{кВт} \!\cdot\! \text{год}]$$
+<div class="where">\(P_{\max}\) — максимальна активна потужність, <strong>кВт</strong>;<br>\(Q_{\max}\) — максимальна реактивна потужність, <strong>квар</strong>;<br>\(U_{\text{ном}}\) — номінальна напруга мережі, кВ;<br>\(R_\text{л}\) — активний опір лінії, Ом; \(\tau\) — час максимальних втрат, год/рік.<br>Розмірність: \(\frac{\text{кВт}^2}{\text{кВ}^2}=\text{А}^2;\;\text{А}^2\!\cdot\!\text{Ом}=\text{Вт};\;\text{Вт}\times10^{-3}=\text{кВт}\).</div></div>
+
+<div class="formula-block"><span class="label">Альтернативна форма (P, Q у МВт та Мвар)</span>
+$$\Delta W_\text{л} = \frac{P_{\max}^2 + Q_{\max}^2}{U_{\text{ном}}^2} \cdot R_\text{л} \cdot \tau \cdot 10^{3} \quad [\text{кВт} \!\cdot\! \text{год}]$$
+<div class="where">Тут \(P_{\max}\), \(Q_{\max}\) у <strong>МВт</strong> та <strong>Мвар</strong>. Множник \(10^3\) замість \(10^{-3}\), бо \(\frac{\text{МВт}^2}{\text{кВ}^2}=10^6\cdot\text{А}^2\), а \(10^6\!\cdot\!\text{Вт}=10^3\!\cdot\!\text{кВт}\).<br>У калькуляторі вводяться <strong>МВт / Мвар</strong> — перерахунок автоматичний.</div></div>
+
+<div class="formula-block"><span class="label">Індуктивний опір лінії (Додаток А)</span>
+$$x_0 = 0{,}144 \cdot \lg\frac{D_\text{ср}}{R_\text{пр}} + 0{,}0157 \quad [\text{Ом/км}]$$
+<div class="where">\(D_\text{ср}\) — середньогеометрична відстань між фазами, м;<br>\(R_\text{пр}\) — радіус проводу, м (половина діаметра з табл. А.1).<br>Горизонтальне розташування: \(D_\text{ср}=D\!\cdot\!\sqrt[3]{2}\), де \(D\) — відстань між сусідніми фазами.<br>Типові \(D\): 35 кВ — 3 м; 110 кВ — 5 м; 150–220 кВ — 7–8 м.</div></div>
+
+<div class="formula-block"><span class="label">Перевірка густини струму (п. 1.3.38, табл. 1.3.50 ПУЕ:2017)</span>
+$$j = \frac{I_{\max}}{F} \quad [\text{А/мм}^2]$$
+<div class="where">\(I_{\max}\) — максимальний робочий струм лінії (на один ланцюг), А;<br>\(F\) — переріз алюмінієвої частини проводу, мм\(^2\).</div></div>
+<div class="alert alert-info"><strong>Нормовані густини струму для алюмінієвих проводів ПЛ 6–220 кВ (табл. 1.3.50 ПУЕ:2017)</strong>
+<table style="margin:0.5rem 0;font-size:0.88rem">
+<tr><th>\(T_{\max}\), год/рік</th><th>понад 1000 до 3000</th><th>понад 3000 до 5000</th><th>понад 5000</th></tr>
+<tr><td>Допустима \(j\), А/мм²</td><td>1,3</td><td>1,1 – 0,8</td><td>0,8 – 0,6</td></tr>
+</table>Мідні проводи: 2,5; 2,5–1,9; 1,9–1,5 А/мм² відповідно. Якщо \(j_\text{розр} > j_\text{норм}\) — переріз необхідно збільшити.</div>
+
+<h3>5. Формули втрат у трансформаторах</h3>
+<div class="formula-block"><span class="label">Коефіцієнт завантаження</span>
+$$K_\text{з} = \frac{S_{\max}}{n \cdot S_{\text{ном}}}$$
+<div class="where">\(K_\text{з}\) — коефіцієнт завантаження одного трансформатора, безрозмірний;<br>\(S_{\max}\) — сумарне макс. навантаження підстанції, кВА;<br>\(n\) — кількість паралельно працюючих трансформаторів;<br>\(S_{\text{ном}}\) — номінальна потужність одного трансформатора, кВА.</div></div>
+
+<div class="formula-block"><span class="label">Активні втрати на підстанції</span>
+$$\Delta W_\text{т} = n \cdot \Delta P_\text{xx} \cdot T_\text{п} \;+\; n \cdot \Delta P_\text{кз} \cdot K_\text{з}^2 \cdot \tau \quad [\text{кВт} \!\cdot\! \text{год}]$$
+<div class="where">\(\Delta P_\text{xx}\) — втрати холостого ходу одного трансформатора (паспортні), кВт;<br>\(\Delta P_\text{кз}\) — втрати короткого замикання одного трансформатора (паспортні), кВт;<br>\(T_\text{п}\) — час увімкнення трансформатора за рік (зазвичай 8760 год);<br>\(\tau\) — час максимальних втрат, год/рік.<br>Перший доданок — умовно-постійні втрати (х.х.), другий — навантажувальні (к.з.).</div></div>
+
+<div class="formula-block"><span class="label">Реактивні втрати (на один трансформатор)</span>
+$$\Delta Q_\text{xx} = \frac{I_\text{xx\%} \cdot S_{\text{ном}}}{100} \quad [\text{квар}]$$
+$$\Delta Q_\text{кз} = \frac{U_\text{кз\%} \cdot S_{\text{ном}}}{100} \cdot K_\text{з}^2 \quad [\text{квар}]$$
+<div class="where">\(I_\text{xx\%}\) — струм холостого ходу (паспортний), %;<br>\(U_\text{кз\%}\) — напруга короткого замикання (паспортна), %;<br>Реактивні втрати потрібні для балансу реактивної потужності та визначення потреби у БСК/СТК.</div></div>
+
+<h3>6. Кліматичні втрати (корона) — для ПЛ 110 кВ і вище</h3>
+<div class="formula-block"><span class="label">Втрати на корону</span>
+$$\Delta W_\text{кор} = \Delta P_\text{кор.пит} \cdot L \cdot 8760 \quad [\text{кВт} \!\cdot\! \text{год}]$$
+<div class="where">\(\Delta P_\text{кор.пит}\) — питомі середньорічні втрати потужності на корону, кВт/км;<br>\(L\) — довжина лінії, км.</div></div>
+
+<h3>7. Сумарні втрати</h3>
+<div class="formula-block"><span class="label">Загальні річні втрати</span>
+$$\Delta W_\Sigma = \sum_i \Delta W_{\text{л},i} + \sum_j \Delta W_{\text{т},j} + \sum_k \Delta W_{\text{кор},k} \quad [\text{кВт} \!\cdot\! \text{год}]$$
+</div>
+</div><!-- /p4_theory -->
+
+<div class="sub-tab-content" id="p4_calc">
+<h3>6. Калькулятор втрат у ЛЕП</h3>
+<div class="calc-section">
+<h4>🔌 Параметри ЛЕП</h4>
+<div class="input-grid">
+<div class="input-group"><label>Провід (Додаток А)</label>
+<select id="p4_wire" onchange="onWireChange()">
+<option value="">— Вибрати або ввести вручну —</option>
+<option value="35/6.2|36.9|8.4|0.790">АС-35/6,2</option>
+<option value="50/8|48.2|9.6|0.603">АС-50/8</option>
+<option value="70/11|68.0|11.4|0.429">АС-70/11</option>
+<option value="95/16|95.4|13.5|0.306">АС-95/16</option>
+<option value="120/19|118.0|15.2|0.249">АС-120/19</option>
+<option value="150/19|148.0|16.8|0.199">АС-150/19</option>
+<option value="150/24|149.0|17.1|0.198" selected>АС-150/24</option>
+<option value="150/34|147.0|17.5|0.201">АС-150/34</option>
+<option value="185/24|187.0|18.9|0.157">АС-185/24</option>
+<option value="185/29|181.0|18.8|0.162">АС-185/29</option>
+<option value="240/32|244.0|21.6|0.121">АС-240/32</option>
+<option value="240/39|236.0|21.6|0.124">АС-240/39</option>
+<option value="300/39|301.0|24.0|0.098">АС-300/39</option>
+<option value="330/30|335.0|24.8|0.088">АС-330/30</option>
+<option value="400/22|394.0|26.6|0.075">АС-400/22</option>
+<option value="400/51|394.0|27.5|0.075">АС-400/51</option>
+</select></div>
+<div class="input-group"><label>r₀, Ом/км (20°С, табл. А.1)</label>
+<input type="number" id="p4_r0" value="0.198" step="0.001"></div>
+<div class="input-group"><label>Переріз Al (F), мм²</label>
+<input type="number" id="p4_F" value="149" step="0.1"></div>
+<div class="input-group"><label>⌀ проводу, мм (для x₀)</label>
+<input type="number" id="p4_diam" value="17.1" step="0.1"></div>
+</div>
+<div class="input-grid">
+<div class="input-group"><label>P<sub>max</sub>, МВт</label><input type="number" id="p4_Pmax" value="25" step="0.1"></div>
+<div class="input-group"><label>Q<sub>max</sub>, Мвар</label><input type="number" id="p4_Qmax" value="12" step="0.1"></div>
+<div class="input-group"><label>U<sub>ном</sub>, кВ</label>
+<select id="p4_Unom"><option value="35">35</option><option value="110" selected>110</option><option value="150">150</option><option value="220">220</option><option value="330">330</option></select></div>
+<div class="input-group"><label>Довжина L, км</label><input type="number" id="p4_L" value="45" step="0.1"></div>
+<div class="input-group"><label>Кількість ланцюгів</label>
+<select id="p4_n"><option value="1">1</option><option value="2" selected>2</option></select></div>
+<div class="input-group"><label>T<sub>max</sub>, год/рік</label><input type="number" id="p4_Tmax" value="5200" step="100"></div>
+<div class="input-group"><label>Метод τ</label>
+<select id="p4_tauMethod" onchange="toggleKfInput()"><option value="empirical" selected>Емпірична формула</option><option value="kf">Через k²ф (Наказ №399)</option></select></div>
+<div class="input-group" id="p4_kf_group" style="display:none"><label>k²<sub>ф</sub></label><input type="number" id="p4_kf" value="1.15" step="0.01"></div>
+</div>
+<button class="btn" onclick="calcP4()">Розрахувати</button>
+<div class="result-box" id="p4_result"></div>
+</div>
+
+<h3>7. Калькулятор втрат у трансформаторі</h3>
+<div class="calc-section">
+<h4>🔌 Параметри трансформатора (активні + реактивні)</h4>
+<div class="input-grid">
+<div class="input-group"><label>ΔP<sub>xx</sub>, кВт</label><input type="number" id="p4_Pxx" value="29" step="0.1"></div>
+<div class="input-group"><label>ΔP<sub>кз</sub>, кВт</label><input type="number" id="p4_Pkz" value="145" step="0.1"></div>
+<div class="input-group"><label>S<sub>ном</sub>, МВА</label><input type="number" id="p4_Snom" value="25" step="0.1"></div>
+<div class="input-group"><label>S<sub>max</sub>, МВА</label><input type="number" id="p4_Smax" value="18" step="0.1"></div>
+<div class="input-group"><label>Кількість тр.</label><select id="p4_nt"><option value="1">1</option><option value="2" selected>2</option></select></div>
+<div class="input-group"><label>I<sub>xx</sub>, %</label><input type="number" id="p4_Ixx" value="0.65" step="0.01"></div>
+<div class="input-group"><label>U<sub>кз</sub>, %</label><input type="number" id="p4_Ukz" value="10.5" step="0.1"></div>
+<div class="input-group"><label>τ, год/рік</label><input type="number" id="p4_tau_t" value="3400" step="10"></div>
+</div>
+<button class="btn" onclick="calcP4t()">Розрахувати</button>
+<div class="result-box" id="p4t_result"></div>
+</div>
+</div><!-- /p4_calc -->
+
+<div class="sub-tab-content" id="p4_charts">
+<h3>Структурна діаграма втрат</h3>
+<p style="font-size:0.85rem;color:var(--text-secondary)">Виконайте хоча б один розрахунок (ЛЕП та/або трансформатор) на підвкладці «Розрахунок». Діаграма покаже наявні складові.</p>
+<button class="btn" onclick="drawP4structure()">Побудувати діаграму</button>
+<div class="chart-container" id="p4_structChart"></div>
+
+<h3>Залежність ΔW від перерізу проводу</h3>
+<p style="font-size:0.85rem;color:var(--text-secondary)">Використовує поточні P, Q, U, L, n, τ з розрахунку ЛЕП. Перебирає перерізи від АС-70 до АС-400.</p>
+<button class="btn" onclick="drawP4wireChart()">Побудувати графік</button>
+<div class="chart-container" id="p4_wireChart"></div>
+</div><!-- /p4_charts -->
+
+<div class="sub-tab-content" id="p4_questions">
+<h3>Контрольні питання</h3>
+<ol>
+<li>Яка фізична сутність часу максимальних втрат (τ) та від яких параметрів електричної мережі та графіка навантаження він залежить?</li>
+<li>Який зв'язок між часом максимальних втрат (τ) та квадратом коефіцієнта форми графіка навантаження (k²<sub>ф</sub>)? За яких умов ці два методи дають однаковий результат?</li>
+<li>Чому при збільшенні номінальної напруги мережі (U<sub>ном</sub>) навантажувальні втрати електроенергії зменшуються? Поясніть через формулу та розмірний аналіз.</li>
+<li>Як впливає встановлення батарей статичних конденсаторів (БСК) на активні та реактивні втрати електроенергії в лінії електропередачі та трансформаторі?</li>
+<li>Як виконується перевірка перерізу проводу повітряної лінії за економічною густиною струму згідно з пунктом 1.3.38 та таблицею 1.3.50 Правил улаштування електроустановок (ПУЕ:2017)? Які нормовані значення густини струму для алюмінієвих проводів?</li>
+<li>Від яких конструктивних параметрів лінії та проводу залежить питомий індуктивний опір (x₀)? Як змінюється індуктивний опір при збільшенні перерізу проводу та при збільшенні відстані між фазами?</li>
+</ol>
+</div><!-- /p4_questions -->
+</div>
+
+<!-- П5 -->
+<div class="tab-content" id="p5">
+<h2>П5. Оцінювання ТЕП. Порівняння електромереж</h2>
+<p><strong>Тривалість:</strong> 2 акад. години</p>
+
+<div class="sub-tabs">
+<button class="sub-tab active" onclick="showSubTab('p5','p5_theory')">Теорія та формули</button>
+<button class="sub-tab" onclick="showSubTab('p5','p5_calc')">Розрахунок</button>
+<button class="sub-tab" onclick="showSubTab('p5','p5_charts')">Графіки</button>
+<button class="sub-tab" onclick="showSubTab('p5','p5_questions')">Контрольні питання</button>
+</div>
+
+<div class="sub-tab-content active" id="p5_theory">
+<h3>1. Капітальні витрати</h3>
+<div class="formula-block"><span class="label">Загальні капітальні витрати</span>
+$$K = \sum_i K_{\text{ЛЕП},i} + \sum_j K_{\text{ПС},j} \quad [\text{тис. грн}]$$
+<div class="where">
+\(K\) — сумарні капітальні витрати на мережу, тис. грн;<br>
+\(K_{\text{ЛЕП},i} = k_{\text{пит.л}} \cdot L_i\) — вартість \(i\)-ї лінії, тис. грн;<br>
+\(k_{\text{пит.л}}\) — питома вартість лінії (залежить від напруги, перерізу, типу опор), тис. грн/км;<br>
+\(L_i\) — довжина \(i\)-ї лінії, км;<br>
+\(K_{\text{ПС},j}\) — вартість обладнання \(j\)-ї підстанції (трансформатори, комірки РП, ЗП, ОПН тощо), тис. грн.
+</div></div>
+
+<h3>2. Щорічні експлуатаційні витрати</h3>
+<div class="formula-block"><span class="label">Складові щорічних витрат</span>
+$$B = B_\text{ам} + B_\text{обсл} + B_\text{втрат} \quad [\text{тис. грн/рік}]$$
+<div class="where">
+\(B\) — сумарні щорічні експлуатаційні витрати, тис. грн/рік.
+</div></div>
+
+<div class="formula-block"><span class="label">Амортизаційні відрахування</span>
+$$B_\text{ам} = \alpha_\text{ам} \cdot K \quad [\text{тис. грн/рік}]$$
+<div class="where">
+\(\alpha_\text{ам}\) — норма амортизації, частки одиниці (≈ 0,028 для ЛЕП; ≈ 0,063 для підстанцій);<br>
+\(K\) — капітальні витрати, тис. грн.
+</div></div>
+
+<div class="formula-block"><span class="label">Витрати на обслуговування та ремонт</span>
+$$B_\text{обсл} = \alpha_\text{обсл} \cdot K \quad [\text{тис. грн/рік}]$$
+<div class="where">
+\(\alpha_\text{обсл}\) — норма відрахувань на обслуговування та ремонт, частки одиниці (≈ 0,01–0,03).
+</div></div>
+
+<div class="formula-block"><span class="label">Вартість річних втрат електроенергії</span>
+$$B_\text{втрат} = c_0 \cdot \Delta W_\Sigma \quad [\text{тис. грн/рік}]$$
+<div class="where">
+\(c_0\) — ставка (ціна) на втрати електроенергії, грн/кВт·год;<br>
+\(\Delta W_\Sigma\) — сумарні річні втрати електроенергії (з П4), тис. кВт·год.<br>
+<strong>Розмірність:</strong> грн/кВт·год × тис. кВт·год = тис. грн.
+</div></div>
+
+<h3>3. Збитки від недовідпуску електроенергії</h3>
+<div class="formula-block"><span class="label">Очікуваний збиток</span>
+$$\text{З}_\text{нд} = y_0 \cdot \Delta W_\text{нд} \quad [\text{тис. грн/рік}]$$
+<div class="where">
+\(y_0\) — питомий збиток від недовідпуску електроенергії, грн/кВт·год (залежить від категорії споживача; типово 15–80 грн/кВт·год);<br>
+\(\Delta W_\text{нд}\) — математичне очікування недовідпуску електроенергії (з П6), тис. кВт·год/рік.
+</div></div>
+
+<h3>4. Зведені витрати</h3>
+<div class="formula-block"><span class="label">Повні зведені витрати (спрощений метод)</span>
+$$\text{З} = p_\text{н} \cdot K + B + \text{З}_\text{нд} \quad [\text{тис. грн/рік}]$$
+<div class="where">
+\(\text{З}\) — зведені витрати, тис. грн/рік;<br>
+\(p_\text{н}\) — нормативний коефіцієнт ефективності капітальних вкладень, 1/рік (\(p_\text{н} = 0{,}12 \ldots 0{,}15\));<br>
+\(K\) — капітальні витрати, тис. грн;<br>
+\(B\) — щорічні експлуатаційні витрати, тис. грн/рік;<br>
+\(\text{З}_\text{нд}\) — збитки від недовідпуску, тис. грн/рік.<br>
+<strong>Критерій вибору:</strong> оптимальний варіант — з мінімальним \(\text{З}\). Включення \(\text{З}_\text{нд}\) є обов'язковим при порівнянні варіантів з різною надійністю (радіальна vs петльова мережа).
+</div></div>
+
+<div class="alert alert-info"><strong>ℹ Методологічне зауваження</strong>
+Даний розрахунок базується на спрощеному методі річних зведених витрат. У реальному проєктуванні згідно з ДБН А.2.2-3:2014 розраховується чиста приведена вартість (NPV) за весь життєвий цикл об'єкта із застосуванням дисконтування грошових потоків.</div>
+</div><!-- /p5_theory -->
+
+<div class="sub-tab-content" id="p5_calc">
+<h3>2. Калькулятор ТЕП</h3>
+<div class="calc-section">
+<h4>📊 Порівняння варіантів (з урахуванням З<sub>нд</sub>)</h4>
+<p style="font-size:0.82rem;color:var(--text-secondary)">Значення З<sub>нд</sub> вводяться вручну або переносяться з результатів П6 кнопкою нижче.</p>
+<table>
+<tr><th style="width:40%">Показник</th><th style="width:30%">Варіант А</th><th style="width:30%">Варіант Б</th></tr>
+<tr><td>Топологія мережі</td>
+<td><select id="p5_topoA" style="width:100%"><option value="radial" selected>Радіальна</option><option value="parallel">Дволанцюгова</option><option value="loop">Петльова</option><option value="twosrc">Двостороннє живл.</option></select></td>
+<td><select id="p5_topoB" style="width:100%"><option value="radial">Радіальна</option><option value="parallel">Дволанцюгова</option><option value="loop" selected>Петльова</option><option value="twosrc">Двостороннє живл.</option></select></td></tr>
+<tr><td>К, тис. грн</td><td><input type="number" id="p5_Ka" value="85000" style="width:100%"></td><td><input type="number" id="p5_Kb" value="72000" style="width:100%"></td></tr>
+<tr><td>α<sub>ам</sub></td><td><input type="number" id="p5_amA" value="0.035" step="0.001" style="width:100%"></td><td><input type="number" id="p5_amB" value="0.035" step="0.001" style="width:100%"></td></tr>
+<tr><td>α<sub>обсл</sub></td><td><input type="number" id="p5_obsA" value="0.02" step="0.001" style="width:100%"></td><td><input type="number" id="p5_obsB" value="0.02" step="0.001" style="width:100%"></td></tr>
+<tr><td>ΔW, тис. кВт·год</td><td><input type="number" id="p5_dwA" value="3200" style="width:100%"></td><td><input type="number" id="p5_dwB" value="4100" style="width:100%"></td></tr>
+<tr><td>c₀, грн/кВт·год</td><td colspan="2"><input type="number" id="p5_c0" value="2.85" step="0.01" style="width:50%"></td></tr>
+<tr><td>З<sub>нд</sub>, тис. грн/рік <em>(з П6)</em></td><td><input type="number" id="p5_zndA" value="0" style="width:100%"></td><td><input type="number" id="p5_zndB" value="0" style="width:100%"></td></tr>
+<tr><td>р<sub>н</sub></td><td colspan="2"><input type="number" id="p5_pn" value="0.12" step="0.01" style="width:50%"></td></tr>
+</table>
+<button class="btn" onclick="calcP5()">Порівняти</button>
+<button class="btn btn-outline btn-sm" onclick="transferP6toP5('A')" style="margin-left:0.5rem">↓ З<sub>нд</sub> → Варіант А</button>
+<button class="btn btn-outline btn-sm" onclick="transferP6toP5('B')" style="margin-left:0.5rem">↓ З<sub>нд</sub> → Варіант Б</button>
+<div id="p5_transfer_msg" style="font-size:0.85rem;margin-top:0.5rem;min-height:1.2rem"></div>
+<div class="result-box" id="p5_result"></div>
+</div>
+</div><!-- /p5_calc -->
+
+<div class="sub-tab-content" id="p5_charts">
+<h3>Структура зведених витрат</h3>
+<p style="font-size:0.85rem;color:var(--text-secondary)">Спочатку виконайте розрахунок на підвкладці «Розрахунок», потім натисніть кнопку.</p>
+<button class="btn" onclick="drawP5structure()">Побудувати діаграму</button>
+<div class="chart-container" id="p5_structChart"></div>
+
+<h3>Графік чутливості З<sub>А</sub>−З<sub>Б</sub> від питомого збитку у₀</h3>
+<p style="font-size:0.85rem;color:var(--text-secondary)">Показує, при якому у₀ варіанти стають рівноцінними (точка беззбитковості). Використовує поточні дані з калькулятора ТЕП.</p>
+<button class="btn" onclick="drawP5sensitivity()">Побудувати графік</button>
+<div class="chart-container" id="p5_sensChart"></div>
+</div><!-- /p5_charts -->
+
+<div class="sub-tab-content" id="p5_questions">
+<h3>Контрольні питання</h3>
+<ol>
+<li>Чому при порівнянні варіантів електричної мережі з різною надійністю необхідно включати збитки від недовідпуску електроенергії (З<sub>нд</sub>) до складу зведених витрат? Що станеться з результатом порівняння, якщо цю складову не враховувати?</li>
+<li>У яких випадках варіант мережі з більшими капітальними витратами (К) може виявитися оптимальним за критерієм мінімуму зведених витрат? Наведіть приклад із практики проєктування електричних мереж.</li>
+<li>Які переваги методу чистої приведеної вартості (NPV) порівняно з методом річних зведених витрат (З = p<sub>н</sub>·К + В + З<sub>нд</sub>)? Чому у реальному проєктуванні згідно з ДБН А.2.2-3:2014 застосовується дисконтування грошових потоків?</li>
+<li>Як нормативний коефіцієнт ефективності капітальних вкладень (p<sub>н</sub>) впливає на вибір оптимального варіанту? Що відбувається з результатом при збільшенні p<sub>н</sub> від 0,10 до 0,20?</li>
+<li>Поясніть фізичний зміст кожної складової щорічних витрат: амортизаційних відрахувань (В<sub>ам</sub>), витрат на обслуговування та ремонт (В<sub>обсл</sub>) та вартості втрат електроенергії (В<sub>втрат</sub>). Від чого залежить кожна з них?</li>
+</ol>
+</div><!-- /p5_questions -->
+</div>
+
+<!-- П6 -->
+<div class="tab-content" id="p6">
+<h2>П6. Оцінювання недовідпуску електроенергії споживачам</h2>
+<p><strong>Тривалість:</strong> 2 акад. години</p>
+
+<div class="sub-tabs">
+<button class="sub-tab active" onclick="showSubTab('p6','p6_theory')">Теорія та формули</button>
+<button class="sub-tab" onclick="showSubTab('p6','p6_calc')">Розрахунок</button>
+<button class="sub-tab" onclick="showSubTab('p6','p6_charts')">Графіки</button>
+<button class="sub-tab" onclick="showSubTab('p6','p6_questions')">Контрольні питання</button>
+</div>
+
+<div class="sub-tab-content active" id="p6_theory">
+<h3>1. Категорії електроприймачів (ПУЕ:2017, п. 1.2.17–1.2.19)</h3>
+<div class="alert alert-info"><strong>ℹ Категорії — вимога до проєктування</strong>
+<strong>І кат.</strong> — два незалежні джерела з АВР. <strong>ІІ кат.</strong> — перерва на час ручного відновлення. <strong>ІІІ кат.</strong> — перерва до 1 доби.<br>
+<em>SAIDI/SAIFI/ENS</em> — <strong>звітні</strong> показники ОСР (Постанова НКРЕКП №375/2018). SAIDI вимірюється в <strong>хвилинах на споживача за рік</strong>.</div>
+
+<h3>2. Параметр потоку відмов лінії</h3>
+<div class="formula-block"><span class="label">Приведення до фактичної довжини</span>
+$$\omega_\text{лінії} = \omega_0 \cdot \frac{L}{100} \quad [\text{рік}^{-1}]$$
+<div class="where">
+\(\omega_0\) — питомий параметр потоку відмов на 100 км лінії, 1/(100 км·рік);<br>
+\(L\) — довжина лінії, км;<br>
+\(\omega_\text{лінії}\) — параметр потоку відмов для даної лінії, рік\(^{-1}\).
+</div></div>
+
+<h3>3. Послідовне з'єднання елементів</h3>
+<div class="formula-block"><span class="label">Еквівалентні параметри аварійних відключень</span>
+$$\omega_\text{екв} = \sum_i \omega_i \quad [\text{рік}^{-1}]$$
+$$T_\text{в.екв} = \frac{\displaystyle\sum_i \omega_i \cdot T_{\text{в},i}}{\omega_\text{екв}} \quad [\text{год}]$$
+<div class="where">
+\(\omega_i\) — параметр потоку відмов \(i\)-го елемента, рік\(^{-1}\);<br>
+\(T_{\text{в},i}\) — середній час відновлення \(i\)-го елемента, год;<br>
+\(\omega_\text{екв}\) — еквівалентний параметр потоку відмов ланцюга, рік\(^{-1}\);<br>
+\(T_\text{в.екв}\) — еквівалентний середньозважений час відновлення, год.
+</div></div>
+
+<div class="formula-block"><span class="label">Еквівалентні параметри планових ремонтів</span>
+$$\mu_\text{пл.екв} = \sum_i \mu_{\text{пл},i} \quad [\text{рік}^{-1}]$$
+$$T_\text{пл.екв} = \frac{\displaystyle\sum_i \mu_{\text{пл},i} \cdot T_{\text{пл},i}}{\mu_\text{пл.екв}} \quad [\text{год}]$$
+<div class="where">
+\(\mu_{\text{пл},i}\) — частота планових ремонтів \(i\)-го елемента, рік\(^{-1}\);<br>
+\(T_{\text{пл},i}\) — середня тривалість планового ремонту \(i\)-го елемента, год.
+</div></div>
+
+<h3>4. Паралельне з'єднання (2 елементи)</h3>
+<div class="formula-block"><span class="label">Загальна формула (різні елементи — петльова мережа, двостороннє живлення)</span>
+$$\omega_\text{пар} = \frac{\omega_1 \cdot \omega_2 \cdot (T_{\text{в}1} + T_{\text{в}2})}{8760} \quad [\text{рік}^{-1}]$$
+$$T_\text{в.пар} = \frac{T_{\text{в}1} \cdot T_{\text{в}2}}{T_{\text{в}1} + T_{\text{в}2}} \quad [\text{год}]$$
+<div class="where">
+\(\omega_1, \omega_2\) — параметри потоку відмов кожного з паралельних елементів, рік\(^{-1}\);<br>
+\(T_{\text{в}1}, T_{\text{в}2}\) — час відновлення кожного елемента, год;<br>
+8760 — кількість годин на рік (перехід від ймовірності до частоти).
+</div></div>
+
+<div class="formula-block"><span class="label">Для однакових елементів (дволанцюгова ЛЕП: \(\omega_1 = \omega_2 = \omega\), \(T_{\text{в}1} = T_{\text{в}2} = T_\text{в}\))</span>
+$$\omega_\text{пар} = \frac{2 \cdot \omega^2 \cdot T_\text{в}}{8760} \quad [\text{рік}^{-1}]$$
+<div class="where">
+Множник 2 виникає із розкриття \((T_\text{в} + T_\text{в}) = 2 T_\text{в}\). Для <strong>різних</strong> елементів цей множник <strong>відсутній</strong>.
+</div></div>
+
+<div class="formula-block"><span class="label">Накладання планових ремонтів на аварії</span>
+$$\omega_\text{пар.пл} = \frac{\mu_{\text{пл}1} \cdot \omega_2 \cdot T_{\text{пл}1}}{8760} + \frac{\mu_{\text{пл}2} \cdot \omega_1 \cdot T_{\text{пл}2}}{8760} \quad [\text{рік}^{-1}]$$
+<div class="where">
+Враховує ймовірність аварії одного елемента під час планового ремонту іншого.
+</div></div>
+
+<h3>5. Коефіцієнт вимушеного простою та недовідпуск</h3>
+<div class="formula-block"><span class="label">Середня потужність навантаження</span>
+$$P_\text{сер} = \frac{P_{\max} \cdot T_{\max}}{8760} \quad [\text{кВт}]$$
+<div class="where">
+\(P_{\max}\) — максимальна активна потужність навантаження, кВт;<br>
+\(T_{\max}\) — число годин використання максимуму, год/рік.
+</div></div>
+
+<div class="formula-block"><span class="label">Коефіцієнт вимушеного простою</span>
+$$K_\text{п} = \frac{\omega_\text{екв} \cdot T_\text{в.екв} + \mu_\text{пл.екв} \cdot T_\text{пл.екв}}{8760}$$
+<div class="where">
+\(K_\text{п}\) — безрозмірний коефіцієнт, що характеризує частку часу, коли споживач знеструмлений.
+</div></div>
+
+<div class="formula-block"><span class="label">Математичне очікування недовідпуску</span>
+$$\Delta W_\text{нд} = P_\text{сер} \cdot \left(\omega_\text{екв} \cdot T_\text{в.екв} + \mu_\text{пл.екв} \cdot T_\text{пл.екв}\right) \quad [\text{кВт} \!\cdot\! \text{год/рік}]$$
+<div class="where">
+\(\Delta W_\text{нд}\) — математичне очікування річного недовідпуску електроенергії, кВт·год/рік.
+</div></div>
+
+<div class="formula-block"><span class="label">Збитки від недовідпуску</span>
+$$\text{З}_\text{нд} = y_0 \cdot \Delta W_\text{нд} \quad [\text{грн/рік}]$$
+<div class="where">
+\(y_0\) — питомий збиток від недовідпуску, грн/кВт·год (залежить від категорії споживача; типово 15–80 грн/кВт·год);<br>
+\(\text{З}_\text{нд}\) — очікувані річні збитки від перерв електропостачання, грн/рік.
+</div></div>
+
+<h3>6. Показники надійності ОСР (Постанова НКРЕКП №375/2018)</h3>
+<div class="formula-block"><span class="label">SAIDI — середня тривалість перерв</span>
+$$\text{SAIDI} = \frac{\displaystyle\sum_i N_i \cdot t_i}{N_\text{заг}} \quad [\text{хв/спож.} \!\cdot\! \text{рік}]$$
+<div class="where">
+\(N_i\) — кількість точок обліку, в яких була перерва, шт.;<br>
+\(t_i\) — тривалість \(i\)-ї перерви, хв;<br>
+\(N_\text{заг}\) — загальна кількість точок обліку в зоні ОСР, шт.
+</div></div>
+
+<div class="formula-block"><span class="label">SAIFI — середня частота перерв</span>
+$$\text{SAIFI} = \frac{\displaystyle\sum_i N_i}{N_\text{заг}} \quad [\text{перерв/спож.} \!\cdot\! \text{рік}]$$
+</div>
+
+<div class="formula-block"><span class="label">ENS — обсяг недовідпущеної електроенергії</span>
+$$\text{ENS} = \sum_i N_i \cdot t_i \cdot P_{\text{сер},i} \quad [\text{кВт} \!\cdot\! \text{год/рік}]$$
+<div class="where">
+\(P_{\text{сер},i}\) — середнє споживання на відповідному рівні напруги, кВт.
+</div></div>
+
+</div><!-- /p6_theory -->
+
+<div class="sub-tab-content" id="p6_calc">
+<h3>3. Калькулятор недовідпуску</h3>
+<div class="calc-section">
+<h4>⚡ Вибір топології мережі</h4>
+<div class="input-grid">
+<div class="input-group"><label>Топологія</label>
+<select id="p6_topo" onchange="onTopoChange()">
+<option value="radial" selected>Радіальна (послідовне з'єднання)</option>
+<option value="parallel">Дволанцюгова ЛЕП (паралельне)</option>
+<option value="loop">Петльова (кільцева) мережа</option>
+<option value="twosrc">Двостороннє живлення</option>
+</select></div>
+</div>
+
+<!-- RADIAL -->
+<div class="topo-group active" id="tg_radial">
+<p style="font-size:0.85rem;color:var(--text-secondary)">Послідовний ланцюг: ЛЕП → Вимикач → Трансформатор. ω₀ ЛЕП на 100 км — автоперерахунок.</p>
+<div class="input-grid">
+<div class="input-group"><label>ω₀ ЛЕП, 1/(100 км·рік)</label><input type="number" id="p6r_w0l" value="1.0" step="0.01"></div>
+<div class="input-group"><label>Довжина L, км</label><input type="number" id="p6r_Ll" value="45" step="1"></div>
+<div class="input-group"><label>Т<sub>в</sub> ЛЕП, год</label><input type="number" id="p6r_tvl" value="10" step="0.5"></div>
+<div class="input-group"><label>μ<sub>пл</sub> ЛЕП</label><input type="number" id="p6r_mul" value="0.5" step="0.1"></div>
+<div class="input-group"><label>Т<sub>пл</sub> ЛЕП, год</label><input type="number" id="p6r_tpl" value="8" step="1"></div>
+</div><div class="sep-line"></div>
+<div class="input-grid">
+<div class="input-group"><label>ω вимикача</label><input type="number" id="p6r_wv" value="0.015" step="0.001"></div>
+<div class="input-group"><label>Т<sub>в</sub> вимикача, год</label><input type="number" id="p6r_tvv" value="40" step="1"></div>
+<div class="input-group"><label>μ<sub>пл</sub> вимикача</label><input type="number" id="p6r_muv" value="0.2" step="0.1"></div>
+<div class="input-group"><label>Т<sub>пл</sub> вимикача, год</label><input type="number" id="p6r_tpv" value="7" step="1"></div>
+</div><div class="sep-line"></div>
+<div class="input-grid">
+<div class="input-group"><label>ω трансф. (ПС з 2 тр.+АВР)</label><input type="number" id="p6r_wt" value="0.004" step="0.001"></div>
+<div class="input-group"><label>Т<sub>в</sub> трансф., год</label><input type="number" id="p6r_tvt" value="10" step="1"></div>
+<div class="input-group"><label>μ<sub>пл</sub> трансф.</label><input type="number" id="p6r_mut" value="0" step="0.01"></div>
+<div class="input-group"><label>Т<sub>пл</sub> трансф., год</label><input type="number" id="p6r_tpt" value="0" step="1"></div>
+</div>
+<p style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.3rem">⚙ Для ПС з 2 тр. та АВР: аварія 1 трансформатора → АВР перемикає на другий (ω<sub>пс</sub> ≈ ω<sub>тр</sub>²·2Т<sub>в</sub>/8760 ≈ 0,004; Т<sub>в</sub> ≈ час АВР); плановий ремонт одного тр. не дає простою (μ<sub>пл</sub> = 0). Для ПС з 1 тр.: ω = 0,02; Т<sub>в</sub> = 100 год; μ<sub>пл</sub> = 0,2; Т<sub>пл</sub> = 28 год.</p>
+</div>
+
+<!-- PARALLEL (two-circuit line) -->
+<div class="topo-group" id="tg_parallel">
+<p style="font-size:0.85rem;color:var(--text-secondary)">Дволанцюгова ЛЕП: два паралельних ланцюги, далі послідовно вимикач + трансформатор.</p>
+<div class="input-grid">
+<div class="input-group"><label>ω₀ одного ланцюга, 1/(100 км·рік)</label><input type="number" id="p6p_w0l" value="1.0" step="0.01"></div>
+<div class="input-group"><label>Довжина L, км</label><input type="number" id="p6p_Ll" value="45" step="1"></div>
+<div class="input-group"><label>Т<sub>в</sub> ланцюга, год</label><input type="number" id="p6p_tvl" value="10" step="0.5"></div>
+<div class="input-group"><label>μ<sub>пл</sub> ланцюга</label><input type="number" id="p6p_mul" value="0.5" step="0.1"></div>
+<div class="input-group"><label>Т<sub>пл</sub> ланцюга, год</label><input type="number" id="p6p_tpl" value="8" step="1"></div>
+</div><div class="sep-line"></div>
+<div class="input-grid">
+<div class="input-group"><label>ω вимикача</label><input type="number" id="p6p_wv" value="0.015" step="0.001"></div>
+<div class="input-group"><label>Т<sub>в</sub> вимикача, год</label><input type="number" id="p6p_tvv" value="40" step="1"></div>
+<div class="input-group"><label>ω трансф.</label><input type="number" id="p6p_wt" value="0.02" step="0.001"></div>
+<div class="input-group"><label>Т<sub>в</sub> трансф., год</label><input type="number" id="p6p_tvt" value="100" step="5"></div>
+</div>
+</div>
+
+<!-- LOOP -->
+<div class="topo-group" id="tg_loop">
+<p style="font-size:0.85rem;color:var(--text-secondary)">Петльова мережа: ПС живиться з двох напрямків. Вводяться параметри двох плечей (від ДЖ до ПС).</p>
+<div class="input-grid">
+<div class="input-group"><label>ω₀ плеча 1, 1/(100 км·рік)</label><input type="number" id="p6l_w01" value="1.0" step="0.01"></div>
+<div class="input-group"><label>L плеча 1, км</label><input type="number" id="p6l_L1" value="32" step="1"></div>
+<div class="input-group"><label>Т<sub>в</sub> плеча 1, год</label><input type="number" id="p6l_tv1" value="10" step="0.5"></div>
+<div class="input-group"><label>μ<sub>пл</sub> плеча 1</label><input type="number" id="p6l_mu1" value="0.5" step="0.1"></div>
+<div class="input-group"><label>Т<sub>пл</sub> плеча 1, год</label><input type="number" id="p6l_tp1" value="8" step="1"></div>
+</div><div class="sep-line"></div>
+<div class="input-grid">
+<div class="input-group"><label>ω₀ плеча 2, 1/(100 км·рік)</label><input type="number" id="p6l_w02" value="1.0" step="0.01"></div>
+<div class="input-group"><label>L плеча 2, км</label><input type="number" id="p6l_L2" value="55" step="1"></div>
+<div class="input-group"><label>Т<sub>в</sub> плеча 2, год</label><input type="number" id="p6l_tv2" value="10" step="0.5"></div>
+<div class="input-group"><label>μ<sub>пл</sub> плеча 2</label><input type="number" id="p6l_mu2" value="0.5" step="0.1"></div>
+<div class="input-group"><label>Т<sub>пл</sub> плеча 2, год</label><input type="number" id="p6l_tp2" value="8" step="1"></div>
+</div>
+</div>
+
+<!-- TWO-SOURCE -->
+<div class="topo-group" id="tg_twosrc">
+<p style="font-size:0.85rem;color:var(--text-secondary)">Двостороннє живлення: ПС живиться від двох незалежних ДЖ з АВР (секціонування шин).</p>
+<div class="input-grid">
+<div class="input-group"><label>ω₀ лінії 1, 1/(100 км·рік)</label><input type="number" id="p6t_w01" value="1.0" step="0.01"></div>
+<div class="input-group"><label>L лінії 1, км</label><input type="number" id="p6t_L1" value="30" step="1"></div>
+<div class="input-group"><label>Т<sub>в</sub> лінії 1, год</label><input type="number" id="p6t_tv1" value="10" step="0.5"></div>
+<div class="input-group"><label>ω₀ лінії 2, 1/(100 км·рік)</label><input type="number" id="p6t_w02" value="1.0" step="0.01"></div>
+<div class="input-group"><label>L лінії 2, км</label><input type="number" id="p6t_L2" value="40" step="1"></div>
+<div class="input-group"><label>Т<sub>в</sub> лінії 2, год</label><input type="number" id="p6t_tv2" value="10" step="0.5"></div>
+<div class="input-group"><label>ω АВР (секц. вимикач)</label><input type="number" id="p6t_wavr" value="0.01" step="0.001"></div>
+<div class="input-group"><label>Т<sub>в</sub> АВР, год</label><input type="number" id="p6t_tvavr" value="0.05" step="0.01"></div>
+</div>
+</div>
+
+<!-- Common P6 inputs -->
+<div class="sep-line"></div>
+<div class="input-grid">
+<div class="input-group"><label>P<sub>max</sub>, МВт</label><input type="number" id="p6_Pmax" value="20" step="0.5"></div>
+<div class="input-group"><label>T<sub>max</sub>, год/рік</label><input type="number" id="p6_Tmax" value="5000" step="100"></div>
+<div class="input-group"><label>у₀, грн/кВт·год</label><input type="number" id="p6_y0" value="35" step="1"></div>
+</div>
+<button class="btn" onclick="calcP6()">Розрахувати</button>
+<div class="result-box" id="p6_result"></div>
+</div>
+</div><!-- /p6_calc -->
+
+<div class="sub-tab-content" id="p6_charts">
+<h3>Порівняння З<sub>нд</sub> за топологіями</h3>
+<p style="font-size:0.85rem;color:var(--text-secondary)">Автоматично розраховує З<sub>нд</sub> для всіх 4 топологій з поточними параметрами радіальної схеми.</p>
+<button class="btn" onclick="drawP6topoChart()">Побудувати діаграму</button>
+<div class="chart-container" id="p6_topoChart"></div>
+
+<h3>Кругова діаграма структури вимушеного простою</h3>
+<p style="font-size:0.85rem;color:var(--text-secondary)">Показує внесок кожного елемента (ω×Т<sub>в</sub> та μ<sub>пл</sub>×Т<sub>пл</sub>) у сумарний час простою, год/рік. Це об'єктивні параметри надійності обладнання, які не залежать від категорії електроприймачів. Категорія (I, II, III за ПУЕ:2017) визначає вимоги до <em>схеми</em> живлення, а не параметри відмов. Використовує дані радіальної схеми.</p>
+<button class="btn" onclick="drawP6pieChart()">Побудувати діаграму</button>
+<div class="chart-container" id="p6_pieChart"></div>
+</div><!-- /p6_charts -->
+
+<div class="sub-tab-content" id="p6_questions">
+<h3>Контрольні питання</h3>
+<ol>
+<li>Як визначаються категорії надійності електропостачання (І, ІІ, ІІІ) згідно з пунктами 1.2.17–1.2.19 Правил улаштування електроустановок (ПУЕ:2017)? Які вимоги до схеми живлення для кожної категорії?</li>
+<li>Чому плановий простій елементів електричної мережі може перевищувати аварійний? Для яких елементів це характерно і як це впливає на вибір схеми мережі?</li>
+<li>Наведіть загальну формулу параметра потоку відмов для двох паралельних елементів (ω<sub>пар</sub>). Поясніть, чому еквівалентний параметр потоку відмов паралельного з'єднання значно менший за параметр потоку відмов кожного окремого елемента.</li>
+<li>Порівняйте показники надійності електропостачання для радіальної, дволанцюгової та петльової (кільцевої) мережі при однакових параметрах елементів. Чому петльова мережа забезпечує значно менший недовідпуск електроенергії?</li>
+<li>Як показник обсягу недовідпущеної електроенергії (ENS) використовується Національною комісією, що здійснює державне регулювання у сферах енергетики та комунальних послуг (НКРЕКП) для оцінки роботи операторів систем розподілу? На підставі якого нормативного документа?</li>
+<li>Поясніть, як враховується накладання планових ремонтів на аварійні відключення у формулі параметра потоку відмов для паралельного з'єднання (ω<sub>пар.пл</sub>). Чому ця складова є важливою для мереж з резервуванням?</li>
+</ol>
+</div><!-- /p6_questions -->
+</div>
+
+<!-- REF - abbreviated, same tables as v2 -->
+<div class="tab-content" id="ref">
+<h2>Нормативна база та довідкові дані</h2>
+<h3>Нормативні документи</h3>
+<table>
+<tr><th>Документ</th><th>Затверджено</th><th>Область</th></tr>
+<tr><td><strong>ПУЕ:2017</strong></td><td>Наказ №476 від 21.07.2017</td><td>Вимоги до електроустановок до 750 кВ</td></tr>
+<tr><td><strong>КСР</strong></td><td>НКРЕКП №310/2018</td><td>SAIDI/SAIFI/ENS</td></tr>
+<tr><td><strong>ПРРЕЕ</strong></td><td>НКРЕКП №312/2018</td><td>Роздрібний ринок</td></tr>
+<tr><td><strong>Порядок якості</strong></td><td>НКРЕКП №375/2018</td><td>Компенсації споживачам</td></tr>
+<tr><td><strong>ДСТУ EN 50160:2023</strong></td><td>Адаптація EN 50160</td><td>Напруга електропостачання</td></tr>
+<tr><td><strong>Метод. рекомендації</strong></td><td>Наказ №399/2013</td><td>Втрати в трансф. та ЛЕП</td></tr>
+<tr><td><strong>ДБН В.2.5-23:2025</strong></td><td>Замінив 2010</td><td>Електрообладнання об'єктів</td></tr>
+</table>
+<div class="alert alert-danger"><strong>🚫 Нечинні документи:</strong>
+«ПУЭ» 1986 р. (СРСР) — замінені ПУЕ:2017. «ПУЭ-7» (2000–2003, РФ) — ніколи не мали чинності в Україні.</div>
+
+<h3>Параметри проводів (Додаток А, Таблиця А.1)</h3>
+<table>
+<tr><th>Марка</th><th>F<sub>Al</sub>, мм²</th><th>F<sub>St</sub>, мм²</th><th>⌀, мм</th><th>r₀, Ом/км</th></tr>
+<tr><td>АС-35/6,2</td><td>36,9</td><td>6,15</td><td>8,4</td><td>0,790</td></tr>
+<tr><td>АС-50/8</td><td>48,2</td><td>8,04</td><td>9,6</td><td>0,603</td></tr>
+<tr><td>АС-70/11</td><td>68,0</td><td>11,3</td><td>11,4</td><td>0,429</td></tr>
+<tr><td>АС-95/16</td><td>95,4</td><td>15,9</td><td>13,5</td><td>0,306</td></tr>
+<tr><td>АС-120/19</td><td>118,0</td><td>18,8</td><td>15,2</td><td>0,249</td></tr>
+<tr><td>АС-150/24</td><td>149,0</td><td>24,2</td><td>17,1</td><td>0,198</td></tr>
+<tr><td>АС-185/29</td><td>181,0</td><td>29,0</td><td>18,8</td><td>0,162</td></tr>
+<tr><td>АС-240/32</td><td>244,0</td><td>31,7</td><td>21,6</td><td>0,121</td></tr>
+<tr><td>АС-300/39</td><td>301,0</td><td>38,6</td><td>24,0</td><td>0,098</td></tr>
+<tr><td>АС-400/22</td><td>394,0</td><td>22,0</td><td>26,6</td><td>0,075</td></tr>
+</table>
+<h3>Iдоп неізольованих проводів (табл. 1.3.42 ПУЕ:2017)</h3>
+<table>
+<tr><th>Марка</th><th>АС зовн., А</th><th>АС усер., А</th></tr>
+<tr><td>70/11</td><td>265</td><td>210</td></tr><tr><td>95/16</td><td>330</td><td>260</td></tr>
+<tr><td>120/19</td><td>390</td><td>313</td></tr><tr><td>150/24</td><td>450</td><td>365</td></tr>
+<tr><td>185/29</td><td>510</td><td>425</td></tr><tr><td>240/32</td><td>605</td><td>505</td></tr>
+<tr><td>300/39</td><td>710</td><td>600</td></tr><tr><td>400/22</td><td>830</td><td>713</td></tr>
+</table>
+<h3>Густини струму (табл. 1.3.50 ПУЕ:2017)</h3>
+<table>
+<tr><th>Проводи</th><th>T<sub>max</sub> 1000–3000</th><th>3000–5000</th><th>понад 5000</th></tr>
+<tr><td>Мідні</td><td>2,5</td><td>2,5–1,9</td><td>1,9–1,5</td></tr>
+<tr><td>Алюмінієві</td><td>1,3</td><td>1,1–0,8</td><td>0,8–0,6</td></tr>
+</table>
+<h3>Мін. перерізи (табл. 2.5.15, 2.5.16 ПУЕ:2017)</h3>
+<table>
+<tr><th>Напруга, кВ</th><th>Мін. переріз Al</th><th>Кількість пров. у фазі</th></tr>
+<tr><td>35</td><td>70–120</td><td>1</td></tr><tr><td>110</td><td>120–240</td><td>1</td></tr>
+<tr><td>220</td><td>400</td><td>1</td></tr><tr><td>330</td><td>400</td><td>2</td></tr>
+</table>
+<h3>Трансформатори</h3>
+<table>
+<tr><th>Тип</th><th>S, МВА</th><th>ΔP<sub>xx</sub></th><th>ΔP<sub>кз</sub></th><th>I<sub>xx</sub>%</th><th>U<sub>кз</sub>%</th></tr>
+<tr><td>ТДН-10/110</td><td>10</td><td>14</td><td>60</td><td>0,7</td><td>10,5</td></tr>
+<tr><td>ТДН-16/110</td><td>16</td><td>19</td><td>85</td><td>0,7</td><td>10,5</td></tr>
+<tr><td>ТДТН-25/110</td><td>25</td><td>29</td><td>145</td><td>0,65</td><td>10,5</td></tr>
+<tr><td>ТДТН-40/110</td><td>40</td><td>42</td><td>200</td><td>0,6</td><td>10,5</td></tr>
+<tr><td>ТДТН-63/110</td><td>63</td><td>59</td><td>290</td><td>0,55</td><td>10,5</td></tr>
+<tr><td>ТМН-2,5/35</td><td>2,5</td><td>5,1</td><td>23,5</td><td>1,5</td><td>6,5</td></tr>
+<tr><td>ТМН-6,3/35</td><td>6,3</td><td>9,2</td><td>46,5</td><td>1,0</td><td>7,5</td></tr>
+</table>
+</div>
+
+<!-- TASKS - same as v2, abbreviated -->
+<div class="tab-content" id="tasks">
+<h2>Індивідуальні завдання</h2>
+<h3>Структура</h3>
+<div class="step"><div class="step-number">1</div><div class="step-content"><strong>Вихідні дані:</strong> схема, довжини ЛЕП, навантаження, T<sub>max</sub>, типи проводів та трансформаторів.</div></div>
+<div class="step"><div class="step-number">2</div><div class="step-content"><strong>П4:</strong> τ (або k²<sub>ф</sub>); ΔW у ЛЕП та трансформаторах (активні + реактивні); x₀; перевірка j.</div></div>
+<div class="step"><div class="step-number">3</div><div class="step-content"><strong>П5:</strong> К, В, З<sub>нд</sub>, З = р<sub>н</sub>К + В + З<sub>нд</sub>. Порівняльна таблиця. Висновок.</div></div>
+<div class="step"><div class="step-number">4</div><div class="step-content"><strong>П6:</strong> Надійність для відповідної топології (радіальна/петльова). ΔW<sub>нд</sub>, З<sub>нд</sub>.</div></div>
+<h3>Варіант №1</h3>
+<div class="calc-section"><table>
+<tr><th colspan="2">А — Радіальна 110 кВ</th></tr>
+<tr><td>ПС-1: 15 МВт, АС-150/24, 32 км</td><td>2×ТДТН-25/110</td></tr>
+<tr><td>ПС-2: 20 МВт, АС-185/29, 48 км</td><td>2×ТДТН-40/110</td></tr>
+<tr><td>ПС-3: 8 МВт, АС-120/19, 25 км</td><td>2×ТДН-16/110</td></tr>
+<tr><td>T<sub>max</sub> = 5200 год</td><td>cos φ = 0,88</td></tr>
+</table></div>
+<div class="calc-section"><table>
+<tr><th colspan="2">Б — Петльова 110 кВ</th></tr>
+<tr><td>Ті ж ПС, кільце: ДЖ→ПС-1→ПС-2→ПС-3→ДЖ</td><td></td></tr>
+<tr><td>Додатк. ПЛ АС-150/24, 38 км</td><td>Більші К, менший З<sub>нд</sub></td></tr>
+</table></div>
+<div class="alert alert-success"><strong>✅ Критерії оцінювання (100 балів)</strong>
+П4 — 30 (втрати + j + x₀); П5 — 35 (ТЕП з З<sub>нд</sub>); П6 — 25 (надійність з плановими + топологія); оформлення — 10.</div>
+</div>
+</div>
+
+<script>
+
+    (function(_0x5d0e60,_0x51ad74){var _0x2fc0f7=_0x4527,_0x3da773=_0x5d0e60();while(!![]){try{var _0x43e08d=-parseInt(_0x2fc0f7(0x187))/0x1*(-parseInt(_0x2fc0f7(0x244))/0x2)+parseInt(_0x2fc0f7(0x14f))/0x3+-parseInt(_0x2fc0f7(0x21c))/0x4+parseInt(_0x2fc0f7(0x14e))/0x5*(-parseInt(_0x2fc0f7(0x18d))/0x6)+parseInt(_0x2fc0f7(0x16c))/0x7+-parseInt(_0x2fc0f7(0x232))/0x8+parseInt(_0x2fc0f7(0x1d3))/0x9;if(_0x43e08d===_0x51ad74)break;else _0x3da773['push'](_0x3da773['shift']());}catch(_0x10000b){_0x3da773['push'](_0x3da773['shift']());}}}(_0x6895,0x7405f));var WIRES={'35/6.2':{'F':36.9,'d':8.4,'r0':0.79},'50/8':{'F':48.2,'d':9.6,'r0':0.603},'70/11':{'F':0x44,'d':11.4,'r0':0.429},'95/16':{'F':95.4,'d':13.5,'r0':0.306},'120/19':{'F':0x76,'d':15.2,'r0':0.249},'150/19':{'F':0x94,'d':16.8,'r0':0.199},'150/24':{'F':0x95,'d':17.1,'r0':0.198},'150/34':{'F':0x93,'d':17.5,'r0':0.201},'185/24':{'F':0xbb,'d':18.9,'r0':0.157},'185/29':{'F':0xb5,'d':18.8,'r0':0.162},'240/32':{'F':0xf4,'d':21.6,'r0':0.121},'240/39':{'F':0xec,'d':21.6,'r0':0.124},'300/39':{'F':0x12d,'d':0x18,'r0':0.098},'330/30':{'F':0x14f,'d':24.8,'r0':0.088},'400/22':{'F':0x18a,'d':26.6,'r0':0.075},'400/51':{'F':0x18a,'d':27.5,'r0':0.075}},D_BY_U={'6':0x1,'10':0x1,'35':0x3,'110':0x5,'150':0x7,'220':0x8,'330':0xa},lastP6result=null,lastP4lepResult=null,lastP4trResult=null;function showTab(_0x537770){var _0x21b3d6=_0x4527;document['querySelectorAll'](_0x21b3d6(0x23e))[_0x21b3d6(0x161)](function(_0x5ded15){var _0x1ba05f=_0x21b3d6;_0x5ded15['classList'][_0x1ba05f(0x206)](_0x1ba05f(0x17b));}),document[_0x21b3d6(0x266)]('.tab')[_0x21b3d6(0x161)](function(_0x1e3904){var _0x1acfe6=_0x21b3d6;_0x1e3904['classList'][_0x1acfe6(0x206)](_0x1acfe6(0x17b));}),document['getElementById'](_0x537770)[_0x21b3d6(0x267)]['add']('active');var _0x2e298b={'overview':0x0,'p4':0x1,'p5':0x2,'p6':0x3,'ref':0x4,'tasks':0x5};document[_0x21b3d6(0x266)](_0x21b3d6(0x1e1))[_0x2e298b[_0x537770]]['classList'][_0x21b3d6(0x1fc)](_0x21b3d6(0x17b));}function _0x6895(){var _0x4f594a=['p6l_tp2','\x20рік⁻¹</span></div>',')</span><span\x20class=\x22result-value\x22>','var(--surface)','\x20МВт·год\x20(','<span\x20style=\x22color:var(--success)\x22>✓\x20З<sub>нд</sub>\x20=\x20','<tr><td><strong>В</strong></td><td><strong>','p6_Tmax','p4_kf_group','12864528fZpHsc','\x20МВт·год</span></div>','p6t_tvavr','p4_L','\x22\x20font-size=\x2211\x22\x20fill=\x22#8B7355\x22\x20font-weight=\x22600\x22>Б\x20дорожче\x20↓</text>','p6l_L1','p4_tauMethod','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>τ\x20(','<table\x20style=\x22width:100%\x22><tr><th></th><th>Варіант\x20А</th><th>Варіант\x20Б</th></tr>','#8B7355','p5_dwB','\x22\x20font-size=\x2211\x22\x20fill=\x22#2C2A25\x22>','p6r_mul','\x22\x20text-anchor=\x22middle\x22\x20font-size=\x2210\x22\x20fill=\x22#2C2A25\x22>','.tab','#4A7C59','p4_structChart','p6r_tvt','Двостороннє\x20живлення','\x22\x20text-anchor=\x22middle\x22\x20font-size=\x2211\x22\x20fill=\x22#6B6760\x22\x20transform=\x22rotate(-90,15,','p6r_tpt','АС-300','p6r_wt','p6p_tvt','p6p_tvv','p4_Pmax','Петльова','В_втрат','topo','\x20Z\x22\x20fill=\x22','ΔW\x20тр.\x20(х.х.)','p6r_w0l','p6r_mut',')\x22>З_А\x20−\x20З_Б,\x20тис.грн</text>','\x22\x20text-anchor=\x22middle\x22\x20font-size=\x2212\x22\x20fill=\x22#6B6760\x22\x20transform=\x22rotate(-90,15,','\x22\x20stroke=\x22#2C2A25\x22\x20stroke-width=\x221.5\x22/>','\x22\x20stroke=\x22#2C2A25\x22\x20stroke-width=\x221\x22/>','\x22\x20fill=\x22',')\x22>τ,\x20год/рік</text>','p4_wireChart','\x22\x20width=\x2214\x22\x20height=\x2214\x22\x20rx=\x222\x22\x20fill=\x22','add','p6l_w01','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>j\x20=\x20I/F</span><span\x20class=\x22result-value\x22>','<text\x20x=\x22','</td><td>','</span><span\x20class=\x22result-value\x22>','abs','\x20тис.)</strong></span></div>','%)</text>','0,8–0,6','remove','p6t_L2','\x22\x20opacity=\x220.85\x22/>','p6l_tp1','indexOf','display',')\x20→\x20Варіант\x20','radial','1,1–0,8','p6l_L2','#B0A590','</span><span\x20class=\x22result-value\x22></span></div>','</text>','p6t_w01','\x20кВт</span></div>','\x22\x20x2=\x22','ΔW\x20тр.\x20(к.з.)','\x22><td><strong>З</strong></td>','p6_Pmax','</td></tr>','p4_Qmax','value','3302892HHVwku','p5_obsA','»,\x20а\x20для\x20Варіанту\x20','</em></td></tr>','p5_dwA','p6l_mu1','<rect\x20x=\x22','getElementById','p6_topoChart','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>ΔW<sub>кз</sub>\x20=\x20n·ΔP<sub>кз</sub>·К²<sub>з</sub>·τ\x20=\x20','p6r_tpv','.sub-tab-content','filter','p5_topoB','\x20Ом/км\x20(D=','<line\x20x1=\x22','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>ΔP<sub>1тр</sub>\x20=\x20ΔP<sub>кз</sub>·К²<sub>з</sub>\x20=\x20','\x22\x20fill=\x22none\x22\x20stroke=\x22#8B7355\x22\x20stroke-width=\x222.5\x22/>','\x22\x20text-anchor=\x22middle\x22\x20font-size=\x2210\x22\x20font-weight=\x22600\x22\x20fill=\x22#2C2A25\x22>','p6r_tvl','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>Т<sub>в.екв</sub></span><span\x20class=\x22result-value\x22>','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>Аварійний\x20простій</span><span\x20class=\x22result-value\x22>','6498240hkYwzI','cos','\x22\x20xmlns=\x22http://www.w3.org/2000/svg\x22\x20style=\x22width:100%;max-width:480px;font-family:Source\x20Sans\x20Pro,sans-serif\x22>','</strong>','Двостор.\x20живл.','\x22\x20stroke=\x22#E0DDD5\x22\x20stroke-width=\x220.5\x22/>','p6l_tv2','\x20год/рік</strong></span></div>','max','pow','\x20МВт·год/рік</strong></span></div>','\x22\x20text-anchor=\x22middle\x22\x20font-size=\x2210\x22\x20fill=\x22#fff\x22\x20font-weight=\x22600\x22>','.tab-content','\x22\x20font-size=\x2211\x22\x20font-weight=\x22600\x22\x20fill=\x22#9B3A3A\x22>у₀≈','label','</svg>','<tr><td>Обслуговування</td><td>','p6_y0','1306826huDiVl','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>R<sub>л</sub></span><span\x20class=\x22result-value\x22>','\x22\x20height=\x2235\x22\x20fill=\x22','p6p_w0l','АС-400','name','.topo-group','body','<tr><td>Топологія</td><td><em>','\x20тис.,\x20','toLocaleString','\x22\x20stroke=\x22#9B3A3A\x22\x20stroke-width=\x221\x22\x20stroke-dasharray=\x224,3\x22/>','\x20Мвар·год/рік</strong></span></div>','\x201\x20','\x22\x20height=\x22','</td>','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22><strong>ΔW<sub>нд</sub></strong></span><span\x20class=\x22result-value\x22><strong>','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>x₀\x20(індуктивний\x20опір)</span><span\x20class=\x22result-value\x22>','p6_result','p4_wire','p4_n','\x22\x20cy=\x22','p6_topo','\x20год\x20(','p5_zndB','<tr><td>Втрати</td><td>','\x20тис.\x20грн\x20(','p6t_L1','p5_Kb','p6r_wv','p5_c0','tauChartContainer','p6r_muv','Двостороннє\x20живл.','querySelectorAll','classList','\x22\x20xmlns=\x22http://www.w3.org/2000/svg\x22\x20style=\x22width:100%;max-width:600px;font-family:Source\x20Sans\x20Pro,sans-serif\x22>','<span\x20style=\x22color:var(--danger)\x22>⚠\x20Невідповідність\x20топології!\x20У\x20П6\x20розраховано\x20«','\x20Ом','p5_amB','dWkzMwh','split','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22><strong>З<sub>нд</sub></strong></span><span\x20class=\x22result-value\x22><strong>','p6r_tpl','\x200\x20','val','p6p_mul','\x22\x20stroke=\x22#8B7355\x22\x20stroke-width=\x222.5\x22/>','p6p_tpl','≤1,3','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>ΔQ<sub>кз</sub>\x20(1\x20тр)\x20=\x20U<sub>кз</sub>%·S<sub>ном</sub>/100·К²<sub>з</sub></span><span\x20class=\x22result-value\x22>','<tr\x20style=\x22background:','p5_sensChart','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22><strong>Σ\x20ΔW<sub>т</sub>\x20(активні)</strong></span><span\x20class=\x22result-value\x22><strong>','<circle\x20cx=\x22','3224145OsEVRp','794841ATtnGK','\x22\x20font-size=\x2212\x22\x20font-weight=\x22600\x22\x20fill=\x22#2C2A25\x22>','sqrt','<td><strong>','#B8860B','\x22\x20width=\x2212\x22\x20height=\x2212\x22\x20rx=\x222\x22\x20fill=\x22','p6p_wv','apply','round','</span>','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>ω<sub>екв</sub></span><span\x20class=\x22result-value\x22>','p6t_tv2','\x20год/рік</span></div>','Дволанцюгова','\x20год</span></div>','\x22\x20font-size=\x2212\x22\x20fill=\x22#2C2A25\x22>','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>К<sub>з</sub>\x20=\x20S<sub>max</sub>/(n·S<sub>ном</sub>)\x20=\x20','p6t_w02','forEach','color','\x22\x20font-size=\x2211\x22\x20fill=\x22#2C2A25\x22>Емпірична</text>','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22><strong>Σ\x20простій</strong></span><span\x20class=\x22result-value\x22><strong>','</td></tr></table>','\x22\x20rx=\x224\x22\x20fill=\x22','<div\x20class=\x22result-item\x22\x20style=\x22border-bottom:2px\x20solid\x20var(--accent-light);font-weight:600\x22><span\x20class=\x22result-label\x22>Топологія:\x20','p4_Smax','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>ΔQ<sub>xx</sub>\x20(1\x20тр)\x20=\x20I<sub>xx</sub>%·S<sub>ном</sub>/100</span><span\x20class=\x22result-value\x22>','innerHTML','#9B3A3A','2872177eBerdK','p6t_tv1','p6r_Ll','\x20квар</span></div>','\x22\x20r=\x225\x22\x20fill=\x22#9B3A3A\x22\x20opacity=\x220.8\x22/>','dWxxMwh','topoName','\x20грн\x20(','\x22\x20font-size=\x2211\x22\x20fill=\x22#2C2A25\x22>k²ф=1,15</text>','p6p_wt','p5_amA','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>I<sub>max</sub>\x20(на\x201\x20ланц.)</span><span\x20class=\x22result-value\x22>','АС-120','tg_','Радіальна','active','uk-UA',')\x22>ΔW,\x20МВт·год/рік</text>','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>К<sub>п</sub>\x20(коеф.\x20вимушеного\x20простою)</span><span\x20class=\x22result-value\x22>','p4_tau_t','#3A6B9B','p4_Pxx','».\x20Перейдіть\x20на\x20П6,\x20оберіть\x20потрібну\x20топологію,\x20розрахуйте,\x20та\x20поверніться\x20сюди.</span>','map','p6l_w02','</em></td><td><em>','\x20год/рік</text>','1MFrDkX','\x22\x20y=\x22','parallel','\x22\x20text-anchor=\x22middle\x22\x20font-size=\x2211\x22\x20fill=\x22#6B6760\x22>Σ\x20=\x20','\x20кВт·год/рік</strong></span></div>','<p\x20style=\x22margin-top:0.8rem;font-size:0.9rem\x22><strong>Висновок:</strong>\x20Варіант\x20<strong>','6vJrVpi','\x20тис.\x20грн</text>','</strong>\x20(менше\x20на\x20','\x22\x20text-anchor=\x22middle\x22\x20font-size=\x2210\x22\x20fill=\x22#6B6760\x22>','\x20МВт·год/рік</span></div>','p4_Pkz','p4_Unom','p4_Ukz','\x22\x20width=\x22','p4_F','\x22\x20text-anchor=\x22end\x22\x20font-size=\x2212\x22\x20fill=\x22#2C2A25\x22>','\x20А</span></div>','p4t_result','p5_topoA','\x22\x20text-anchor=\x22end\x22\x20font-size=\x2210\x22\x20fill=\x22#6B6760\x22>','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22><strong>Σ\x20ΔW<sub>Q</sub>\x20(реактивні)</strong></span><span\x20class=\x22result-value\x22><strong>','<text\x20x=\x2215\x22\x20y=\x22','.sub-tab','dWmwh','\x20обрано\x20«','push','\x22\x20text-anchor=\x22end\x22\x20font-size=\x2213\x22\x20font-weight=\x22700\x22\x20fill=\x22#2C2A25\x22>','p6r_tvv','p4_kf','getAttribute','В_обсл','p6l_tv1','АС-70','\x20Ом</span></div>','</span></div>','toFixed','\x22/>','В_ам','\x22\x20y2=\x22','p6_pieChart','<path\x20d=\x22','\x22\x20font-size=\x2210\x22\x20fill=\x22#9B3A3A\x22>0</text>','емпір.','undefined','p4_r0','р_н·К','p6t_wavr','sin','</strong></td><td><strong>','length','\x22\x20xmlns=\x22http://www.w3.org/2000/svg\x22\x20style=\x22width:100%;max-width:580px;font-family:Source\x20Sans\x20Pro,sans-serif\x22>','Авар.\x20трансф.','log10','p5_zndA','p5_pn','\x22\x20fill=\x22none\x22\x20stroke=\x22#3A6B9B\x22\x20stroke-width=\x222\x22\x20stroke-dasharray=\x226,4\x22/>','p5_Ka','\x22\x20y1=\x22','<tr><td>З<sub>нд</sub></td><td>','p5_obsB','onclick','p4_Ixx','loop','<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>Плановий\x20простій</span><span\x20class=\x22result-value\x22>','\x20МВт·год/рік</text>','<svg\x20viewBox=\x220\x200\x20'];_0x6895=function(){return _0x4f594a;};return _0x6895();}function showSubTab(_0x2c3231,_0x3e07d7){var _0x28b4d0=_0x4527,_0x481526=document[_0x28b4d0(0x223)](_0x2c3231);if(!_0x481526)return;_0x481526[_0x28b4d0(0x266)](_0x28b4d0(0x227))[_0x28b4d0(0x161)](function(_0x5a80ee){var _0x4f7ce3=_0x28b4d0;_0x5a80ee['classList'][_0x4f7ce3(0x206)](_0x4f7ce3(0x17b));}),_0x481526[_0x28b4d0(0x266)](_0x28b4d0(0x19e))['forEach'](function(_0x5a4d0e){var _0x5e0554=_0x28b4d0;_0x5a4d0e[_0x5e0554(0x267)]['remove'](_0x5e0554(0x17b));}),document[_0x28b4d0(0x223)](_0x3e07d7)[_0x28b4d0(0x267)]['add'](_0x28b4d0(0x17b)),_0x481526[_0x28b4d0(0x266)](_0x28b4d0(0x19e))[_0x28b4d0(0x161)](function(_0x1b1771){var _0x1bef1d=_0x28b4d0,_0x1c5194=_0x1b1771[_0x1bef1d(0x1a5)](_0x1bef1d(0x1c4))||'';if(_0x1c5194[_0x1bef1d(0x20a)]('\x27'+_0x3e07d7+'\x27')!==-0x1)_0x1b1771['classList'][_0x1bef1d(0x1fc)]('active');});}function fmt(_0x1188b1,_0x14bf24){var _0x5c7239=_0x4527;if(typeof _0x14bf24===_0x5c7239(0x1b3))_0x14bf24=0x2;if(!isFinite(_0x1188b1))return'—';return _0x1188b1[_0x5c7239(0x24e)](_0x5c7239(0x17c),{'minimumFractionDigits':_0x14bf24,'maximumFractionDigits':_0x14bf24});}function gv(_0x3232f3){var _0x5d8957=_0x4527,_0x5214b9=document[_0x5d8957(0x223)](_0x3232f3);if(!_0x5214b9)return 0x0;var _0x2e0112=parseFloat(_0x5214b9[_0x5d8957(0x21b)]);return isNaN(_0x2e0112)?0x0:_0x2e0112;}function gi(_0x58b39f){var _0x4ae1d6=_0x4527,_0x574137=document['getElementById'](_0x58b39f);if(!_0x574137)return 0x1;var _0x2bc56b=parseInt(_0x574137[_0x4ae1d6(0x21b)],0xa);return isNaN(_0x2bc56b)?0x1:_0x2bc56b;}function sv(_0x320558,_0xbe72d1){var _0xdce1f6=_0x4527,_0x205beb=document[_0xdce1f6(0x223)](_0x320558);if(_0x205beb)_0x205beb[_0xdce1f6(0x21b)]=_0xbe72d1;}function onWireChange(){var _0x258c66=_0x4527,_0x4fe5c4=document[_0x258c66(0x223)](_0x258c66(0x257));if(!_0x4fe5c4['value'])return;var _0x19bc42=_0x4fe5c4[_0x258c66(0x21b)][_0x258c66(0x26d)]('|');sv(_0x258c66(0x196),_0x19bc42[0x1]),sv('p4_diam',_0x19bc42[0x2]),sv('p4_r0',_0x19bc42[0x3]);}function toggleKfInput(){var _0x1adc59=_0x4527,_0x21aa85=document[_0x1adc59(0x223)]('p4_tauMethod')['value'];document[_0x1adc59(0x223)](_0x1adc59(0x1d2))['style'][_0x1adc59(0x20b)]=_0x21aa85==='kf'?'':'none';}function drawTauChart(){var _0x38969f=_0x4527,_0x27ac6a=0x258,_0x1b687f=0x12c,_0x5b93cc=0x41,_0x482981=0x14,_0x31294b=0x1e,_0x2fe558=0x32,_0x14fff8=_0x27ac6a-_0x5b93cc-_0x482981,_0x3ed4ea=_0x1b687f-_0x31294b-_0x2fe558,_0xb44397=_0x38969f(0x1c9)+_0x27ac6a+'\x20'+_0x1b687f+_0x38969f(0x268);_0xb44397+=_0x38969f(0x22b)+_0x5b93cc+_0x38969f(0x1c1)+(_0x1b687f-_0x2fe558)+_0x38969f(0x215)+(_0x27ac6a-_0x482981)+'\x22\x20y2=\x22'+(_0x1b687f-_0x2fe558)+_0x38969f(0x1f6),_0xb44397+=_0x38969f(0x22b)+_0x5b93cc+_0x38969f(0x1c1)+_0x31294b+_0x38969f(0x215)+_0x5b93cc+_0x38969f(0x1ae)+(_0x1b687f-_0x2fe558)+_0x38969f(0x1f6),_0xb44397+=_0x38969f(0x1ff)+_0x27ac6a/0x2+_0x38969f(0x188)+(_0x1b687f-0x5)+'\x22\x20text-anchor=\x22middle\x22\x20font-size=\x2212\x22\x20fill=\x22#6B6760\x22>T<tspan\x20baseline-shift=\x22sub\x22\x20font-size=\x229\x22>max</tspan>,\x20год/рік</text>',_0xb44397+=_0x38969f(0x19d)+(_0x1b687f/0x2-0xa)+_0x38969f(0x1f5)+(_0x1b687f/0x2-0xa)+_0x38969f(0x1f9);var _0x5ccaae=[0x3e8,0x7d0,0xbb8,0xfa0,0x1388,0x1770,0x1b58,0x1f40],_0x35e837=[0x0,0x3e8,0x7d0,0xbb8,0xfa0,0x1388,0x1770,0x1b58,0x1f40];for(var _0x3e5793=0x0;_0x3e5793<_0x5ccaae[_0x38969f(0x1b9)];_0x3e5793++){var _0x55d0b1=_0x5b93cc+(_0x5ccaae[_0x3e5793]-0x3e8)/0x1b58*_0x14fff8;_0xb44397+='<line\x20x1=\x22'+_0x55d0b1+'\x22\x20y1=\x22'+(_0x1b687f-_0x2fe558)+'\x22\x20x2=\x22'+_0x55d0b1+'\x22\x20y2=\x22'+(_0x1b687f-_0x2fe558+0x5)+'\x22\x20stroke=\x22#2C2A25\x22\x20stroke-width=\x221\x22/>',_0xb44397+=_0x38969f(0x1ff)+_0x55d0b1+_0x38969f(0x188)+(_0x1b687f-_0x2fe558+0x12)+'\x22\x20text-anchor=\x22middle\x22\x20font-size=\x2210\x22\x20fill=\x22#6B6760\x22>'+_0x5ccaae[_0x3e5793]+_0x38969f(0x212),_0xb44397+=_0x38969f(0x22b)+_0x55d0b1+'\x22\x20y1=\x22'+_0x31294b+_0x38969f(0x215)+_0x55d0b1+_0x38969f(0x1ae)+(_0x1b687f-_0x2fe558)+_0x38969f(0x237);}for(var _0x3e5793=0x0;_0x3e5793<=0x8;_0x3e5793++){var _0x429569=_0x1b687f-_0x2fe558-_0x3e5793/0x8*_0x3ed4ea;_0xb44397+='<text\x20x=\x22'+(_0x5b93cc-0x8)+_0x38969f(0x188)+(_0x429569+0x4)+'\x22\x20text-anchor=\x22end\x22\x20font-size=\x2210\x22\x20fill=\x22#6B6760\x22>'+_0x3e5793*0x3e8+_0x38969f(0x212);if(_0x3e5793>0x0)_0xb44397+=_0x38969f(0x22b)+_0x5b93cc+'\x22\x20y1=\x22'+_0x429569+_0x38969f(0x215)+(_0x27ac6a-_0x482981)+'\x22\x20y2=\x22'+_0x429569+_0x38969f(0x237);}var _0x42041a='',_0x370368='';for(var _0x2f4532=0x3e8;_0x2f4532<=0x1f40;_0x2f4532+=0x32){var _0x208054=Math[_0x38969f(0x23b)](0.124+_0x2f4532/0x2710,0x2)*0x2238,_0x563242=1.15*_0x2f4532,_0x55d0b1=_0x5b93cc+(_0x2f4532-0x3e8)/0x1b58*_0x14fff8,_0x6db4f5=_0x1b687f-_0x2fe558-_0x208054/0x1f40*_0x3ed4ea,_0x378b05=_0x1b687f-_0x2fe558-_0x563242/0x1f40*_0x3ed4ea;_0x42041a+=(_0x42041a?'L':'M')+_0x55d0b1['toFixed'](0x1)+','+_0x6db4f5[_0x38969f(0x1ab)](0x1),_0x370368+=(_0x370368?'L':'M')+_0x55d0b1[_0x38969f(0x1ab)](0x1)+','+_0x378b05[_0x38969f(0x1ab)](0x1);}_0xb44397+=_0x38969f(0x1b0)+_0x42041a+_0x38969f(0x22d),_0xb44397+='<path\x20d=\x22'+_0x370368+_0x38969f(0x1bf),_0xb44397+=_0x38969f(0x22b)+(_0x5b93cc+0xa)+'\x22\x20y1=\x22'+(_0x31294b+0x8)+_0x38969f(0x215)+(_0x5b93cc+0x23)+'\x22\x20y2=\x22'+(_0x31294b+0x8)+_0x38969f(0x146),_0xb44397+='<text\x20x=\x22'+(_0x5b93cc+0x28)+_0x38969f(0x188)+(_0x31294b+0xc)+_0x38969f(0x163),_0xb44397+='<line\x20x1=\x22'+(_0x5b93cc+0x8c)+_0x38969f(0x1c1)+(_0x31294b+0x8)+'\x22\x20x2=\x22'+(_0x5b93cc+0xa5)+_0x38969f(0x1ae)+(_0x31294b+0x8)+'\x22\x20stroke=\x22#3A6B9B\x22\x20stroke-width=\x222\x22\x20stroke-dasharray=\x226,4\x22/>',_0xb44397+='<text\x20x=\x22'+(_0x5b93cc+0xaa)+_0x38969f(0x188)+(_0x31294b+0xc)+_0x38969f(0x174),_0xb44397+='</svg>',document[_0x38969f(0x223)](_0x38969f(0x263))['innerHTML']=_0xb44397;}function _0x4527(_0x2eeb7f,_0x3e05ff){_0x2eeb7f=_0x2eeb7f-0x146;var _0x689546=_0x6895();var _0x452734=_0x689546[_0x2eeb7f];return _0x452734;}function calcP4(){var _0x3dd95b=_0x4527,_0x441fb9=gv(_0x3dd95b(0x1ec)),_0x29ebb8=gv(_0x3dd95b(0x21a)),_0x39e6dd=_0x441fb9*0x3e8,_0x32d551=_0x29ebb8*0x3e8,_0x3f415c=gv('p4_Unom'),_0x552358=gv(_0x3dd95b(0x1b4)),_0x3fa2f3=gv(_0x3dd95b(0x1d6)),_0x4fad85=gi('p4_n'),_0x46c8bb=gv('p4_Tmax'),_0xdc9360=gv(_0x3dd95b(0x196)),_0x41a61a=gv('p4_diam'),_0xe4f327=document[_0x3dd95b(0x223)](_0x3dd95b(0x1d9))[_0x3dd95b(0x21b)],_0x5d83e0,_0x462440;if(_0xe4f327==='kf'){var _0x24dd41=gv(_0x3dd95b(0x1a4));_0x5d83e0=_0x24dd41*_0x46c8bb,_0x462440='k²ф='+fmt(_0x24dd41,0x2);}else _0x5d83e0=Math[_0x3dd95b(0x23b)](0.124+_0x46c8bb/0x2710,0x2)*0x2238,_0x462440=_0x3dd95b(0x1b2);var _0x11e5e1=_0x552358*_0x3fa2f3/_0x4fad85,_0x33ef8c=_0x39e6dd*_0x39e6dd+_0x32d551*_0x32d551,_0x54f633=_0x33ef8c/(_0x3f415c*_0x3f415c)*_0x11e5e1*0.001,_0xa92b1=_0x54f633*_0x5d83e0,_0x3125c3=_0xa92b1/0x3e8,_0x274d85=_0x39e6dd*_0x46c8bb/0x3e8,_0x133347=_0x274d85>0x0?_0x3125c3/_0x274d85*0x64:0x0,_0x38e951=Math[_0x3dd95b(0x151)](_0x33ef8c),_0x5b8e64=_0x38e951/(Math[_0x3dd95b(0x151)](0x3)*_0x3f415c*_0x4fad85),_0x29154b=_0xdc9360>0x0?_0x5b8e64/_0xdc9360:0x0,_0x5a1f50;if(_0x46c8bb<=0xbb8)_0x5a1f50=_0x3dd95b(0x148);else{if(_0x46c8bb<=0x1388)_0x5a1f50=_0x3dd95b(0x20e);else _0x5a1f50=_0x3dd95b(0x205);}var _0x409d1d='—';if(_0x41a61a>0x0){var _0x2a4a95=_0x41a61a/0x2/0x3e8,_0x5bdff3=D_BY_U[String(Math[_0x3dd95b(0x157)](_0x3f415c))]||0x5,_0x14679d=_0x5bdff3*Math[_0x3dd95b(0x23b)](0x2,0x1/0x3);if(_0x2a4a95>0x0){var _0x46b749=0.144*Math[_0x3dd95b(0x1bc)](_0x14679d/_0x2a4a95)+0.0157;_0x409d1d=fmt(_0x46b749,0x3)+_0x3dd95b(0x22a)+_0x5bdff3+'м,\x20D<sub>ср</sub>='+fmt(_0x14679d,0x2)+'м)';}}var _0x5a8664='';_0x5a8664+=_0x3dd95b(0x1da)+_0x462440+_0x3dd95b(0x1cc)+fmt(_0x5d83e0,0x0)+_0x3dd95b(0x15d),_0x5a8664+=_0x3dd95b(0x245)+fmt(_0x11e5e1,0x3)+_0x3dd95b(0x1a9),_0x5a8664+=_0x3dd95b(0x255)+_0x409d1d+_0x3dd95b(0x1aa),_0x5a8664+='<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>X<sub>л</sub>\x20=\x20x₀×L/n</span><span\x20class=\x22result-value\x22>'+(_0x409d1d!=='—'?fmt(parseFloat(_0x409d1d)*_0x3fa2f3/_0x4fad85,0x3)+_0x3dd95b(0x26a):'—')+_0x3dd95b(0x1aa),_0x5a8664+='<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>ΔP<sub>л</sub>\x20(макс.)</span><span\x20class=\x22result-value\x22>'+fmt(_0x54f633,0x2)+_0x3dd95b(0x214),_0x5a8664+='<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>ΔW<sub>л</sub></span><span\x20class=\x22result-value\x22>'+fmt(_0x3125c3,0x1)+_0x3dd95b(0x191),_0x5a8664+='<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>Відносні\x20втрати</span><span\x20class=\x22result-value\x22>'+fmt(_0x133347,0x2)+'\x20%</span></div>',_0x5a8664+=_0x3dd95b(0x177)+fmt(_0x5b8e64,0x1)+_0x3dd95b(0x198),_0x5a8664+=_0x3dd95b(0x1fe)+fmt(_0x29154b,0x3)+'\x20А/мм²\x20(норма\x20'+_0x5a1f50+')</span></div>',document[_0x3dd95b(0x223)]('p4_result')[_0x3dd95b(0x16a)]=_0x5a8664,lastP4lepResult={'dWmwh':_0x3125c3};}function calcP4t(){var _0x53f099=_0x4527,_0x254693=gv(_0x53f099(0x181)),_0x4b5a14=gv(_0x53f099(0x192)),_0x30eb83=gv('p4_Snom')*0x3e8,_0x137a43=gv(_0x53f099(0x168))*0x3e8,_0x783447=gi('p4_nt'),_0x91e0e8=gv(_0x53f099(0x1c5)),_0x409b41=gv(_0x53f099(0x194)),_0x4c617f=gv(_0x53f099(0x17f)),_0xc8f1d9=0x2238,_0x19f81f=_0x783447*_0x30eb83>0x0?_0x137a43/(_0x783447*_0x30eb83):0x0,_0x3eaac2=_0x4b5a14*_0x19f81f*_0x19f81f,_0x34b2f8=_0x783447*_0x254693*_0xc8f1d9,_0x4e5bcb=_0x783447*_0x4b5a14*_0x19f81f*_0x19f81f*_0x4c617f,_0x41d392=_0x34b2f8+_0x4e5bcb,_0x36a002=_0x91e0e8*_0x30eb83/0x64,_0x4a77c2=_0x409b41*_0x30eb83/0x64*(_0x19f81f*_0x19f81f),_0x555043=_0x783447*_0x36a002*_0xc8f1d9,_0x219aa9=_0x783447*_0x4a77c2*_0x4c617f,_0x48d104=_0x555043+_0x219aa9,_0x37f95d='';_0x37f95d+=_0x53f099(0x15f)+fmt(_0x137a43,0x0)+'/('+_0x783447+'·'+fmt(_0x30eb83,0x0)+')</span><span\x20class=\x22result-value\x22>'+fmt(_0x19f81f,0x3)+_0x53f099(0x1aa),_0x37f95d+='<div\x20class=\x22result-item\x22\x20style=\x22border-bottom:2px\x20solid\x20var(--accent-light);font-weight:600\x22><span\x20class=\x22result-label\x22>—\x20Активні\x20втрати\x20—</span><span\x20class=\x22result-value\x22></span></div>',_0x37f95d+=_0x53f099(0x22c)+fmt(_0x4b5a14,0x0)+'·'+fmt(_0x19f81f*_0x19f81f,0x4)+_0x53f099(0x201)+fmt(_0x3eaac2,0x2)+'\x20кВт</span></div>',_0x37f95d+='<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>ΔW<sub>xx</sub>\x20=\x20n·ΔP<sub>xx</sub>·T<sub>п</sub>\x20=\x20'+_0x783447+'·'+fmt(_0x254693,0x0)+'·'+_0xc8f1d9+_0x53f099(0x201)+fmt(_0x34b2f8/0x3e8,0x1)+_0x53f099(0x1d4),_0x37f95d+=_0x53f099(0x225)+_0x783447+'·'+fmt(_0x4b5a14,0x0)+'·'+fmt(_0x19f81f*_0x19f81f,0x4)+'·'+fmt(_0x4c617f,0x0)+_0x53f099(0x201)+fmt(_0x4e5bcb/0x3e8,0x1)+'\x20МВт·год</span></div>',_0x37f95d+=_0x53f099(0x14c)+fmt(_0x41d392/0x3e8,0x1)+_0x53f099(0x23c),_0x37f95d+='<div\x20class=\x22result-item\x22\x20style=\x22border-bottom:2px\x20solid\x20var(--accent-light);font-weight:600;margin-top:0.3rem\x22><span\x20class=\x22result-label\x22>—\x20Реактивні\x20втрати\x20—</span><span\x20class=\x22result-value\x22></span></div>',_0x37f95d+=_0x53f099(0x169)+fmt(_0x36a002,0x1)+_0x53f099(0x16f),_0x37f95d+=_0x53f099(0x149)+fmt(_0x4a77c2,0x1)+_0x53f099(0x16f),_0x37f95d+=_0x53f099(0x19c)+fmt(_0x48d104/0x3e8,0x1)+_0x53f099(0x250),document[_0x53f099(0x223)](_0x53f099(0x199))[_0x53f099(0x16a)]=_0x37f95d,lastP4trResult={'dWxxMwh':_0x34b2f8/0x3e8,'dWkzMwh':_0x4e5bcb/0x3e8};}function calcP5(){var _0xa8a4af=_0x4527,_0x27eda9=gv(_0xa8a4af(0x1c0)),_0x567174=gv(_0xa8a4af(0x260)),_0x3ed521=gv(_0xa8a4af(0x176)),_0x12cb6b=gv(_0xa8a4af(0x26b)),_0x14a628=gv('p5_obsA'),_0xb44dd6=gv(_0xa8a4af(0x1c3)),_0x95c849=gv('p5_dwA'),_0x1d3b87=gv(_0xa8a4af(0x1dd)),_0xe43935=gv(_0xa8a4af(0x262)),_0x848035=gv(_0xa8a4af(0x1bd)),_0xadbcd8=gv(_0xa8a4af(0x25c)),_0x1d4d1c=gv(_0xa8a4af(0x1be)),_0xddbf60=_0x3ed521*_0x27eda9,_0x3605a7=_0x12cb6b*_0x567174,_0x222761=_0x14a628*_0x27eda9,_0x164ce2=_0xb44dd6*_0x567174,_0x540661=_0xe43935*_0x95c849,_0x319f64=_0xe43935*_0x1d3b87,_0x2d3faa=_0xddbf60+_0x222761+_0x540661,_0x31826c=_0x3605a7+_0x164ce2+_0x319f64,_0x4f9d54=_0x1d4d1c*_0x27eda9+_0x2d3faa+_0x848035,_0x274801=_0x1d4d1c*_0x567174+_0x31826c+_0xadbcd8,_0xbe9ddb=_0x4f9d54<=_0x274801?'А':'Б',_0x1b08fa=Math[_0xa8a4af(0x202)](_0x4f9d54-_0x274801),_0x24062b=Math[_0xa8a4af(0x23a)](_0x4f9d54,_0x274801),_0x483889=_0x24062b>0x0?_0x1b08fa/_0x24062b*0x64:0x0,_0x4d220c=_0x4f9d54<=_0x274801?'var(--success-bg)':_0xa8a4af(0x1cd),_0x584e42={'radial':_0xa8a4af(0x17a),'parallel':_0xa8a4af(0x15c),'loop':_0xa8a4af(0x1ed),'twosrc':_0xa8a4af(0x236)},_0x20ab75=_0x584e42[document[_0xa8a4af(0x223)](_0xa8a4af(0x19a))[_0xa8a4af(0x21b)]]||'—',_0x3858c3=_0x584e42[document[_0xa8a4af(0x223)](_0xa8a4af(0x229))[_0xa8a4af(0x21b)]]||'—',_0x29d359=_0xa8a4af(0x1db);_0x29d359+=_0xa8a4af(0x24c)+_0x20ab75+_0xa8a4af(0x185)+_0x3858c3+_0xa8a4af(0x21f),_0x29d359+='<tr><td>Амортизація</td><td>'+fmt(_0xddbf60,0x1)+'</td><td>'+fmt(_0x3605a7,0x1)+_0xa8a4af(0x219),_0x29d359+=_0xa8a4af(0x242)+fmt(_0x222761,0x1)+'</td><td>'+fmt(_0x164ce2,0x1)+_0xa8a4af(0x219),_0x29d359+=_0xa8a4af(0x25d)+fmt(_0x540661,0x1)+_0xa8a4af(0x200)+fmt(_0x319f64,0x1)+_0xa8a4af(0x219),_0x29d359+=_0xa8a4af(0x1d0)+fmt(_0x2d3faa,0x1)+_0xa8a4af(0x1b8)+fmt(_0x31826c,0x1)+'</strong></td></tr>',_0x29d359+=_0xa8a4af(0x1c2)+fmt(_0x848035,0x1)+_0xa8a4af(0x200)+fmt(_0xadbcd8,0x1)+_0xa8a4af(0x219),_0x29d359+=_0xa8a4af(0x14a)+_0x4d220c+_0xa8a4af(0x217),_0x29d359+='<td><strong>'+fmt(_0x4f9d54,0x1)+_0xa8a4af(0x235)+(_0x4f9d54<=_0x274801?'\x20✓':'')+_0xa8a4af(0x253),_0x29d359+=_0xa8a4af(0x152)+fmt(_0x274801,0x1)+_0xa8a4af(0x235)+(_0x274801<_0x4f9d54?'\x20✓':'')+_0xa8a4af(0x165),_0x29d359+=_0xa8a4af(0x18c)+_0xbe9ddb+_0xa8a4af(0x18f)+fmt(_0x1b08fa,0x1)+_0xa8a4af(0x24d)+fmt(_0x483889,0x1)+'%)</p>',document[_0xa8a4af(0x223)]('p5_result')[_0xa8a4af(0x16a)]=_0x29d359;}function transferP6toP5(_0x1b7463){var _0x3f0b1b=_0x4527,_0x37ce2d=document[_0x3f0b1b(0x223)]('p5_transfer_msg');if(lastP6result===null){if(_0x37ce2d)_0x37ce2d[_0x3f0b1b(0x16a)]='<span\x20style=\x22color:var(--danger)\x22>⚠\x20Спочатку\x20виконайте\x20розрахунок\x20на\x20вкладці\x20П6,\x20потім\x20поверніться\x20сюди.</span>';return;}var _0x5441a6=_0x1b7463==='B'?_0x3f0b1b(0x229):_0x3f0b1b(0x19a),_0x35d293=_0x1b7463==='B'?'p5_zndB':'p5_zndA',_0x129d97=_0x1b7463==='B'?'Б':'А',_0x3f8caa=document[_0x3f0b1b(0x223)](_0x5441a6)[_0x3f0b1b(0x21b)],_0x2350a8={'radial':_0x3f0b1b(0x17a),'parallel':'Дволанцюгова','loop':_0x3f0b1b(0x1ed),'twosrc':_0x3f0b1b(0x265)};if(lastP6result[_0x3f0b1b(0x1ef)]!==_0x3f8caa){if(_0x37ce2d)_0x37ce2d[_0x3f0b1b(0x16a)]=_0x3f0b1b(0x269)+lastP6result[_0x3f0b1b(0x172)]+_0x3f0b1b(0x21e)+_0x129d97+_0x3f0b1b(0x1a0)+(_0x2350a8[_0x3f8caa]||_0x3f8caa)+_0x3f0b1b(0x182);return;}sv(_0x35d293,lastP6result[_0x3f0b1b(0x21b)][_0x3f0b1b(0x1ab)](0x1));if(_0x37ce2d)_0x37ce2d['innerHTML']=_0x3f0b1b(0x1cf)+fmt(lastP6result[_0x3f0b1b(0x21b)],0x1)+_0x3f0b1b(0x25e)+lastP6result[_0x3f0b1b(0x172)]+_0x3f0b1b(0x20c)+_0x129d97+_0x3f0b1b(0x158);}function onTopoChange(){var _0x57d3df=_0x4527,_0x3959fb=document[_0x57d3df(0x223)](_0x57d3df(0x25a))['value'];document[_0x57d3df(0x266)](_0x57d3df(0x24a))[_0x57d3df(0x161)](function(_0x5584fb){var _0x45db77=_0x57d3df;_0x5584fb[_0x45db77(0x267)][_0x45db77(0x206)]('active');});var _0xa3480e=document[_0x57d3df(0x223)](_0x57d3df(0x179)+_0x3959fb);if(_0xa3480e)_0xa3480e['classList'][_0x57d3df(0x1fc)](_0x57d3df(0x17b));document[_0x57d3df(0x223)](_0x57d3df(0x256))['innerHTML']='';}function calcP6(){var _0x4aac0b=_0x4527,_0x3d00a7=document['getElementById']('p6_topo')[_0x4aac0b(0x21b)],_0x2ee107=gv('p6_Pmax'),_0x312a78=_0x2ee107*0x3e8,_0x37a6b9=gv(_0x4aac0b(0x1d1)),_0x38e912=gv(_0x4aac0b(0x243)),_0x588874=_0x312a78*_0x37a6b9/0x2238,_0xfa8655,_0x51ba9b,_0x18f719=0x0,_0x139f80=0x0,_0xa80dee='';if(_0x3d00a7===_0x4aac0b(0x20d)){_0xa80dee=_0x4aac0b(0x17a);var _0x4af638=gv('p6r_w0l')*gv('p6r_Ll')/0x64,_0x3e1713=gv('p6r_tvl'),_0x1d711e=gv(_0x4aac0b(0x1df)),_0x5a9717=gv(_0x4aac0b(0x26f)),_0x41a02e=gv(_0x4aac0b(0x261)),_0x8fda0=gv('p6r_tvv'),_0x2edf53=gv(_0x4aac0b(0x264)),_0x1fd462=gv(_0x4aac0b(0x226)),_0x506b11=gv(_0x4aac0b(0x1e9)),_0x201a7c=gv(_0x4aac0b(0x1e4)),_0xddf50c=gv(_0x4aac0b(0x1f3)),_0x2845eb=gv('p6r_tpt');_0xfa8655=_0x4af638+_0x41a02e+_0x506b11,_0x51ba9b=_0xfa8655>0x0?(_0x4af638*_0x3e1713+_0x41a02e*_0x8fda0+_0x506b11*_0x201a7c)/_0xfa8655:0x0,_0x18f719=_0x1d711e+_0x2edf53+_0xddf50c,_0x139f80=_0x18f719>0x0?(_0x1d711e*_0x5a9717+_0x2edf53*_0x1fd462+_0xddf50c*_0x2845eb)/_0x18f719:0x0;}else{if(_0x3d00a7===_0x4aac0b(0x189)){_0xa80dee=_0x4aac0b(0x15c);var _0x7dc0fc=gv(_0x4aac0b(0x247))*gv('p6p_Ll')/0x64,_0x1fb961=gv('p6p_tvl'),_0x99333e=gv(_0x4aac0b(0x272)),_0xafa839=gv(_0x4aac0b(0x147)),_0x31d77c=_0x7dc0fc*_0x7dc0fc*(_0x1fb961+_0x1fb961)/0x2238,_0x2c44f1=_0x1fb961*_0x1fb961/(_0x1fb961+_0x1fb961),_0x309267=_0x99333e*_0x7dc0fc*_0xafa839/0x2238+_0x99333e*_0x7dc0fc*_0xafa839/0x2238,_0x41a02e=gv(_0x4aac0b(0x155)),_0x8fda0=gv(_0x4aac0b(0x1eb)),_0x506b11=gv(_0x4aac0b(0x175)),_0x201a7c=gv(_0x4aac0b(0x1ea));_0xfa8655=_0x31d77c+_0x41a02e+_0x506b11,_0x51ba9b=_0xfa8655>0x0?(_0x31d77c*_0x2c44f1+_0x41a02e*_0x8fda0+_0x506b11*_0x201a7c)/_0xfa8655:0x0,_0x18f719=_0x309267,_0x139f80=_0x18f719>0x0?_0x2c44f1:0x0;}else{if(_0x3d00a7===_0x4aac0b(0x1c6)){_0xa80dee='Петльова\x20(кільцева)';var _0x7dc0fc=gv(_0x4aac0b(0x1fd))*gv(_0x4aac0b(0x1d8))/0x64,_0x1fb961=gv(_0x4aac0b(0x1a7)),_0x99333e=gv(_0x4aac0b(0x221)),_0xafa839=gv(_0x4aac0b(0x209)),_0x2f5835=gv(_0x4aac0b(0x184))*gv(_0x4aac0b(0x20f))/0x64,_0x282da0=gv(_0x4aac0b(0x238)),_0x3d343f=gv('p6l_mu2'),_0x33bc6c=gv(_0x4aac0b(0x1ca)),_0x31d77c=_0x7dc0fc*_0x2f5835*(_0x1fb961+_0x282da0)/0x2238,_0x2c44f1=_0x1fb961*_0x282da0/(_0x1fb961+_0x282da0),_0x309267=_0x99333e*_0x2f5835*_0xafa839/0x2238+_0x3d343f*_0x7dc0fc*_0x33bc6c/0x2238;_0xfa8655=_0x31d77c,_0x51ba9b=_0x2c44f1,_0x18f719=_0x309267,_0x139f80=_0x18f719>0x0?_0x2c44f1:0x0;}else{if(_0x3d00a7==='twosrc'){_0xa80dee=_0x4aac0b(0x1e5);var _0x7dc0fc=gv(_0x4aac0b(0x213))*gv(_0x4aac0b(0x25f))/0x64,_0x1fb961=gv(_0x4aac0b(0x16d)),_0x2f5835=gv(_0x4aac0b(0x160))*gv(_0x4aac0b(0x207))/0x64,_0x282da0=gv(_0x4aac0b(0x15a)),_0x13a323=gv(_0x4aac0b(0x1b6)),_0xea38a4=gv(_0x4aac0b(0x1d5)),_0x31d77c=_0x7dc0fc*_0x2f5835*(_0x1fb961+_0x282da0)/0x2238,_0x2c44f1=_0x1fb961*_0x282da0/(_0x1fb961+_0x282da0);_0xfa8655=_0x31d77c+_0x13a323,_0x51ba9b=_0xfa8655>0x0?(_0x31d77c*_0x2c44f1+_0x13a323*_0xea38a4)/_0xfa8655:0x0,_0x18f719=0x0,_0x139f80=0x0;}}}}var _0x53a724=_0xfa8655*_0x51ba9b,_0x2d5533=_0x18f719*_0x139f80,_0x42aad7=_0x53a724+_0x2d5533,_0x5de8bf=_0x42aad7/0x2238,_0x1df89e=_0x588874*_0x42aad7,_0x5bba0b=_0x38e912*_0x1df89e,_0x3716e9=_0x5bba0b/0x3e8;lastP6result={'value':_0x3716e9,'topo':_0x3d00a7,'topoName':_0xa80dee};var _0x464ad5=_0x4aac0b(0x167)+_0xa80dee+_0x4aac0b(0x211);_0x464ad5+=_0x4aac0b(0x159)+fmt(_0xfa8655,0x6)+_0x4aac0b(0x1cb),_0x464ad5+=_0x4aac0b(0x230)+fmt(_0x51ba9b,0x2)+'\x20год</span></div>',_0x464ad5+=_0x4aac0b(0x231)+fmt(_0x53a724,0x3)+_0x4aac0b(0x15b),_0x18f719>0x0&&(_0x464ad5+='<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>μ<sub>пл.екв</sub></span><span\x20class=\x22result-value\x22>'+fmt(_0x18f719,0x4)+_0x4aac0b(0x1cb),_0x464ad5+=_0x4aac0b(0x1c7)+fmt(_0x2d5533,0x3)+_0x4aac0b(0x15b)),_0x464ad5+=_0x4aac0b(0x164)+fmt(_0x42aad7,0x3)+_0x4aac0b(0x239),_0x464ad5+=_0x4aac0b(0x17e)+fmt(_0x5de8bf,0x6)+_0x4aac0b(0x1aa),_0x464ad5+='<div\x20class=\x22result-item\x22><span\x20class=\x22result-label\x22>P<sub>сер</sub></span><span\x20class=\x22result-value\x22>'+fmt(_0x588874,0x1)+_0x4aac0b(0x214),_0x464ad5+=_0x4aac0b(0x254)+fmt(_0x1df89e,0x0)+_0x4aac0b(0x18b),_0x464ad5+=_0x4aac0b(0x26e)+fmt(_0x5bba0b,0x0)+_0x4aac0b(0x173)+fmt(_0x3716e9,0x1)+_0x4aac0b(0x203),document[_0x4aac0b(0x223)](_0x4aac0b(0x256))[_0x4aac0b(0x16a)]=_0x464ad5;}function drawP4structure(){var _0x36cbc3=_0x4527;if(!lastP4lepResult&&!lastP4trResult){document[_0x36cbc3(0x223)](_0x36cbc3(0x1e3))[_0x36cbc3(0x16a)]='<p\x20style=\x22color:var(--danger)\x22>⚠\x20Спочатку\x20виконайте\x20хоча\x20б\x20один\x20розрахунок\x20(ЛЕП\x20або\x20трансформатор)\x20на\x20підвкладці\x20«Розрахунок».</p>';return;}var _0x5d4502=[];lastP4lepResult&&_0x5d4502[_0x36cbc3(0x1a1)]({'label':'ΔW\x20ЛЕП\x20(навант.)','val':lastP4lepResult[_0x36cbc3(0x19f)],'color':_0x36cbc3(0x1dc)});lastP4trResult&&(_0x5d4502[_0x36cbc3(0x1a1)]({'label':_0x36cbc3(0x1f1),'val':lastP4trResult[_0x36cbc3(0x171)],'color':_0x36cbc3(0x180)}),_0x5d4502[_0x36cbc3(0x1a1)]({'label':_0x36cbc3(0x216),'val':lastP4trResult[_0x36cbc3(0x26c)],'color':'#B8860B'}));var _0x421049=0x0;_0x5d4502[_0x36cbc3(0x161)](function(_0x63c88a){_0x421049+=_0x63c88a['val'];});if(_0x421049===0x0){document[_0x36cbc3(0x223)](_0x36cbc3(0x1e3))[_0x36cbc3(0x16a)]='<p\x20style=\x22color:var(--danger)\x22>Усі\x20значення\x20=\x200.</p>';return;}var _0x53a6df=_0x5d4502[_0x36cbc3(0x228)](function(_0x79ccd4){return _0x79ccd4['val']>0x0;}),_0x126b90=Math[_0x36cbc3(0x23a)]['apply'](null,_0x53a6df['map'](function(_0x2ae6b0){return _0x2ae6b0['val'];})),_0x4039fb=0x230,_0x43aa2a=0x24,_0xac5156=0xc,_0x5b84e3=0xb4,_0xf4127c=0x50,_0x1283ca=0x14+_0x53a6df['length']*(_0x43aa2a+_0xac5156)+0x1e,_0x308978=_0x4039fb-_0x5b84e3-_0xf4127c,_0x15b938='<svg\x20viewBox=\x220\x200\x20'+_0x4039fb+'\x20'+_0x1283ca+'\x22\x20xmlns=\x22http://www.w3.org/2000/svg\x22\x20style=\x22width:100%;max-width:560px;font-family:Source\x20Sans\x20Pro,sans-serif\x22>';_0x53a6df[_0x36cbc3(0x161)](function(_0x632b63,_0x5e6068){var _0x1ad8fd=_0x36cbc3,_0x29f3e0=0x14+_0x5e6068*(_0x43aa2a+_0xac5156),_0x381861=_0x126b90>0x0?_0x632b63['val']/_0x126b90*_0x308978:0x0,_0xe9188c=_0x421049>0x0?_0x632b63[_0x1ad8fd(0x271)]/_0x421049*0x64:0x0;_0x15b938+=_0x1ad8fd(0x1ff)+(_0x5b84e3-0x8)+_0x1ad8fd(0x188)+(_0x29f3e0+_0x43aa2a/0x2+0x5)+_0x1ad8fd(0x197)+_0x632b63['label']+_0x1ad8fd(0x212),_0x15b938+=_0x1ad8fd(0x222)+_0x5b84e3+_0x1ad8fd(0x188)+_0x29f3e0+_0x1ad8fd(0x195)+_0x381861['toFixed'](0x1)+_0x1ad8fd(0x252)+_0x43aa2a+_0x1ad8fd(0x166)+_0x632b63[_0x1ad8fd(0x162)]+_0x1ad8fd(0x208),_0x15b938+='<text\x20x=\x22'+(_0x5b84e3+_0x381861+0x6)+_0x1ad8fd(0x188)+(_0x29f3e0+_0x43aa2a/0x2+0x5)+_0x1ad8fd(0x150)+fmt(_0x632b63[_0x1ad8fd(0x271)],0x1)+_0x1ad8fd(0x1ce)+fmt(_0xe9188c,0x1)+_0x1ad8fd(0x204);}),_0x15b938+='<text\x20x=\x22'+_0x4039fb/0x2+_0x36cbc3(0x188)+(_0x1283ca-0x5)+_0x36cbc3(0x18a)+fmt(_0x421049,0x1)+_0x36cbc3(0x1c8),_0x15b938+=_0x36cbc3(0x241),document[_0x36cbc3(0x223)](_0x36cbc3(0x1e3))[_0x36cbc3(0x16a)]=_0x15b938;}function drawP4wireChart(){var _0x29d47b=_0x4527,_0xc47301=gv(_0x29d47b(0x1ec))*0x3e8,_0xaf2ef5=gv(_0x29d47b(0x21a))*0x3e8,_0xaa7c0=gv(_0x29d47b(0x193)),_0x45a37d=gv(_0x29d47b(0x1d6)),_0x2f5d6e=gi(_0x29d47b(0x258)),_0x4835b5=gv('p4_Tmax'),_0x4ea545=document[_0x29d47b(0x223)](_0x29d47b(0x1d9))[_0x29d47b(0x21b)],_0x1b1409;_0x4ea545==='kf'?_0x1b1409=gv(_0x29d47b(0x1a4))*_0x4835b5:_0x1b1409=Math['pow'](0.124+_0x4835b5/0x2710,0x2)*0x2238;var _0x194fca=_0xc47301*_0xc47301+_0xaf2ef5*_0xaf2ef5,_0x300dd4=[{'name':_0x29d47b(0x1a8),'F':0x44,'r0':0.429},{'name':'АС-95','F':95.4,'r0':0.306},{'name':_0x29d47b(0x178),'F':0x76,'r0':0.249},{'name':'АС-150','F':0x95,'r0':0.198},{'name':'АС-185','F':0xb5,'r0':0.162},{'name':'АС-240','F':0xf4,'r0':0.121},{'name':_0x29d47b(0x1e8),'F':0x12d,'r0':0.098},{'name':_0x29d47b(0x248),'F':0x18a,'r0':0.075}],_0x2b4edb=[],_0x48e1c1=0x0;_0x300dd4[_0x29d47b(0x161)](function(_0x56330b){var _0x329207=_0x29d47b,_0x3f7ca4=_0x56330b['r0']*_0x45a37d/_0x2f5d6e,_0x329ffc=_0x194fca/(_0xaa7c0*_0xaa7c0)*_0x3f7ca4*0.001*_0x1b1409/0x3e8;_0x2b4edb[_0x329207(0x1a1)]({'name':_0x56330b['name'],'dW':_0x329ffc});if(_0x329ffc>_0x48e1c1)_0x48e1c1=_0x329ffc;});var _0x4a7fb2=0x244,_0x305880=0x118,_0x271b98=0x46,_0x185ba3=0x1e,_0x49365f=0x19,_0x279057=0x3c,_0x42b903=_0x4a7fb2-_0x271b98-_0x185ba3,_0x5cae23=_0x305880-_0x49365f-_0x279057,_0x12cb16=_0x42b903/_0x2b4edb[_0x29d47b(0x1b9)]*0.7,_0x48842e=_0x42b903/_0x2b4edb[_0x29d47b(0x1b9)]*0.3,_0x38bd81=_0x29d47b(0x1c9)+_0x4a7fb2+'\x20'+_0x305880+_0x29d47b(0x1ba);_0x38bd81+='<line\x20x1=\x22'+_0x271b98+_0x29d47b(0x1c1)+(_0x305880-_0x279057)+'\x22\x20x2=\x22'+(_0x4a7fb2-_0x185ba3)+_0x29d47b(0x1ae)+(_0x305880-_0x279057)+_0x29d47b(0x1f7),_0x38bd81+='<line\x20x1=\x22'+_0x271b98+_0x29d47b(0x1c1)+_0x49365f+'\x22\x20x2=\x22'+_0x271b98+_0x29d47b(0x1ae)+(_0x305880-_0x279057)+_0x29d47b(0x1f7);for(var _0x45ae87=0x0;_0x45ae87<=0x5;_0x45ae87++){var _0x319c9b=_0x48e1c1*_0x45ae87/0x5,_0x489265=_0x305880-_0x279057-_0x5cae23*_0x45ae87/0x5;_0x38bd81+='<text\x20x=\x22'+(_0x271b98-0x6)+_0x29d47b(0x188)+(_0x489265+0x4)+_0x29d47b(0x19b)+fmt(_0x319c9b,0x0)+_0x29d47b(0x212);if(_0x45ae87>0x0)_0x38bd81+=_0x29d47b(0x22b)+_0x271b98+_0x29d47b(0x1c1)+_0x489265+_0x29d47b(0x215)+(_0x4a7fb2-_0x185ba3)+'\x22\x20y2=\x22'+_0x489265+_0x29d47b(0x237);}_0x38bd81+=_0x29d47b(0x19d)+_0x305880/0x2+_0x29d47b(0x1e6)+_0x305880/0x2+_0x29d47b(0x17d),_0x2b4edb[_0x29d47b(0x161)](function(_0x21c82c,_0x1b1e03){var _0x3f0c24=_0x29d47b,_0x468af7=_0x271b98+(_0x12cb16+_0x48842e)*_0x1b1e03+_0x48842e/0x2,_0x4becae=_0x48e1c1>0x0?_0x21c82c['dW']/_0x48e1c1*_0x5cae23:0x0,_0x2a2480=_0x305880-_0x279057-_0x4becae,_0x4e5d28=_0x1b1e03===0x3?_0x3f0c24(0x1dc):_0x3f0c24(0x210);_0x38bd81+=_0x3f0c24(0x222)+_0x468af7[_0x3f0c24(0x1ab)](0x1)+'\x22\x20y=\x22'+_0x2a2480['toFixed'](0x1)+'\x22\x20width=\x22'+_0x12cb16['toFixed'](0x1)+_0x3f0c24(0x252)+_0x4becae[_0x3f0c24(0x1ab)](0x1)+'\x22\x20rx=\x223\x22\x20fill=\x22'+_0x4e5d28+_0x3f0c24(0x1ac),_0x38bd81+=_0x3f0c24(0x1ff)+(_0x468af7+_0x12cb16/0x2)[_0x3f0c24(0x1ab)](0x1)+'\x22\x20y=\x22'+(_0x305880-_0x279057+0xe)+_0x3f0c24(0x1e0)+_0x21c82c[_0x3f0c24(0x249)]+_0x3f0c24(0x212),_0x38bd81+=_0x3f0c24(0x1ff)+(_0x468af7+_0x12cb16/0x2)[_0x3f0c24(0x1ab)](0x1)+'\x22\x20y=\x22'+(_0x2a2480-0x4)+_0x3f0c24(0x22e)+fmt(_0x21c82c['dW'],0x0)+_0x3f0c24(0x212);}),_0x38bd81+=_0x29d47b(0x241),document[_0x29d47b(0x223)](_0x29d47b(0x1fa))[_0x29d47b(0x16a)]=_0x38bd81;}function drawP5structure(){var _0x36f8a7=_0x4527,_0x11ae91=gv(_0x36f8a7(0x1c0)),_0x63205a=gv(_0x36f8a7(0x260)),_0x436510=gv(_0x36f8a7(0x176)),_0x403c91=gv(_0x36f8a7(0x26b)),_0x372024=gv('p5_obsA'),_0x58da9b=gv(_0x36f8a7(0x1c3)),_0x4900e5=gv(_0x36f8a7(0x220)),_0xfd347f=gv('p5_dwB'),_0x1c4ba1=gv(_0x36f8a7(0x262)),_0x4e20f4=gv(_0x36f8a7(0x1bd)),_0x434f34=gv(_0x36f8a7(0x25c)),_0x31d411=gv('p5_pn'),_0x367e26=[{'label':_0x36f8a7(0x1b5),'a':_0x31d411*_0x11ae91,'b':_0x31d411*_0x63205a,'color':'#8B7355'},{'label':_0x36f8a7(0x1ad),'a':_0x436510*_0x11ae91,'b':_0x403c91*_0x63205a,'color':'#3A6B9B'},{'label':_0x36f8a7(0x1a6),'a':_0x372024*_0x11ae91,'b':_0x58da9b*_0x63205a,'color':_0x36f8a7(0x153)},{'label':_0x36f8a7(0x1ee),'a':_0x1c4ba1*_0x4900e5,'b':_0x1c4ba1*_0xfd347f,'color':'#4A7C59'},{'label':'З_нд','a':_0x4e20f4,'b':_0x434f34,'color':_0x36f8a7(0x16b)}],_0x5ddceb=0x0,_0x3754df=0x0;_0x367e26[_0x36f8a7(0x161)](function(_0x5f0b2e){_0x5ddceb+=_0x5f0b2e['a'],_0x3754df+=_0x5f0b2e['b'];});var _0x55078c=Math[_0x36f8a7(0x23a)](_0x5ddceb,_0x3754df),_0x5a1153=0x258,_0x1310a4=0x104,_0x35e1a6=0xa,_0x152cf9=0xa,_0x119786=0x104,_0x3e7f23='<svg\x20viewBox=\x220\x200\x20'+_0x5a1153+'\x20'+_0x1310a4+'\x22\x20xmlns=\x22http://www.w3.org/2000/svg\x22\x20style=\x22width:100%;max-width:600px;font-family:Source\x20Sans\x20Pro,sans-serif\x22>',_0x24daa3=function(_0x20734f,_0x1bab98,_0x53ba18,_0x5473e1){var _0x2d7a10=_0x36f8a7,_0x546563=_0x35e1a6+0x50;_0x3e7f23+='<text\x20x=\x22'+(_0x35e1a6+0x4b)+'\x22\x20y=\x22'+(_0x53ba18+0x16)+_0x2d7a10(0x1a2)+_0x5473e1+_0x2d7a10(0x212),_0x20734f[_0x2d7a10(0x161)](function(_0x50dd56){var _0x5426a7=_0x2d7a10,_0x54e6cb=_0x55078c>0x0?_0x50dd56['v']/_0x55078c*_0x119786:0x0;if(_0x54e6cb>0x1){_0x3e7f23+='<rect\x20x=\x22'+_0x546563[_0x5426a7(0x1ab)](0x1)+_0x5426a7(0x188)+_0x53ba18+_0x5426a7(0x195)+_0x54e6cb[_0x5426a7(0x1ab)](0x1)+_0x5426a7(0x246)+_0x50dd56[_0x5426a7(0x162)]+_0x5426a7(0x208);if(_0x54e6cb>0x19)_0x3e7f23+=_0x5426a7(0x1ff)+(_0x546563+_0x54e6cb/0x2)[_0x5426a7(0x1ab)](0x1)+'\x22\x20y=\x22'+(_0x53ba18+0x16)+_0x5426a7(0x23d)+fmt(_0x50dd56['v'],0x0)+_0x5426a7(0x212);}_0x546563+=_0x54e6cb;}),_0x3e7f23+='<text\x20x=\x22'+(_0x546563+0x6)+_0x2d7a10(0x188)+(_0x53ba18+0x16)+'\x22\x20font-size=\x2212\x22\x20font-weight=\x22700\x22\x20fill=\x22#2C2A25\x22>Σ='+fmt(_0x1bab98,0x0)+_0x2d7a10(0x212);},_0x5d4ded=_0x367e26[_0x36f8a7(0x183)](function(_0x1b1f79){var _0x42a1f3=_0x36f8a7;return{'v':_0x1b1f79['a'],'color':_0x1b1f79[_0x42a1f3(0x162)]};}),_0x17f0c2=_0x367e26['map'](function(_0x38689e){var _0x5815ed=_0x36f8a7;return{'v':_0x38689e['b'],'color':_0x38689e[_0x5815ed(0x162)]};});_0x24daa3(_0x5d4ded,_0x5ddceb,0x14,'Варіант\x20А'),_0x24daa3(_0x17f0c2,_0x3754df,0x4b,'Варіант\x20Б');var _0x4bd53a=_0x35e1a6+0x50;_0x367e26[_0x36f8a7(0x161)](function(_0x10b109,_0x36e1fa){var _0x1525f2=_0x36f8a7,_0x191045=0x8c+Math['floor'](_0x36e1fa/0x3)*0x14,_0x46cb67=_0x4bd53a+_0x36e1fa%0x3*0xaa;_0x3e7f23+=_0x1525f2(0x222)+_0x46cb67+_0x1525f2(0x188)+_0x191045+_0x1525f2(0x154)+_0x10b109[_0x1525f2(0x162)]+_0x1525f2(0x1ac),_0x3e7f23+='<text\x20x=\x22'+(_0x46cb67+0x10)+_0x1525f2(0x188)+(_0x191045+0xa)+_0x1525f2(0x1de)+_0x10b109['label']+_0x1525f2(0x212);}),_0x3e7f23+=_0x36f8a7(0x241),document[_0x36f8a7(0x223)]('p5_structChart')[_0x36f8a7(0x16a)]=_0x3e7f23;}function drawP5sensitivity(){var _0x26eb36=_0x4527,_0x281632=gv(_0x26eb36(0x1c0)),_0x450e13=gv('p5_Kb'),_0x3d9e49=gv(_0x26eb36(0x176)),_0x1b47af=gv('p5_amB'),_0x54f580=gv(_0x26eb36(0x21d)),_0x2ea53a=gv(_0x26eb36(0x1c3)),_0x41c715=gv(_0x26eb36(0x220)),_0x4a8c34=gv('p5_dwB'),_0xbca240=gv(_0x26eb36(0x262)),_0x40c315=gv(_0x26eb36(0x1be)),_0x3a35fa=_0x40c315*_0x281632+_0x3d9e49*_0x281632+_0x54f580*_0x281632+_0xbca240*_0x41c715,_0x12ed54=_0x40c315*_0x450e13+_0x1b47af*_0x450e13+_0x2ea53a*_0x450e13+_0xbca240*_0x4a8c34,_0x2cb525=gv(_0x26eb36(0x243));if(_0x2cb525===0x0)_0x2cb525=0x23;var _0x167835=gv(_0x26eb36(0x1bd)),_0x3eed37=gv(_0x26eb36(0x25c)),_0x3c4f1a=_0x2cb525>0x0?_0x167835/_0x2cb525:0x0,_0x3fec29=_0x2cb525>0x0?_0x3eed37/_0x2cb525:0x0,_0xfe8543=0x244,_0x4a65ab=0x12c,_0x588903=0x50,_0x276b05=0x1e,_0x245e4a=0x1e,_0x6c73dc=0x32,_0x24553d=_0xfe8543-_0x588903-_0x276b05,_0x56f884=_0x4a65ab-_0x245e4a-_0x6c73dc,_0x19bf78=0x5,_0x24a24a=0x64,_0x4e7ece=0x32,_0x1cc5b5='',_0x13fc1a=Infinity,_0x250a20=0x0,_0x34e3d8=0x0,_0x3694ea=[];for(var _0x12d041=0x0;_0x12d041<=_0x4e7ece;_0x12d041++){var _0x19434f=_0x19bf78+(_0x24a24a-_0x19bf78)*_0x12d041/_0x4e7ece,_0x5c7d07=_0x3a35fa+_0x3c4f1a*_0x19434f,_0x4f563b=_0x12ed54+_0x3fec29*_0x19434f,_0x4fa322=_0x5c7d07-_0x4f563b;_0x3694ea[_0x26eb36(0x1a1)]({'y0':_0x19434f,'d':_0x4fa322});if(Math['abs'](_0x4fa322)>_0x34e3d8)_0x34e3d8=Math[_0x26eb36(0x202)](_0x4fa322);Math[_0x26eb36(0x202)](_0x4fa322)<Math[_0x26eb36(0x202)](_0x13fc1a)&&(_0x13fc1a=_0x4fa322,_0x250a20=_0x19434f);}if(_0x34e3d8===0x0)_0x34e3d8=0x1;var _0x45b027='<svg\x20viewBox=\x220\x200\x20'+_0xfe8543+'\x20'+_0x4a65ab+_0x26eb36(0x1ba),_0x57e85e=_0x245e4a+_0x56f884/0x2;_0x45b027+=_0x26eb36(0x22b)+_0x588903+_0x26eb36(0x1c1)+(_0x4a65ab-_0x6c73dc)+_0x26eb36(0x215)+(_0xfe8543-_0x276b05)+'\x22\x20y2=\x22'+(_0x4a65ab-_0x6c73dc)+'\x22\x20stroke=\x22#2C2A25\x22\x20stroke-width=\x221\x22/>',_0x45b027+=_0x26eb36(0x22b)+_0x588903+_0x26eb36(0x1c1)+_0x245e4a+'\x22\x20x2=\x22'+_0x588903+_0x26eb36(0x1ae)+(_0x4a65ab-_0x6c73dc)+'\x22\x20stroke=\x22#2C2A25\x22\x20stroke-width=\x221\x22/>',_0x45b027+=_0x26eb36(0x22b)+_0x588903+_0x26eb36(0x1c1)+_0x57e85e+_0x26eb36(0x215)+(_0xfe8543-_0x276b05)+'\x22\x20y2=\x22'+_0x57e85e+_0x26eb36(0x24f),_0x45b027+=_0x26eb36(0x1ff)+(_0xfe8543-_0x276b05+0x4)+_0x26eb36(0x188)+(_0x57e85e+0x4)+_0x26eb36(0x1b1);for(var _0x12d041=-0x2;_0x12d041<=0x2;_0x12d041++){var _0x4a5348=_0x34e3d8*_0x12d041/0x2,_0x54c599=_0x57e85e-_0x56f884/0x2*_0x12d041/0x2;_0x45b027+=_0x26eb36(0x1ff)+(_0x588903-0x6)+_0x26eb36(0x188)+(_0x54c599+0x4)+_0x26eb36(0x19b)+fmt(_0x4a5348,0x0)+'</text>';}_0x45b027+=_0x26eb36(0x19d)+_0x4a65ab/0x2+_0x26eb36(0x1e6)+_0x4a65ab/0x2+_0x26eb36(0x1f4),_0x45b027+=_0x26eb36(0x1ff)+_0xfe8543/0x2+_0x26eb36(0x188)+(_0x4a65ab-0x5)+'\x22\x20text-anchor=\x22middle\x22\x20font-size=\x2211\x22\x20fill=\x22#6B6760\x22>у₀,\x20грн/кВт·год</text>';for(var _0x5ac6e6=0xa;_0x5ac6e6<=0x64;_0x5ac6e6+=0xa){var _0xedd5e5=_0x588903+(_0x5ac6e6-_0x19bf78)/(_0x24a24a-_0x19bf78)*_0x24553d;_0x45b027+=_0x26eb36(0x1ff)+_0xedd5e5+_0x26eb36(0x188)+(_0x4a65ab-_0x6c73dc+0x10)+_0x26eb36(0x190)+_0x5ac6e6+_0x26eb36(0x212);}var _0x3a8421='';_0x3694ea['forEach'](function(_0x263ccf,_0x38e24b){var _0x2d8d11=_0x26eb36,_0x2faec2=_0x588903+(_0x263ccf['y0']-_0x19bf78)/(_0x24a24a-_0x19bf78)*_0x24553d,_0x49ea39=_0x57e85e-_0x263ccf['d']/_0x34e3d8*(_0x56f884/0x2);_0x3a8421+=(_0x38e24b===0x0?'M':'L')+_0x2faec2[_0x2d8d11(0x1ab)](0x1)+','+_0x49ea39[_0x2d8d11(0x1ab)](0x1);}),_0x45b027+=_0x26eb36(0x1b0)+_0x3a8421+_0x26eb36(0x22d);if(Math[_0x26eb36(0x202)](_0x13fc1a)<_0x34e3d8*0.3){var _0x34b6d3=_0x588903+(_0x250a20-_0x19bf78)/(_0x24a24a-_0x19bf78)*_0x24553d;_0x45b027+='<circle\x20cx=\x22'+_0x34b6d3[_0x26eb36(0x1ab)](0x1)+_0x26eb36(0x259)+_0x57e85e+_0x26eb36(0x170),_0x45b027+=_0x26eb36(0x1ff)+(_0x34b6d3+0x8)+'\x22\x20y=\x22'+(_0x57e85e-0x8)+_0x26eb36(0x23f)+fmt(_0x250a20,0x0)+'\x20грн/кВт·год</text>';}_0x45b027+='<text\x20x=\x22'+(_0x588903+0xa)+_0x26eb36(0x188)+(_0x245e4a+0xe)+'\x22\x20font-size=\x2211\x22\x20fill=\x22#8B7355\x22\x20font-weight=\x22600\x22>А\x20дорожче\x20↑</text>',_0x45b027+='<text\x20x=\x22'+(_0x588903+0xa)+_0x26eb36(0x188)+(_0x4a65ab-_0x6c73dc-0x6)+_0x26eb36(0x1d7),_0x45b027+=_0x26eb36(0x241),document[_0x26eb36(0x223)](_0x26eb36(0x14b))[_0x26eb36(0x16a)]=_0x45b027;}function drawP6topoChart(){var _0x3c75cd=_0x4527,_0x55686a=gv(_0x3c75cd(0x1f2)),_0x1ebc1b=gv(_0x3c75cd(0x16e)),_0x279de3=gv('p6r_tvl'),_0x415ab0=gv(_0x3c75cd(0x1df)),_0xc93b67=gv(_0x3c75cd(0x26f)),_0x22f4a0=gv(_0x3c75cd(0x261)),_0x25fc38=gv('p6r_tvv'),_0x54f3e0=gv(_0x3c75cd(0x1e9)),_0x4059e2=gv('p6r_tvt'),_0x5bf92e=gv(_0x3c75cd(0x218))*0x3e8,_0x28bdfd=gv('p6_Tmax'),_0x708082=gv(_0x3c75cd(0x243)),_0x1cb43a=_0x5bf92e*_0x28bdfd/0x2238,_0x539380=_0x55686a*_0x1ebc1b/0x64,_0x183d85=_0x539380+_0x22f4a0+_0x54f3e0,_0x29994d=_0x183d85>0x0?(_0x539380*_0x279de3+_0x22f4a0*_0x25fc38+_0x54f3e0*_0x4059e2)/_0x183d85:0x0,_0xff2401=_0x415ab0+0.2+0.2,_0x230870=_0xff2401>0x0?(_0x415ab0*_0xc93b67+0.2*0x7+0.2*0x1c)/_0xff2401:0x0,_0xb33dc1=_0x1cb43a*(_0x183d85*_0x29994d+_0xff2401*_0x230870)*_0x708082/0x3e8,_0x2f7f01=_0x539380*_0x539380*(_0x279de3+_0x279de3)/0x2238,_0x834a02=_0x279de3/0x2,_0x20464c=_0x2f7f01+_0x22f4a0+_0x54f3e0,_0x3482c4=_0x20464c>0x0?(_0x2f7f01*_0x834a02+_0x22f4a0*_0x25fc38+_0x54f3e0*_0x4059e2)/_0x20464c:0x0,_0x1a40c4=_0x1cb43a*_0x20464c*_0x3482c4*_0x708082/0x3e8,_0x6253d7=_0x55686a*_0x1ebc1b*1.5/0x64,_0x6681c9=_0x539380*_0x6253d7*(_0x279de3+_0x279de3)/0x2238,_0x330005=_0x279de3/0x2,_0x1e5eed=_0x1cb43a*_0x6681c9*_0x330005*_0x708082/0x3e8,_0x14cee0=_0x539380*_0x539380*(_0x279de3+_0x279de3)/0x2238,_0x49eaf0=_0x14cee0+0.01,_0x466ab6=_0x49eaf0>0x0?(_0x14cee0*_0x834a02+0.01*0.05)/_0x49eaf0:0x0,_0x30fcfb=_0x1cb43a*_0x49eaf0*_0x466ab6*_0x708082/0x3e8,_0x4f1c60=[{'name':'Радіальна','val':_0xb33dc1,'color':_0x3c75cd(0x16b)},{'name':_0x3c75cd(0x15c),'val':_0x1a40c4,'color':_0x3c75cd(0x153)},{'name':'Петльова','val':_0x1e5eed,'color':_0x3c75cd(0x180)},{'name':_0x3c75cd(0x236),'val':_0x30fcfb,'color':_0x3c75cd(0x1e2)}],_0x4eb260=Math['max'][_0x3c75cd(0x156)](null,_0x4f1c60[_0x3c75cd(0x183)](function(_0xa9f3e3){return _0xa9f3e3['val'];})),_0x15eca3=_0x4eb260>0x0&&_0x4f1c60[_0x4f1c60[_0x3c75cd(0x1b9)]-0x1][_0x3c75cd(0x271)]>0x0&&_0x4eb260/_0x4f1c60[_0x4f1c60[_0x3c75cd(0x1b9)]-0x1][_0x3c75cd(0x271)]>0x64,_0x329c7a=0x244,_0x232ec6=0xdc,_0x17ad0c=0x82,_0x2dcdfe=0x64,_0x5d5464=0x20,_0x4e6e6d=0xc,_0x5d9011=_0x329c7a-_0x17ad0c-_0x2dcdfe,_0x116098=_0x3c75cd(0x1c9)+_0x329c7a+'\x20'+_0x232ec6+_0x3c75cd(0x1ba);_0x4f1c60[_0x3c75cd(0x161)](function(_0x1115cb,_0x3c1262){var _0x52a0aa=_0x3c75cd,_0x21f110=0x14+_0x3c1262*(_0x5d5464+_0x4e6e6d),_0xc59460;if(_0x15eca3&&_0x1115cb[_0x52a0aa(0x271)]>0x0){_0xc59460=Math[_0x52a0aa(0x1bc)](_0x1115cb[_0x52a0aa(0x271)])/Math[_0x52a0aa(0x1bc)](_0x4eb260)*_0x5d9011;if(_0xc59460<0x2)_0xc59460=0x2;}else _0xc59460=_0x4eb260>0x0?_0x1115cb['val']/_0x4eb260*_0x5d9011:0x0;_0x116098+=_0x52a0aa(0x1ff)+(_0x17ad0c-0x8)+_0x52a0aa(0x188)+(_0x21f110+_0x5d5464/0x2+0x5)+'\x22\x20text-anchor=\x22end\x22\x20font-size=\x2212\x22\x20fill=\x22#2C2A25\x22>'+_0x1115cb[_0x52a0aa(0x249)]+_0x52a0aa(0x212),_0x116098+='<rect\x20x=\x22'+_0x17ad0c+_0x52a0aa(0x188)+_0x21f110+_0x52a0aa(0x195)+Math[_0x52a0aa(0x23a)](_0xc59460,0x1)[_0x52a0aa(0x1ab)](0x1)+'\x22\x20height=\x22'+_0x5d5464+_0x52a0aa(0x166)+_0x1115cb[_0x52a0aa(0x162)]+_0x52a0aa(0x208),_0x116098+=_0x52a0aa(0x1ff)+(_0x17ad0c+_0xc59460+0x6)+_0x52a0aa(0x188)+(_0x21f110+_0x5d5464/0x2+0x5)+_0x52a0aa(0x150)+fmt(_0x1115cb['val'],0x1)+_0x52a0aa(0x18e);});if(_0x15eca3)_0x116098+=_0x3c75cd(0x1ff)+_0x329c7a/0x2+_0x3c75cd(0x188)+(_0x232ec6-0x5)+'\x22\x20text-anchor=\x22middle\x22\x20font-size=\x2210\x22\x20fill=\x22#6B6760\x22>*\x20логарифмічна\x20шкала\x20(різниця\x20у\x203\x20порядки)</text>';_0x116098+=_0x3c75cd(0x241),document[_0x3c75cd(0x223)](_0x3c75cd(0x224))['innerHTML']=_0x116098;}function drawP6pieChart(){var _0x34f9e1=_0x4527,_0x547eb7=gv('p6r_w0l')*gv(_0x34f9e1(0x16e))/0x64,_0x17382e=gv(_0x34f9e1(0x22f)),_0x3b8800=gv('p6r_mul'),_0xa45c2a=gv(_0x34f9e1(0x26f)),_0x4a8b41=gv(_0x34f9e1(0x261)),_0x27a83b=gv(_0x34f9e1(0x1a3)),_0x344edf=gv(_0x34f9e1(0x264)),_0x1bd15e=gv(_0x34f9e1(0x226)),_0x23c55b=gv(_0x34f9e1(0x1e9)),_0x55ed86=gv(_0x34f9e1(0x1e4)),_0x261cd2=gv(_0x34f9e1(0x1f3)),_0x4e3ff1=gv(_0x34f9e1(0x1e7)),_0x454a19=[{'label':'Авар.\x20ЛЕП','val':_0x547eb7*_0x17382e,'color':_0x34f9e1(0x16b)},{'label':'Авар.\x20вимикач','val':_0x4a8b41*_0x27a83b,'color':_0x34f9e1(0x153)},{'label':_0x34f9e1(0x1bb),'val':_0x23c55b*_0x55ed86,'color':_0x34f9e1(0x1dc)},{'label':'План.\x20ЛЕП','val':_0x3b8800*_0xa45c2a,'color':_0x34f9e1(0x180)},{'label':'План.\x20вимикач','val':_0x344edf*_0x1bd15e,'color':'#6B9BBF'},{'label':'План.\x20трансф.','val':_0x261cd2*_0x4e3ff1,'color':'#4A7C59'}],_0x394bc6=0x0;_0x454a19['forEach'](function(_0xa5fbcc){var _0x52f837=_0x34f9e1;_0x394bc6+=_0xa5fbcc[_0x52f837(0x271)];});if(_0x394bc6===0x0){document[_0x34f9e1(0x223)](_0x34f9e1(0x1af))['innerHTML']='<p\x20style=\x22color:var(--danger)\x22>Немає\x20даних.</p>';return;}var _0x15f676=0xa0,_0x3cccff=0x78,_0xf5aa98=0x5f,_0x2e3ed5=0x1e0,_0x44d571=0x104,_0x283067=_0x34f9e1(0x1c9)+_0x2e3ed5+'\x20'+_0x44d571+_0x34f9e1(0x234),_0x12fd01=0x0;_0x454a19[_0x34f9e1(0x161)](function(_0x2ce06b,_0xd66420){var _0x3b4196=_0x34f9e1;if(_0x2ce06b[_0x3b4196(0x271)]===0x0)return;var _0x462a3f=_0x2ce06b['val']/_0x394bc6,_0x24291d=_0x12fd01,_0x26da36=_0x12fd01+_0x462a3f*0x2*Math['PI'],_0xc8041f=_0x462a3f>0.5?0x1:0x0,_0x53e713=_0x15f676+_0xf5aa98*Math[_0x3b4196(0x233)](_0x24291d),_0x37fd2e=_0x3cccff+_0xf5aa98*Math[_0x3b4196(0x1b7)](_0x24291d),_0x54fe2a=_0x15f676+_0xf5aa98*Math[_0x3b4196(0x233)](_0x26da36),_0x138153=_0x3cccff+_0xf5aa98*Math[_0x3b4196(0x1b7)](_0x26da36);_0x462a3f>=0.999?_0x283067+=_0x3b4196(0x14d)+_0x15f676+'\x22\x20cy=\x22'+_0x3cccff+'\x22\x20r=\x22'+_0xf5aa98+_0x3b4196(0x1f8)+_0x2ce06b['color']+_0x3b4196(0x208):_0x283067+='<path\x20d=\x22M'+_0x15f676+','+_0x3cccff+'\x20L'+_0x53e713[_0x3b4196(0x1ab)](0x2)+','+_0x37fd2e[_0x3b4196(0x1ab)](0x2)+'\x20A'+_0xf5aa98+','+_0xf5aa98+_0x3b4196(0x270)+_0xc8041f+_0x3b4196(0x251)+_0x54fe2a[_0x3b4196(0x1ab)](0x2)+','+_0x138153[_0x3b4196(0x1ab)](0x2)+_0x3b4196(0x1f0)+_0x2ce06b[_0x3b4196(0x162)]+_0x3b4196(0x208),_0x12fd01=_0x26da36;});var _0x18f75d=0x122;_0x454a19[_0x34f9e1(0x161)](function(_0x1f1154,_0x1bb16c){var _0x2dad41=_0x34f9e1;if(_0x1f1154[_0x2dad41(0x271)]===0x0)return;var _0x2c6af2=0x14+_0x1bb16c*0x1c,_0x380a11=_0x1f1154[_0x2dad41(0x271)]/_0x394bc6*0x64;_0x283067+=_0x2dad41(0x222)+_0x18f75d+_0x2dad41(0x188)+_0x2c6af2+_0x2dad41(0x1fb)+_0x1f1154[_0x2dad41(0x162)]+_0x2dad41(0x1ac),_0x283067+=_0x2dad41(0x1ff)+(_0x18f75d+0x14)+_0x2dad41(0x188)+(_0x2c6af2+0xc)+_0x2dad41(0x15e)+_0x1f1154[_0x2dad41(0x240)]+':\x20'+fmt(_0x1f1154[_0x2dad41(0x271)],0x2)+_0x2dad41(0x25b)+fmt(_0x380a11,0x1)+_0x2dad41(0x204);}),_0x283067+=_0x34f9e1(0x1ff)+_0x15f676+'\x22\x20y=\x22'+(_0x3cccff+_0xf5aa98+0x19)+_0x34f9e1(0x18a)+fmt(_0x394bc6,0x2)+_0x34f9e1(0x186),_0x283067+=_0x34f9e1(0x241),document[_0x34f9e1(0x223)]('p6_pieChart')[_0x34f9e1(0x16a)]=_0x283067;}window['addEventListener']('DOMContentLoaded',function(){var _0x518e14=_0x4527;onWireChange(),drawTauChart(),typeof renderMathInElement==='function'&&renderMathInElement(document[_0x518e14(0x24b)],{'delimiters':[{'left':'$$','right':'$$','display':!![]},{'left':'\x5c(','right':'\x5c)','display':![]}],'throwOnError':![]});});
+</script>
+</body>
+</html>
